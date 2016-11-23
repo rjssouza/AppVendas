@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Pedido extends Entidade {
@@ -13,11 +14,11 @@ public class Pedido extends Entidade {
 
     @ChavePrimaria
     private int id_pedido;
-
+    @ColunaTabela
     private Double valor_total;
-
+    @ColunaTabela
     private String endereco;
-
+    @ColunaTabela
     private Long coord_x;
 
     public int getId_pedido() {
@@ -67,9 +68,9 @@ public class Pedido extends Entidade {
     public void setId_forma_pagto(int id_forma_pagto) {
         this.id_forma_pagto = id_forma_pagto;
     }
-
+    @ColunaTabela
     private Long coord_y;
-
+    @ColunaTabela
     private int id_forma_pagto;
 
 }

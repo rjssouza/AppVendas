@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Telefone extends Entidade {
@@ -45,11 +46,11 @@ public class Telefone extends Entidade {
     public void setId_tipo_telefone(int id_tipo_telefone) {
         this.id_tipo_telefone = id_tipo_telefone;
     }
-
+    @ColunaTabela
     private int id_cliente;
-
+    @ColunaTabela
     private int telefone;
-
+    @ColunaTabela
     private int id_tipo_telefone;
 
 }

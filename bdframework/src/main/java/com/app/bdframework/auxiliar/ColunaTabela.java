@@ -4,9 +4,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * Ignorar campo.
+ * ColunaTabela campo.
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface Ignorar {
+public @interface ColunaTabela {
 
 }

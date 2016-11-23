@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Classe qie representa o acesso a instancia do BD local, possui metodos para conversao e query de entidaes
@@ -61,34 +62,57 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
 
     @Override
     public int executarScalar(String whereClause, String[] argumentos) {
-        Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
-                whereClause, argumentos);
-        int count = -1;
-        if (mCount.moveToFirst())
-            count = mCount.getInt(0);
-        mCount.close();
-        return count;
+        try {
+            Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
+                    whereClause, argumentos);
+            int count = -1;
+            if (mCount.moveToFirst())
+                count = mCount.getInt(0);
+            mCount.close();
+            return count;
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
+        }
+        return 0;
     }
 
     @Override
     public List<TEntidade> executarQuery(String[] colunas, String whereClause, String[] argumentos) {
-        List<TEntidade> tEntidades = new ArrayList<>();
-        Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-        while (cursor.moveToNext()) {
-            TEntidade entidade = obterEntidade(cursor);
-            tEntidades.add(entidade);
+        try {
+            List<TEntidade> tEntidades = new ArrayList<>();
+            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            cursor.moveToPosition(0);
+            do {
+                TEntidade entidade = obterEntidade(cursor);
+                tEntidades.add(entidade);
+            } while (cursor.moveToNext());
+            return tEntidades;
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
         }
-        return tEntidades;
+        return null;
     }
 
     @Override
     public TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
-        Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-        TEntidade _entidade = null;
-        while (cursor.moveToNext()) {
-            _entidade = obterEntidade(cursor);
+        try {
+            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            TEntidade _entidade;
+            cursor.moveToPosition(0);
+            do {
+                _entidade = obterEntidade(cursor);
+            } while (cursor.moveToNext());
+            return _entidade;
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
         }
-        return _entidade;
+        return null;
     }
 
     protected abstract TEntidade obterEntidade(Cursor cursor);

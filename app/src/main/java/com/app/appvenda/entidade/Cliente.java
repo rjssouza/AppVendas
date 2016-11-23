@@ -3,31 +3,32 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Cliente extends Entidade {
 
-    public Cliente(Cursor cursor){
+    public Cliente(Cursor cursor) {
         super(cursor);
     }
 
     @ChavePrimaria
     private int id_cliente;
-
+    @ColunaTabela
     private String nome;
-
+    @ColunaTabela
     private String razao_social;
-
+    @ColunaTabela
     private Long cnpj;
-
+    @ColunaTabela
     private Long cpf;
-
+    @ColunaTabela
     private String endereco;
-
+    @ColunaTabela
     private Long coord_x;
-
+    @ColunaTabela
     private Long coord_y;
-
+    @ColunaTabela
     private Boolean ativo;
 
     public Boolean getAtivo() {

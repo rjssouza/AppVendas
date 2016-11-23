@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class StatusVenda extends Entidade {
@@ -37,8 +38,8 @@ public class StatusVenda extends Entidade {
 
     @ChavePrimaria
     private int id_status_venda;
-
+    @ColunaTabela
     private int cod_status;
-
+    @ColunaTabela
     private String descr_status;
 }

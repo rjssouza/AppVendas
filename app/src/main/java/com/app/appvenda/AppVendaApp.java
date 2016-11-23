@@ -1,20 +1,22 @@
 package com.app.appvenda;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.app.appvenda.entidade.Cliente;
+import com.app.appvenda.entidade.TipoPedido;
 import com.app.appvenda.eventosExcecao.EventoGeral;
 import com.app.appvenda.eventosExcecao.EventoRegraNegocio;
 import com.app.appvenda.repositorio.RPCliente;
+import com.app.appvenda.repositorio.RPTipoPedido;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.Constantes;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
-/**
- * Created by Robson on 13/11/2016.
- */
+
 public class AppVendaApp extends Application {
 
     @Override
@@ -23,9 +25,22 @@ public class AppVendaApp extends Application {
 
         TratamentoExcecao.registrarEvento(new EventoGeral());
         TratamentoExcecao.registrarEvento(new EventoRegraNegocio());
-        RPCliente rpCliente = new RPCliente(getApplicationContext());
+        RPTipoPedido rpTipoPedido = new RPTipoPedido(this.getApplicationContext());
 
-        rpCliente.salvarBDLocal();
+        List<TipoPedido> tipoPedidoList = rpTipoPedido.executarQuery(new String[]{"cod_tipo_pedido", "descr_tipo_pedido"},
+                null, null);
+    }
+
+    private void addUnhandledEventGlobal(){
+        final Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
+
+        Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
+                Log.e("Alert","Lets See if it Works !!!");
+                handler.uncaughtException(paramThread, paramThrowable);
+            }
+        });
     }
 
 }

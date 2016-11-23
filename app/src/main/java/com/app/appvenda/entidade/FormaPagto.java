@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class FormaPagto extends Entidade {
@@ -13,7 +14,7 @@ public class FormaPagto extends Entidade {
 
     @ChavePrimaria
     private int id_forma_pagto;
-
+    @ColunaTabela
     private int cod_forma_pagto;
 
     public int getId_forma_pagto() {
@@ -47,9 +48,9 @@ public class FormaPagto extends Entidade {
     public void setVal_perc(Double val_perc) {
         this.val_perc = val_perc;
     }
-
+    @ColunaTabela
     private String descr_forma_pagto;
-
+    @ColunaTabela
     private Double val_perc;
 
 }

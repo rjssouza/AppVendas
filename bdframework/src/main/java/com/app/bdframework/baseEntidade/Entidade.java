@@ -4,7 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
-import com.app.bdframework.auxiliar.Ignorar;
+import com.app.bdframework.auxiliar.ColunaTabela;
 
 import java.lang.reflect.Field;
 
@@ -16,27 +16,29 @@ public class Entidade {
     public Entidade(Cursor cursor) {
         if (cursor != null) {
             for (Field field : this.getClass().getDeclaredFields()) {
-                if (!field.isAnnotationPresent(Ignorar.class)) {
+                if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                     field.setAccessible(true);
                     try {
-                        switch (field.getType().getSimpleName().toUpperCase()) {
-                            case "STRING":
-                                field.set(this, cursor.getString(cursor.getColumnIndex(field.getName())));
-                                break;
-                            case "BOOLEAN":
-                                field.set(this, (cursor.getShort(cursor.getColumnIndex(field.getName())) > 0));
-                                break;
-                            case "INTEGER":
-                                field.set(this, cursor.getInt(cursor.getColumnIndex(field.getName())));
-                                break;
-                            case "LONG":
-                                field.set(this, cursor.getLong(cursor.getColumnIndex(field.getName())));
-                                break;
-                            case "DOUBLE":
-                                field.set(this, cursor.getDouble(cursor.getColumnIndex(field.getName())));
-                                break;
-                            default:
-                                break;
+                        if (cursor.getColumnIndex(field.getName()) > -1) {
+                            switch (field.getType().getSimpleName().toUpperCase()) {
+                                case "STRING":
+                                    field.set(this, cursor.getString(cursor.getColumnIndex(field.getName())));
+                                    break;
+                                case "BOOLEAN":
+                                    field.set(this, (cursor.getShort(cursor.getColumnIndex(field.getName())) > 0));
+                                    break;
+                                case "INT":
+                                    field.set(this, cursor.getInt(cursor.getColumnIndex(field.getName())));
+                                    break;
+                                case "LONG":
+                                    field.set(this, cursor.getLong(cursor.getColumnIndex(field.getName())));
+                                    break;
+                                case "DOUBLE":
+                                    field.set(this, cursor.getDouble(cursor.getColumnIndex(field.getName())));
+                                    break;
+                                default:
+                                    break;
+                            }
                         }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
@@ -66,7 +68,7 @@ public class Entidade {
     ContentValues getContentValue() {
         ContentValues contentValues = new ContentValues();
         for (Field field : this.getClass().getDeclaredFields()) {
-            if (!field.isAnnotationPresent(Ignorar.class)) {
+            if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
                 try {
                     switch (field.getType().getSimpleName().toUpperCase()) {

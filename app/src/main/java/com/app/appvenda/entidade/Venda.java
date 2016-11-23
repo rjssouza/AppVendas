@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Venda extends Entidade {
@@ -61,14 +62,14 @@ public class Venda extends Entidade {
 
     @ChavePrimaria
     private int id_venda;
-
+    @ColunaTabela
     private int id_cliente;
-
+    @ColunaTabela
     private int id_vendedor;
-
+    @ColunaTabela
     private int id_pedido;
-
+    @ColunaTabela
     private int id_status_venda;
-
+    @ColunaTabela
     private boolean sincronizado;
 }

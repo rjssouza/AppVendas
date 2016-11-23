@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class TipoPedido extends Entidade {
@@ -36,9 +37,9 @@ public class TipoPedido extends Entidade {
 
     @ChavePrimaria
     private int id_tipo_pedido;
-
+    @ColunaTabela
     private int cod_tipo_pedido;
-
+    @ColunaTabela
     private String descr_tipo_pedido;
 
 }

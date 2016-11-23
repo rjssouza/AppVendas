@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Vendedor extends Entidade {
@@ -28,6 +29,6 @@ public class Vendedor extends Entidade {
 
     @ChavePrimaria
     private int id_vendedor;
-
+    @ColunaTabela
     private String nome;
 }
