@@ -1,7 +1,7 @@
 package com.app.bdframework.excecoes;
 
 /**
- * Created by Robson on 15/11/2016.
+ * Exceção de regra de negócio, caso não seja atendido esta exceção será disparada
  */
 
 public class RegraNegocioException extends Exception {
@@ -9,6 +9,5 @@ public class RegraNegocioException extends Exception {
     public RegraNegocioException(String mensagem){
         super(mensagem);
     }
-
 
 }

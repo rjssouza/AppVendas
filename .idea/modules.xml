@@ -5,8 +5,6 @@
       <module fileurl="file://$PROJECT_DIR$/AppVenda.iml" filepath="$PROJECT_DIR$/AppVenda.iml" />
       <module fileurl="file://$PROJECT_DIR$/AppVendas.iml" filepath="$PROJECT_DIR$/AppVendas.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/bdframework/bdframework.iml" filepath="$PROJECT_DIR$/bdframework/bdframework.iml" />
       <module fileurl="file://$PROJECT_DIR$/bdframework/bdframework.iml" filepath="$PROJECT_DIR$/bdframework/bdframework.iml" />
     </modules>
   </component>

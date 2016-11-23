@@ -3,41 +3,37 @@ package com.app.bdframework.baseEntidade;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import com.app.bdframework.auxiliar.CampoTabela;
-import com.app.bdframework.auxiliar.NomeTabela;
-import com.app.bdframework.auxiliar.ParCampoValor;
-import com.app.bdframework.auxiliar.TipoCampo;
+import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.Ignorar;
 
-import java.lang.annotation.Annotation;
-import java.lang.annotation.IncompleteAnnotationException;
 import java.lang.reflect.Field;
-import java.util.AbstractMap;
-import java.util.Map;
 
 /**
- * Created by Robson on 12/11/2016.
+ * Classe base para todas as entidades, esta possui metodos necessarios a operações CRUD do objeto
  */
 public class Entidade {
 
     public Entidade(Cursor cursor) {
         if (cursor != null) {
             for (Field field : this.getClass().getDeclaredFields()) {
-                if (field.isAnnotationPresent(CampoTabela.class)) {
+                if (!field.isAnnotationPresent(Ignorar.class)) {
                     field.setAccessible(true);
-                    CampoTabela campoTabela = field.getAnnotation(CampoTabela.class);
                     try {
-                        switch (campoTabela.tipoCampo().toString()) {
-                            case "VARCHAR":
-                                field.set(this, cursor.getString(cursor.getColumnIndex(campoTabela.nomeCampo())));
+                        switch (field.getType().getSimpleName().toUpperCase()) {
+                            case "STRING":
+                                field.set(this, cursor.getString(cursor.getColumnIndex(field.getName())));
                                 break;
                             case "BOOLEAN":
-                                field.set(this, (cursor.getShort(cursor.getColumnIndex(campoTabela.nomeCampo())) > 0));
+                                field.set(this, (cursor.getShort(cursor.getColumnIndex(field.getName())) > 0));
                                 break;
                             case "INTEGER":
-                                field.set(this, cursor.getInt(cursor.getColumnIndex(campoTabela.nomeCampo())));
+                                field.set(this, cursor.getInt(cursor.getColumnIndex(field.getName())));
                                 break;
                             case "LONG":
-                                field.set(this, cursor.getLong(cursor.getColumnIndex(campoTabela.nomeCampo())));
+                                field.set(this, cursor.getLong(cursor.getColumnIndex(field.getName())));
+                                break;
+                            case "DOUBLE":
+                                field.set(this, cursor.getDouble(cursor.getColumnIndex(field.getName())));
                                 break;
                             default:
                                 break;
@@ -50,22 +46,15 @@ public class Entidade {
         }
     }
 
-    public String getNomeTabela() {
-        if (this.getClass().isAnnotationPresent(NomeTabela.class)) {
-            return this.getClass().getAnnotation(NomeTabela.class).nomeTabela();
-        }
-        return "";
-    }
-
-    public ParCampoValor<Integer> getChavePrimaria() {
+    ParCampoValor<Integer> getChavePrimaria() {
         ContentValues contentValues = new ContentValues();
         for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(CampoTabela.class)) {
+            if (field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
-                CampoTabela campoTabela = field.getAnnotation(CampoTabela.class);
-                if (campoTabela.isprimary()) {
+                ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
+                if (chavePrimaria != null) {
                     try {
-                        return new ParCampoValor<>(field.getInt(this), campoTabela);
+                        return new ParCampoValor<>(field.getInt(this), field.getName());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
@@ -75,25 +64,27 @@ public class Entidade {
         return null;
     }
 
-    public ContentValues getContentValue() {
+    ContentValues getContentValue() {
         ContentValues contentValues = new ContentValues();
         for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(CampoTabela.class)) {
+            if (!field.isAnnotationPresent(Ignorar.class)) {
                 field.setAccessible(true);
-                CampoTabela campoTabela = field.getAnnotation(CampoTabela.class);
                 try {
-                    switch (campoTabela.tipoCampo().toString()) {
-                        case "VARCHAR":
-                            contentValues.put(campoTabela.nomeCampo(), field.get(this).toString());
+                    switch (field.getType().getSimpleName().toUpperCase()) {
+                        case "STRING":
+                            contentValues.put(field.getName(), field.get(this).toString());
                             break;
                         case "BOOLEAN":
-                            contentValues.put(campoTabela.nomeCampo(), field.getBoolean(this));
+                            contentValues.put(field.getName(), field.getBoolean(this));
                             break;
                         case "INTEGER":
-                            contentValues.put(campoTabela.nomeCampo(), field.getInt(this));
+                            contentValues.put(field.getName(), field.getInt(this));
                             break;
                         case "LONG":
-                            contentValues.put(campoTabela.nomeCampo(), field.getLong(this));
+                            contentValues.put(field.getName(), field.getLong(this));
+                            break;
+                        case "DOUBLE":
+                            contentValues.put(field.getName(), field.getDouble(this));
                             break;
                         default:
                             break;

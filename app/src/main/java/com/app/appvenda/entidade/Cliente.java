@@ -2,19 +2,40 @@ package com.app.appvenda.entidade;
 
 import android.database.Cursor;
 
-import com.app.bdframework.auxiliar.CampoTabela;
-import com.app.bdframework.auxiliar.NomeTabela;
-import com.app.bdframework.auxiliar.TipoCampo;
+import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.baseEntidade.Entidade;
 
-/**
- * Created by Robson on 13/11/2016.
- */
-@NomeTabela(nomeTabela = "tb_cliente")
 public class Cliente extends Entidade {
 
-    public Cliente(Cursor cursor) {
+    public Cliente(Cursor cursor){
         super(cursor);
+    }
+
+    @ChavePrimaria
+    private int id_cliente;
+
+    private String nome;
+
+    private String razao_social;
+
+    private Long cnpj;
+
+    private Long cpf;
+
+    private String endereco;
+
+    private Long coord_x;
+
+    private Long coord_y;
+
+    private Boolean ativo;
+
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
     }
 
     public int getId_cliente() {
@@ -25,7 +46,60 @@ public class Cliente extends Entidade {
         this.id_cliente = id_cliente;
     }
 
-    @CampoTabela(nomeCampo = "id_cliente", isprimary = true, tipoCampo = TipoCampo.INTEGER)
-    private int id_cliente;
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getRazao_social() {
+        return razao_social;
+    }
+
+    public void setRazao_social(String razao_social) {
+        this.razao_social = razao_social;
+    }
+
+    public Long getCnpj() {
+        return cnpj;
+    }
+
+    public void setCnpj(Long cnpj) {
+        this.cnpj = cnpj;
+    }
+
+    public Long getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(Long cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(String endereco) {
+        this.endereco = endereco;
+    }
+
+    public Long getCoord_x() {
+        return coord_x;
+    }
+
+    public void setCoord_x(Long coord_x) {
+        this.coord_x = coord_x;
+    }
+
+    public Long getCoord_y() {
+        return coord_y;
+    }
+
+    public void setCoord_y(Long coord_y) {
+        this.coord_y = coord_y;
+    }
 
 }

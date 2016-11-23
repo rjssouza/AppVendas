@@ -1,24 +1,19 @@
 package com.app.bdframework.baseEntidade;
 
 import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteOpenHelper;
 
 import com.app.bdframework.BDHelper;
-import com.app.bdframework.auxiliar.ParCampoValor;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
 /**
- * Created by Robson on 12/11/2016.
+ * Classe base para repositorios, esta possui métodos básicos de consulta e CRUD, trabalha em conjunto com a base de entidades
  */
-
 public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<TEntidade> {
 
     public Repositorio(Context context) {
@@ -30,16 +25,16 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor().toString()}) > 0;
         if (existe)
-            instancia.getReadableDatabase().update(entidade.getNomeTabela(), entidade.getContentValue(),
+            this.getReadableDatabase().update(getNomeTabela(), entidade.getContentValue(),
                     parCampoValor.getNomeCampo() + " = ?",
                     new String[]{parCampoValor.getValor().toString()});
         else
-            instancia.getWritableDatabase().insert(entidade.getNomeTabela(), null, entidade.getContentValue());
+            this.getWritableDatabase().insert(getNomeTabela(), null, entidade.getContentValue());
     }
 
     private void deletarEntidade(TEntidade entidade) {
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
-        instancia.getReadableDatabase().delete(entidade.getNomeTabela(),
+        this.getReadableDatabase().delete(getNomeTabela(),
                 "where " + parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor().toString()});
     }
@@ -89,8 +84,8 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
                         TratamentoExcecao.registrarRegraNegocioExcecao(rn);
                     }
                 }
-                this.deletarEntidade(entidade);
             }
+            this.deletarEntidade(entidade);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
