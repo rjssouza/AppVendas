@@ -1,14 +1,11 @@
 package com.app.bdframework.utils;
 
-import android.os.Environment;
-
 /**
- * Created by Robson on 15/11/2016.
+ * Classe responsavel por converter exceções em mensagem de texto corrida
  */
-
 public class TradutorMensagemException {
 
-    public static String obterMensagem(Exception exception, boolean obterStackTrace) {
+    public static String obterMensagem(Exception exception, @SuppressWarnings("SameParameterValue") boolean obterStackTrace) {
         String mensagem = "";
         mensagem += exception.getMessage();
         if (obterStackTrace)
@@ -20,7 +17,7 @@ public class TradutorMensagemException {
         return mensagem;
     }
 
-    public static String obterMensagem(Throwable exception, boolean obterStackTrace) {
+    public static String obterMensagem(Throwable exception, @SuppressWarnings("SameParameterValue") boolean obterStackTrace) {
         String mensagem = "";
         mensagem += exception.getMessage();
         if (obterStackTrace)

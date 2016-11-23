@@ -16,7 +16,7 @@ import java.util.List;
  */
 public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<TEntidade> {
 
-    public Repositorio(Context context) {
+    protected Repositorio(Context context) {
         super(context);
     }
 

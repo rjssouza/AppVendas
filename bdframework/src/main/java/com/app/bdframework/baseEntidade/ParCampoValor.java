@@ -1,14 +1,12 @@
 package com.app.bdframework.baseEntidade;
 
-import com.app.bdframework.auxiliar.ChavePrimaria;
-
 /**
  * Tupla nome de campo e valor de tabela a ser processado pelo repositorio generico
  */
 
 class ParCampoValor<T> {
-    private String nomeCampo;
-    private T valor;
+    private final String nomeCampo;
+    private final T valor;
 
     String getNomeCampo() {
         return nomeCampo;

@@ -1,6 +1,5 @@
 package com.app.bdframework.excecoes;
 
-import com.app.bdframework.negocio.RegraNegocio;
 import com.app.bdframework.utils.TradutorMensagemException;
 
 import java.util.List;

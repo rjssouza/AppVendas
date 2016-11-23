@@ -1,19 +1,15 @@
 package com.app.bdframework.utils;
 
 import android.os.Environment;
-import android.provider.ContactsContract;
-import android.widget.Toast;
 
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.nio.channels.FileChannel;
 
 /**
  * Classe para gerar arquivos de qualquer extensao

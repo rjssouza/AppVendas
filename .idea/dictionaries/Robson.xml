@@ -1,12 +1,16 @@
 <component name="ProjectDictionaryState">
   <dictionary name="Robson">
     <words>
+      <w>abstrata</w>
       <w>acesso</w>
+      <w>aguma</w>
       <w>alerta</w>
       <w>aplicacao</w>
       <w>appvenda</w>
       <w>argumentos</w>
       <w>arquivo</w>
+      <w>arquivos</w>
+      <w>atendida</w>
       <w>atendido</w>
       <w>ativo</w>
       <w>banco</w>
@@ -21,21 +25,29 @@
       <w>classe</w>
       <w>cliente</w>
       <w>cnpj</w>
+      <w>coluna</w>
       <w>colunas</w>
       <w>conjunto</w>
       <w>constantes</w>
       <w>consulta</w>
+      <w>controlado</w>
       <w>conversao</w>
       <w>conversor</w>
+      <w>conversão</w>
       <w>coord</w>
       <w>copiar</w>
+      <w>corrida</w>
+      <w>customizada</w>
       <w>dados</w>
       <w>deletar</w>
       <w>descr</w>
       <w>destino</w>
       <w>devolucao</w>
+      <w>dinamico</w>
       <w>diretorio</w>
+      <w>dispara</w>
       <w>disparada</w>
+      <w>disparado</w>
       <w>endereco</w>
       <w>entidade</w>
       <w>entidades</w>
@@ -43,13 +55,17 @@
       <w>entrada</w>
       <w>entre</w>
       <w>erro</w>
+      <w>este</w>
       <w>estoque</w>
       <w>evento</w>
       <w>excecao</w>
       <w>exceção</w>
+      <w>exceções</w>
       <w>executar</w>
+      <w>execução</w>
       <w>existe</w>
       <w>existencia</w>
+      <w>extensao</w>
       <w>externa</w>
       <w>fixo</w>
       <w>fonte</w>
@@ -58,23 +74,31 @@
       <w>generico</w>
       <w>gerador</w>
       <w>geral</w>
+      <w>gerar</w>
       <w>ignorar</w>
       <w>indica</w>
       <w>inicial</w>
       <w>instancia</w>
       <w>integereger</w>
       <w>invocar</w>
+      <w>invoque</w>
       <w>limite</w>
       <w>lista</w>
       <w>mensagem</w>
+      <w>mensages</w>
+      <w>mesmo</w>
+      <w>metodo</w>
       <w>metodos</w>
       <w>métodos</w>
       <w>necessarios</w>
       <w>negocio</w>
       <w>negocios</w>
+      <w>negodio</w>
       <w>negócio</w>
       <w>objeto</w>
+      <w>objetos</w>
       <w>obter</w>
+      <w>ocorra</w>
       <w>operações</w>
       <w>ordem</w>
       <w>pago</w>
@@ -87,6 +111,7 @@
       <w>primaria</w>
       <w>processado</w>
       <w>produto</w>
+      <w>qualquer</w>
       <w>quantidade</w>
       <w>razao</w>
       <w>regra</w>
@@ -94,6 +119,7 @@
       <w>repositorio</w>
       <w>repositorios</w>
       <w>representa</w>
+      <w>responsavel</w>
       <w>retorno</w>
       <w>saida</w>
       <w>salvar</w>
@@ -105,6 +131,7 @@
       <w>telefone</w>
       <w>telefones</w>
       <w>teste</w>
+      <w>texto</w>
       <w>tipo</w>
       <w>todas</w>
       <w>trabalha</w>
@@ -114,6 +141,8 @@
       <w>tupla</w>
       <w>unico</w>
       <w>unitario</w>
+      <w>utilizada</w>
+      <w>validacao</w>
       <w>validar</w>
       <w>venda</w>
       <w>vendas</w>

@@ -15,7 +15,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Classe qie representa o acesso a instancia do BD local, possui metodos para conversao e query de entidaes
@@ -26,9 +25,9 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     private static final String DATABASE_NAME = "VendasApp";
 
     private static String _dataBasePath;
-    private Context _context;
+    private final Context _context;
 
-    public BDHelper(Context context) {
+    protected BDHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _context = context;
         _dataBasePath = getWritableDatabase().getPath();

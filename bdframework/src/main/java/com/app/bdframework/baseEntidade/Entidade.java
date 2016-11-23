@@ -11,9 +11,9 @@ import java.lang.reflect.Field;
 /**
  * Classe base para todas as entidades, esta possui metodos necessarios a operações CRUD do objeto
  */
-public class Entidade {
+public abstract class Entidade {
 
-    public Entidade(Cursor cursor) {
+    protected Entidade(Cursor cursor) {
         if (cursor != null) {
             for (Field field : this.getClass().getDeclaredFields()) {
                 if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {

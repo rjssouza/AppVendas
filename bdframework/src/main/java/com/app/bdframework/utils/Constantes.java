@@ -1,13 +1,12 @@
 package com.app.bdframework.utils;
 
 /**
- * Created by Robson on 17/11/2016.
+ * Constantes framework BD
  */
-
 public class Constantes {
 
-    public static final String SCRIPT_VENDAS_APP = "SCRIPT_VENDAS_APP.sql";
+    static final String APP_VENDAS_PATH = "AppVendas";
 
-    public static final String APP_VENDAS_PATH = "AppVendas";
+    public static final String SCRIPT_VENDAS_APP = "SCRIPT_VENDAS_APP.sql";
 
 }

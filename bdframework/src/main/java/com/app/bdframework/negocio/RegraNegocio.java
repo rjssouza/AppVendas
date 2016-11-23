@@ -5,7 +5,7 @@ import com.app.bdframework.baseEntidade.Entidade;
 import com.app.bdframework.excecoes.RegraNegocioException;
 
 /**
- * Created by Robson on 15/11/2016.
+ * Interface para validacao de regra de negocio customizada, caso aguma noa seja atendida ele dispara uma regra de negodio exception
  */
 
 public interface RegraNegocio<TEntidade extends Entidade> {

@@ -5,7 +5,7 @@ import com.app.bdframework.baseEntidade.Entidade;
 import java.util.List;
 
 /**
- * Created by Robson on 15/11/2016.
+ * Interface para execução de query utilizada pelo bd helper
  */
 public interface IExecutorQuery<TEntidade extends Entidade> {
 

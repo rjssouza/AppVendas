@@ -1,9 +1,8 @@
 package com.app.bdframework.eventos;
 
 /**
- * Created by Robson on 16/11/2016.
+ * Evento disparado com retorno em um objeto generico
  */
-
 public interface EventoRetorno<TEntrada, TSaida> {
     TSaida executarEvento(TEntrada tEntrada);
 }
