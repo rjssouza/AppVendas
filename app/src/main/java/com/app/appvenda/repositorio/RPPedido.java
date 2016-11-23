@@ -3,31 +3,30 @@ package com.app.appvenda.repositorio;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.app.appvenda.entidade.FormaPagto;
+import com.app.appvenda.entidade.Pedido;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.negocio.RegraNegocio;
 
 import java.util.List;
 
-public class RPFormaPagto extends Repositorio<FormaPagto> {
+public class RPPedido extends Repositorio<Pedido> {
 
-    public RPFormaPagto(Context context) {
+    public RPPedido(Context context) {
         super(context);
     }
 
     @Override
-    protected List<RegraNegocio<FormaPagto>> obterRegras() {
+    protected List<RegraNegocio<Pedido>> obterRegras() {
         return null;
     }
 
     @Override
-    protected FormaPagto obterEntidade(Cursor cursor) {
-        return new FormaPagto(cursor);
+    protected Pedido obterEntidade(Cursor cursor) {
+        return new Pedido(cursor);
     }
 
     @Override
     protected String getNomeTabela() {
-        return "tb_forma_pagto";
+        return "tb_pedido";
     }
-
 }

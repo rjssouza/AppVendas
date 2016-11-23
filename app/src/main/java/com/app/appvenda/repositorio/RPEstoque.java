@@ -16,17 +16,17 @@ public class RPEstoque  extends Repositorio<Estoque> {
     }
 
     @Override
-    protected List<RegraNegocio> obterRegras() {
+    protected List<RegraNegocio<Estoque>> obterRegras() {
         return null;
     }
 
     @Override
     protected Estoque obterEntidade(Cursor cursor) {
-        return null;
+        return new Estoque(cursor);
     }
 
     @Override
     protected String getNomeTabela() {
-        return null;
+        return "tb_estoque";
     }
 }

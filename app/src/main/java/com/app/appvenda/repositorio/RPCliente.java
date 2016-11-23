@@ -11,9 +11,6 @@ import com.app.bdframework.negocio.RegraNegocio;
 import java.io.InputStream;
 import java.util.List;
 
-/**
- * Created by Robson on 16/11/2016.
- */
 
 public class RPCliente extends Repositorio<Cliente> {
 
@@ -22,7 +19,7 @@ public class RPCliente extends Repositorio<Cliente> {
     }
 
     @Override
-    protected List<RegraNegocio> obterRegras() {
+    protected List<RegraNegocio<Cliente>> obterRegras() {
         return null;
     }
 
