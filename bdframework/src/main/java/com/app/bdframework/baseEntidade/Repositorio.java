@@ -42,7 +42,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     public void salvar(TEntidade entidade) {
         try {
             if (obterRegras() != null) {
-                List<RegraNegocio> regraNegocios = obterRegras();
+                List<RegraNegocio<TEntidade>> regraNegocios = obterRegras();
                 Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                     @Override
                     public int compare(RegraNegocio o1, RegraNegocio o2) {
@@ -50,7 +50,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
                     }
                 });
 
-                for (RegraNegocio regraNegocio : regraNegocios) {
+                for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
                     try {
                         regraNegocio.validarRegra(entidade, this);
                     } catch (RegraNegocioException rn) {
@@ -69,7 +69,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     public void deletar(TEntidade entidade) {
         try {
             if (obterRegras() != null) {
-                List<RegraNegocio> regraNegocios = obterRegras();
+                List<RegraNegocio<TEntidade>> regraNegocios = obterRegras();
                 Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                     @Override
                     public int compare(RegraNegocio o1, RegraNegocio o2) {
@@ -77,7 +77,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
                     }
                 });
 
-                for (RegraNegocio regraNegocio : regraNegocios) {
+                for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
                     try {
                         regraNegocio.validarRegra(entidade, this);
                     } catch (RegraNegocioException rn) {
@@ -93,6 +93,6 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         }
     }
 
-    protected abstract List<RegraNegocio> obterRegras();
+    protected abstract List<RegraNegocio<TEntidade>> obterRegras();
 
 }
