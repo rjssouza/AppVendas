@@ -11,6 +11,7 @@ import com.app.appvenda.repositorio.RPCliente;
 import com.app.appvenda.repositorio.RPTipoPedido;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.Constantes;
+import com.app.bdframework.utils.TradutorMensagemException;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,7 +38,7 @@ public class AppVendaApp extends Application {
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
-                Log.e("Alert","Lets See if it Works !!!");
+                Log.e("Erro", TradutorMensagemException.obterMensagem(paramThrowable, true));
                 handler.uncaughtException(paramThread, paramThrowable);
             }
         });
