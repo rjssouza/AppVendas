@@ -16,7 +16,12 @@ public class RPEstoque  extends Repositorio<Estoque> {
     }
 
     @Override
-    protected List<RegraNegocio<Estoque>> obterRegras() {
+    protected List<RegraNegocio<Estoque>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<Estoque>> obterRegrasDeletar() {
         return null;
     }
 

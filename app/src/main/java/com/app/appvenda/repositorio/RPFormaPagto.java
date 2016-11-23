@@ -16,7 +16,12 @@ public class RPFormaPagto extends Repositorio<FormaPagto> {
     }
 
     @Override
-    protected List<RegraNegocio<FormaPagto>> obterRegras() {
+    protected List<RegraNegocio<FormaPagto>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<FormaPagto>> obterRegrasDeletar() {
         return null;
     }
 

@@ -16,7 +16,12 @@ public class RPVendedor extends Repositorio<Vendedor> {
     }
 
     @Override
-    protected List<RegraNegocio<Vendedor>> obterRegras() {
+    protected List<RegraNegocio<Vendedor>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<Vendedor>> obterRegrasDeletar() {
         return null;
     }
 

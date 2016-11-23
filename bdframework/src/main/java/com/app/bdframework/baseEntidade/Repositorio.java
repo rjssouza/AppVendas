@@ -41,8 +41,8 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     public void salvar(TEntidade entidade) {
         try {
-            if (obterRegras() != null) {
-                List<RegraNegocio<TEntidade>> regraNegocios = obterRegras();
+            if (obterRegrasSalvar() != null) {
+                List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
                 Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                     @Override
                     public int compare(RegraNegocio o1, RegraNegocio o2) {
@@ -68,8 +68,8 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     public void deletar(TEntidade entidade) {
         try {
-            if (obterRegras() != null) {
-                List<RegraNegocio<TEntidade>> regraNegocios = obterRegras();
+            if (obterRegrasSalvar() != null) {
+                List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
                 Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                     @Override
                     public int compare(RegraNegocio o1, RegraNegocio o2) {
@@ -93,6 +93,8 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         }
     }
 
-    protected abstract List<RegraNegocio<TEntidade>> obterRegras();
+    protected abstract List<RegraNegocio<TEntidade>> obterRegrasSalvar();
+
+    protected abstract List<RegraNegocio<TEntidade>> obterRegrasDeletar();
 
 }

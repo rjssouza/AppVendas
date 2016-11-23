@@ -17,7 +17,12 @@ public class RPCliente extends Repositorio<Cliente> {
     }
 
     @Override
-    protected List<RegraNegocio<Cliente>> obterRegras() {
+    protected List<RegraNegocio<Cliente>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<Cliente>> obterRegrasDeletar() {
         return null;
     }
 

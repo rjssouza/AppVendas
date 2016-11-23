@@ -16,7 +16,12 @@ public class RPProduto extends Repositorio<Produto> {
     }
 
     @Override
-    protected List<RegraNegocio<Produto>> obterRegras() {
+    protected List<RegraNegocio<Produto>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<Produto>> obterRegrasDeletar() {
         return null;
     }
 

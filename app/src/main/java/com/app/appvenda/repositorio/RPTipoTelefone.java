@@ -16,7 +16,12 @@ public class RPTipoTelefone extends Repositorio<TipoTelefone> {
     }
 
     @Override
-    protected List<RegraNegocio<TipoTelefone>> obterRegras() {
+    protected List<RegraNegocio<TipoTelefone>> obterRegrasSalvar() {
+        return null;
+    }
+
+    @Override
+    protected List<RegraNegocio<TipoTelefone>> obterRegrasDeletar() {
         return null;
     }
 
