@@ -16,21 +16,22 @@ import java.io.OutputStream;
 import java.nio.channels.FileChannel;
 
 /**
- * Created by Robson on 20/11/2016.
+ * Classe para gerar arquivos de qualquer extensao
  */
-
 public class GeradorArquivo {
 
     public static String getPastaExternaAplicacao() {
         File diretorio = new File(Environment.getExternalStorageDirectory(), Constantes.APP_VENDAS_PATH);
-        if (!diretorio.exists())
-            diretorio.mkdirs();
+        if (!diretorio.exists()) {
+            if (diretorio.mkdirs())
+                return diretorio.getAbsolutePath();
+        }
         return diretorio.getAbsolutePath();
     }
 
     public static void copiarArquivo(String fonte, String nomeArquivo, String destino) {
-        InputStream in = null;
-        OutputStream out = null;
+        InputStream in;
+        OutputStream out;
 
         if (validarExistenciaDiretorio(destino)) {
             try {
@@ -43,26 +44,23 @@ public class GeradorArquivo {
                     out.write(buffer, 0, read);
                 }
                 in.close();
-                in = null;
 
                 out.flush();
                 out.close();
-                out = null;
-            } catch (FileNotFoundException e) {
-                TratamentoExcecao.registrarExcecao(e);
-            } catch (IOException e) {
-                TratamentoExcecao.registrarExcecao(e);
+            } catch (IOException ex) {
+                TratamentoExcecao.registrarExcecao(ex);
             } finally {
                 TratamentoExcecao.invocarEvento();
             }
         }
     }
 
-    public static boolean validarExistenciaDiretorio(String diretorioArquivo) {
+    private static boolean validarExistenciaDiretorio(String diretorioArquivo) {
         File arquivo = new File(diretorioArquivo);
         if (arquivo.isDirectory()) {
-            if (!arquivo.exists())
-                arquivo.mkdirs();
+            if (!arquivo.exists()) {
+                return arquivo.mkdirs();
+            }
             return arquivo.exists();
         }
         return validarExistenciaDiretorio(arquivo.getParent());

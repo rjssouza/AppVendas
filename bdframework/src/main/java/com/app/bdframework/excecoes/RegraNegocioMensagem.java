@@ -6,9 +6,8 @@ import com.app.bdframework.utils.TradutorMensagemException;
 import java.util.List;
 
 /**
- * Created by Robson on 15/11/2016.
+ * Tradutor mensages regra de negocio
  */
-
 public class RegraNegocioMensagem {
 
     private String mensagem;
@@ -23,7 +22,7 @@ public class RegraNegocioMensagem {
         }
     }
 
-    public RegraNegocioMensagem(List<Exception> exceptions, boolean somenteException) {
+    RegraNegocioMensagem(List<Exception> exceptions, @SuppressWarnings("SameParameterValue") boolean somenteException) {
         this.exceptions = exceptions;
         for (Exception exception : exceptions) {
             mensagem += TradutorMensagemException.obterMensagem(exception, false);

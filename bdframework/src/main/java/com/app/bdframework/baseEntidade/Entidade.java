@@ -47,7 +47,6 @@ public class Entidade {
     }
 
     ParCampoValor<Integer> getChavePrimaria() {
-        ContentValues contentValues = new ContentValues();
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
