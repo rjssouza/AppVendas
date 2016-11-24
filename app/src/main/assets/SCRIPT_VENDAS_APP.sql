@@ -17,5 +17,5 @@ INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (1, 'VE
 INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (2, 'TROCA');
 INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (3, 'DEVOLUCAO');
 INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (1, 'PAGO');
-INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (1, 'NAO_PAGO');
+INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (2, 'NAO_PAGO');
 INSERT INTO [tb_vendedor] (nome) VALUES ('TESTE');

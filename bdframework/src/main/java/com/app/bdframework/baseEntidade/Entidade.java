@@ -7,11 +7,36 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Classe base para todas as entidades, esta possui metodos necessarios a operações CRUD do objeto
  */
 public abstract class Entidade {
+
+    public static List<String> getTodasColunas(Class tipo) {
+        List<String> todasColunas = new ArrayList<>();
+        for (Field field : tipo.getDeclaredFields()) {
+            if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
+                todasColunas.add(field.getName());
+            }
+        }
+        return todasColunas;
+    }
+
+    public static String getTodasColunas(Class tipo, String nomeParametro) {
+        List<String> todasColunas = new ArrayList<>();
+        for (Field field : tipo.getDeclaredFields()) {
+            if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
+                if (field.getName().equals(nomeParametro)) {
+                    return field.getName();
+                }
+            }
+        }
+        return "";
+    }
 
     protected Entidade(Cursor cursor) {
         if (cursor != null) {
@@ -28,6 +53,7 @@ public abstract class Entidade {
                                     field.set(this, (cursor.getShort(cursor.getColumnIndex(field.getName())) > 0));
                                     break;
                                 case "INT":
+                                case "INTEGER":
                                     field.set(this, cursor.getInt(cursor.getColumnIndex(field.getName())));
                                     break;
                                 case "LONG":
@@ -78,6 +104,7 @@ public abstract class Entidade {
                         case "BOOLEAN":
                             contentValues.put(field.getName(), field.getBoolean(this));
                             break;
+                        case "INT":
                         case "INTEGER":
                             contentValues.put(field.getName(), field.getInt(this));
                             break;
@@ -97,5 +124,6 @@ public abstract class Entidade {
         }
         return contentValues;
     }
+
 
 }

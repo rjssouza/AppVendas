@@ -12,39 +12,39 @@ public class Venda extends Entidade {
         super(cursor);
     }
 
-    public int getId_venda() {
+    public Integer getId_venda() {
         return id_venda;
     }
 
-    public void setId_venda(int id_venda) {
+    public void setId_venda(Integer id_venda) {
         this.id_venda = id_venda;
     }
 
-    public int getId_cliente() {
+    public Integer getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
+    public void setId_cliente(Integer id_cliente) {
         this.id_cliente = id_cliente;
     }
 
-    public int getId_vendedor() {
+    public Integer getId_vendedor() {
         return id_vendedor;
     }
 
-    public void setId_vendedor(int id_vendedor) {
+    public void setId_vendedor(Integer id_vendedor) {
         this.id_vendedor = id_vendedor;
     }
 
-    public int getId_pedido() {
+    public Integer getId_pedido() {
         return id_pedido;
     }
 
-    public void setId_pedido(int id_pedido) {
+    public void setId_pedido(Integer id_pedido) {
         this.id_pedido = id_pedido;
     }
 
-    public int getId_status_venda() {
+    public Integer getId_status_venda() {
         return id_status_venda;
     }
 

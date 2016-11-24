@@ -7,24 +7,24 @@ import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class StatusVenda extends Entidade {
-
+    
     public StatusVenda(Cursor cursor){
         super(cursor);
     }
 
-    public int getId_status_venda() {
+    public Integer getId_status_venda() {
         return id_status_venda;
     }
 
-    public void setId_status_venda(int id_status_venda) {
+    public void setId_status_venda(Integer id_status_venda) {
         this.id_status_venda = id_status_venda;
     }
 
-    public int getCod_status() {
+    public Integer getCod_status() {
         return cod_status;
     }
 
-    public void setCod_status(int cod_status) {
+    public void setCod_status(Integer cod_status) {
         this.cod_status = cod_status;
     }
 
@@ -37,9 +37,9 @@ public class StatusVenda extends Entidade {
     }
 
     @ChavePrimaria
-    private int id_status_venda;
+    private Integer id_status_venda;
     @ColunaTabela
-    private int cod_status;
+    private Integer cod_status;
     @ColunaTabela
     private String descr_status;
 }

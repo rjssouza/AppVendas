@@ -99,7 +99,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     @Override
     public TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
         try {
-            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(),  colunas, whereClause, argumentos, null, null, null);
             TEntidade _entidade;
             cursor.moveToPosition(0);
             do {

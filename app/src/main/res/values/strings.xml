@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">AppVenda</string>
+    <string name="msg_statusvendaincompleto">Teste</string>
+
 </resources>
