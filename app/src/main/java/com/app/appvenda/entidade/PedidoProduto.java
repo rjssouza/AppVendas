@@ -8,6 +8,12 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class PedidoProduto extends Entidade {
 
+    public final static String ID_PEDIDO = "id_pedido";
+    public final static String ID_PEDIDO_PRODUTO = "id_pedido_produto";
+    public final static String ID_PRODUTO = "id_produto";
+    public final static String ID_TIPO_PEDIDO = "id_tipo_pedido";
+    public final static String QUANTIDADE = "quantidade";
+    
     public PedidoProduto(Cursor cursor){
         super(cursor);
     }

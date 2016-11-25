@@ -7,9 +7,18 @@ import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class Vendedor extends Entidade {
+
+    public final static String ID_VENDEDOR = "id_vendedor";
+    public final static String NOME = "nome";
+
     public Vendedor(Cursor cursor) {
         super(cursor);
     }
+
+    @ChavePrimaria
+    private int id_vendedor;
+    @ColunaTabela
+    private String nome;
 
     public int getId_vendedor() {
         return id_vendedor;
@@ -27,8 +36,4 @@ public class Vendedor extends Entidade {
         this.nome = nome;
     }
 
-    @ChavePrimaria
-    private int id_vendedor;
-    @ColunaTabela
-    private String nome;
 }

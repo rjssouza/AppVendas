@@ -8,6 +8,14 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class Produto extends Entidade {
 
+    public final static String ATIVO = "ativo";
+    public final static String FOTO = "foto";
+    public final static String ID_PRODUTO = "id_produto";
+    public final static String NOME = "nome";
+    public final static String QTD_LIMITE = "qtd_limite";
+    public final static String VALOR_FINAL = "valor_final";
+    public final static String VALOR_UNITARIO = "valor_unitario";
+
     public Produto(Cursor cursor){
         super(cursor);
     }

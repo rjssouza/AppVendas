@@ -3,9 +3,21 @@ package com.app.appvenda;
 import android.app.Application;
 import android.util.Log;
 
+import com.app.appvenda.entidade.Cliente;
+import com.app.appvenda.entidade.Estoque;
+import com.app.appvenda.entidade.FormaPagto;
+import com.app.appvenda.entidade.Pedido;
+import com.app.appvenda.entidade.PedidoProduto;
+import com.app.appvenda.entidade.Produto;
+import com.app.appvenda.entidade.StatusVenda;
+import com.app.appvenda.entidade.Telefone;
+import com.app.appvenda.entidade.TipoPedido;
+import com.app.appvenda.entidade.TipoTelefone;
 import com.app.appvenda.entidade.Venda;
+import com.app.appvenda.entidade.Vendedor;
 import com.app.appvenda.eventosExcecao.EventoGeral;
 import com.app.appvenda.eventosExcecao.EventoRegraNegocio;
+import com.app.appvenda.regrasNegocio.DeletarEntidade.RNCliente.ClientePossuiPedidosPendentes;
 import com.app.appvenda.regrasNegocio.DeletarEntidade.RNVenda.StatusVendaIncompleto;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
@@ -22,15 +34,9 @@ public class AppVendaApp extends Application {
 
         TratamentoExcecao.registrarEvento(new EventoGeral());
         TratamentoExcecao.registrarEvento(new EventoRegraNegocio());
-        StatusVendaIncompleto statusVendaIncompleto = new StatusVendaIncompleto(this.getApplicationContext());
-        try {
-            statusVendaIncompleto.validarRegra(null, null);
-        } catch (RegraNegocioException e) {
-            e.printStackTrace();
-        }
     }
 
-    private void addUnhandledEventGlobal(){
+    private void addUnhandledEventGlobal() {
         final Thread.UncaughtExceptionHandler handler = Thread.getDefaultUncaughtExceptionHandler();
 
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {

@@ -7,9 +7,21 @@ import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 public class TipoPedido extends Entidade {
+
+    public final static String COD_TIPO_PEDIDO = "cod_tipo_pedido";
+    public final static String DESCR_TIPO_PEDIDO = "descr_tipo_pedido";
+    public final static String ID_TIPO_PEDIDO = "id_tipo_pedido";
+
     public TipoPedido(Cursor cursor) {
         super(cursor);
     }
+
+    @ChavePrimaria
+    private int id_tipo_pedido;
+    @ColunaTabela
+    private int cod_tipo_pedido;
+    @ColunaTabela
+    private String descr_tipo_pedido;
 
     public int getId_tipo_pedido() {
         return id_tipo_pedido;
@@ -34,12 +46,5 @@ public class TipoPedido extends Entidade {
     public void setDescr_tipo_pedido(String descr_tipo_pedido) {
         this.descr_tipo_pedido = descr_tipo_pedido;
     }
-
-    @ChavePrimaria
-    private int id_tipo_pedido;
-    @ColunaTabela
-    private int cod_tipo_pedido;
-    @ColunaTabela
-    private String descr_tipo_pedido;
 
 }

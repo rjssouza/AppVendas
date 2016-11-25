@@ -8,6 +8,16 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class Cliente extends Entidade {
 
+    public final static String ATIVO = "ativo";
+    public final static String CNPJ = "cnpj";
+    public final static String COORD_X = "coord_x";
+    public final static String COORD_Y = "coord_y";
+    public final static String CPF = "cpf";
+    public final static String ENDERECO = "endereco";
+    public final static String ID_CLIENTE = "id_cliente";
+    public final static String NOME = "nome";
+    public final static String RAZAO_SOCIAL = "razao_social";
+
     public Cliente(Cursor cursor) {
         super(cursor);
     }
@@ -39,7 +49,7 @@ public class Cliente extends Entidade {
         this.ativo = ativo;
     }
 
-    public int getId_cliente() {
+    public Integer getId_cliente() {
         return id_cliente;
     }
 

@@ -8,6 +8,10 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class Estoque extends Entidade {
 
+    public final static String ID_ESTOQUE = "id_estoque";
+    public final static String ID_PRODUTO = "id_produto";
+    public final static String QUANTIDADE = "quantidade";
+
     public Estoque(Cursor cursor){
         super(cursor);
     }

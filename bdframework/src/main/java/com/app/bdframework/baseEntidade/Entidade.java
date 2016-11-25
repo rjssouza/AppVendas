@@ -2,6 +2,7 @@ package com.app.bdframework.baseEntidade;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.os.Environment;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
@@ -24,18 +25,6 @@ public abstract class Entidade {
             }
         }
         return todasColunas;
-    }
-
-    public static String getTodasColunas(Class tipo, String nomeParametro) {
-        List<String> todasColunas = new ArrayList<>();
-        for (Field field : tipo.getDeclaredFields()) {
-            if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
-                if (field.getName().equals(nomeParametro)) {
-                    return field.getName();
-                }
-            }
-        }
-        return "";
     }
 
     protected Entidade(Cursor cursor) {
@@ -124,6 +113,5 @@ public abstract class Entidade {
         }
         return contentValues;
     }
-
 
 }

@@ -15,7 +15,7 @@ public abstract class RegraNegocioResource {
     }
 
     protected String getMsgRegraNegocio(){
-        String resName = "msg_" + this.getClass().getName().toLowerCase();
+        String resName = "msg_" + this.getClass().getSimpleName().toLowerCase();
         int resId = context.getResources().getIdentifier(resName, "string", context.getPackageName());
         return this.context.getResources().getString(resId);
     }

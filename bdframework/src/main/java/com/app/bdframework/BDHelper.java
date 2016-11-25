@@ -25,7 +25,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     private static final String DATABASE_NAME = "VendasApp";
 
     private static String _dataBasePath;
-    private final Context _context;
+    protected final Context _context;
 
     protected BDHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -63,10 +63,13 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     public int executarScalar(String whereClause, String[] argumentos) {
         try {
             Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
-                    whereClause, argumentos);
+                   " where " + whereClause, argumentos);
             int count = -1;
-            if (mCount.moveToFirst())
+            mCount.moveToPosition(0);
+            do {
                 count = mCount.getInt(0);
+            } while (mCount.moveToNext());
+
             mCount.close();
             return count;
         } catch (Exception e) {

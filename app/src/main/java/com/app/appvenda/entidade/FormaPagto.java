@@ -8,6 +8,11 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class FormaPagto extends Entidade {
 
+    public final static String COD_FORMA_PAGTO = "cod_forma_pagto";
+    public final static String DESCR_FORMA_PAGTO = "descr_forma_pagto";
+    public final static String ID_FORMA_PAGTO = "id_forma_pagto";
+    public final static String VAL_PERC = "val_perc";
+
     public FormaPagto(Cursor cursor){
         super(cursor);
     }

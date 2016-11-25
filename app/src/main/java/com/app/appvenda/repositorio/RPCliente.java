@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.app.appvenda.entidade.Cliente;
+import com.app.appvenda.regrasNegocio.DeletarEntidade.RNCliente.ClientePossuiPedidosPendentes;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.negocio.RegraNegocio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -23,7 +25,9 @@ public class RPCliente extends Repositorio<Cliente> {
 
     @Override
     protected List<RegraNegocio<Cliente>> obterRegrasDeletar() {
-        return null;
+        List<RegraNegocio<Cliente>> regraNegocios = new ArrayList<>();
+        regraNegocios.add(new ClientePossuiPedidosPendentes(_context));
+        return regraNegocios;
     }
 
     @Override

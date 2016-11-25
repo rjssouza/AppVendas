@@ -38,14 +38,7 @@ public class StatusVendaIncompleto extends RegraNegocioResource implements Regra
 
     @Override
     public void validarRegra(Venda entidade, IExecutorQuery<Venda> queryHelper) throws RegraNegocioException {
-        if (entidade == null) {
-            StatusVenda statusVenda = rpStatusVenda.executarUnico((String[]) StatusVenda.getTodasColunas(StatusVenda.class).toArray(),
-                    StatusVenda.getTodasColunas(StatusVenda.class, "cod_status") + " = ?", new String[]{"2"});
 
-            if (statusVenda.getCod_status().equals(2)) {
-                throw new RegraNegocioException(getMsgRegraNegocio());
-            }
-        }
     }
 
 }

@@ -8,9 +8,29 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class Venda extends Entidade {
 
+    public final static String ID_CLIENTE = "id_cliente";
+    public final static String ID_PEDIDO = "id_pedido";
+    public final static String ID_STATUS_VENDA = "id_status_venda";
+    public final static String ID_VENDA = "id_venda";
+    public final static String ID_VENDEDOR = "id_vendedor";
+    public final static String SINCRONIZADO = "sincronizado";
+
     public Venda(Cursor cursor) {
         super(cursor);
     }
+
+    @ChavePrimaria
+    private int id_venda;
+    @ColunaTabela
+    private int id_cliente;
+    @ColunaTabela
+    private int id_vendedor;
+    @ColunaTabela
+    private int id_pedido;
+    @ColunaTabela
+    private int id_status_venda;
+    @ColunaTabela
+    private boolean sincronizado;
 
     public Integer getId_venda() {
         return id_venda;
@@ -60,16 +80,4 @@ public class Venda extends Entidade {
         this.sincronizado = sincronizado;
     }
 
-    @ChavePrimaria
-    private int id_venda;
-    @ColunaTabela
-    private int id_cliente;
-    @ColunaTabela
-    private int id_vendedor;
-    @ColunaTabela
-    private int id_pedido;
-    @ColunaTabela
-    private int id_status_venda;
-    @ColunaTabela
-    private boolean sincronizado;
 }

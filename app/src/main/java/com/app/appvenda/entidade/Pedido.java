@@ -8,6 +8,13 @@ import com.app.bdframework.baseEntidade.Entidade;
 
 public class Pedido extends Entidade {
 
+    public final static String COORD_X = "coord_x";
+    public final static String COORD_Y = "coord_y";
+    public final static String ENDERECO = "endereco";
+    public final static String ID_FORMA_PAGTO = "id_forma_pagto";
+    public final static String ID_PEDIDO = "id_pedido";
+    public final static String VALOR_TOTAL = "valor_total";
+
     public Pedido(Cursor cursor){
         super(cursor);
     }
