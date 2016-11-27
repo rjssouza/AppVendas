@@ -27,12 +27,16 @@ public class Pedido extends Entidade {
     private String endereco;
     @ColunaTabela
     private Long coord_x;
+    @ColunaTabela
+    private Long coord_y;
+    @ColunaTabela
+    private int id_forma_pagto;
 
-    public int getId_pedido() {
+    public Integer getId_pedido() {
         return id_pedido;
     }
 
-    public void setId_pedido(int id_pedido) {
+    public void setId_pedido(Integer id_pedido) {
         this.id_pedido = id_pedido;
     }
 
@@ -68,16 +72,12 @@ public class Pedido extends Entidade {
         this.coord_y = coord_y;
     }
 
-    public int getId_forma_pagto() {
+    public Integer getId_forma_pagto() {
         return id_forma_pagto;
     }
 
-    public void setId_forma_pagto(int id_forma_pagto) {
+    public void setId_forma_pagto(Integer id_forma_pagto) {
         this.id_forma_pagto = id_forma_pagto;
     }
-    @ColunaTabela
-    private Long coord_y;
-    @ColunaTabela
-    private int id_forma_pagto;
 
 }

@@ -4,10 +4,12 @@ import android.content.Context;
 
 import com.app.appvenda.entidade.StatusVenda;
 import com.app.appvenda.entidade.Venda;
+import com.app.appvenda.enums.EnumStatusVenda;
 import com.app.appvenda.repositorio.RPStatusVenda;
 import com.app.appvenda.repositorio.RPVenda;
 import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.baseEntidade.Entidade;
+import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.negocio.RegraNegocio;
 import com.app.bdframework.negocio.RegraNegocioResource;
@@ -19,15 +21,12 @@ import java.util.List;
  * Created by Robson on 23/11/2016.
  */
 
-public class StatusVendaIncompleto extends RegraNegocioResource implements RegraNegocio<Venda> {
-
-    private RPVenda rpVenda;
+public class StatusVendaNaoPago extends RegraNegocioResource implements RegraNegocio<Venda> {
 
     private RPStatusVenda rpStatusVenda;
 
-    public StatusVendaIncompleto(Context context) {
+    public StatusVendaNaoPago(Context context) {
         super(context);
-        rpVenda = new RPVenda(context);
         rpStatusVenda = new RPStatusVenda(context);
     }
 
@@ -38,7 +37,12 @@ public class StatusVendaIncompleto extends RegraNegocioResource implements Regra
 
     @Override
     public void validarRegra(Venda entidade, IExecutorQuery<Venda> queryHelper) throws RegraNegocioException {
+        StatusVenda statusVenda = rpStatusVenda.executarUnico(StatusVenda.getTodasColunas(StatusVenda.class), StatusVenda.ID_STATUS_VENDA + " = ?",
+                new String[]{entidade.getId_status_venda().toString()});
 
+        if (statusVenda.getCod_status().equals(EnumStatusVenda.NAO_PAGO.getNumVal())) {
+            throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.ERRO);
+        }
     }
 
 }

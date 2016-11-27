@@ -23,7 +23,6 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
 
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "VendasApp";
-
     private static String _dataBasePath;
     protected final Context _context;
 
@@ -63,7 +62,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     public int executarScalar(String whereClause, String[] argumentos) {
         try {
             Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
-                   " where " + whereClause, argumentos);
+                    " where " + whereClause, argumentos);
             int count = -1;
             mCount.moveToPosition(0);
             do {
@@ -102,7 +101,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     @Override
     public TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
         try {
-            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(),  colunas, whereClause, argumentos, null, null, null);
+            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
             TEntidade _entidade;
             cursor.moveToPosition(0);
             do {

@@ -40,6 +40,24 @@ public class Cliente extends Entidade {
     private Long coord_y;
     @ColunaTabela
     private Boolean ativo;
+    private Telefone fixo;
+    private Telefone celular;
+
+    public Telefone getFixo() {
+        return fixo;
+    }
+
+    public void setFixo(Telefone fixo) {
+        this.fixo = fixo;
+    }
+
+    public Telefone getCelular() {
+        return celular;
+    }
+
+    public void setCelular(Telefone celular) {
+        this.celular = celular;
+    }
 
     public Boolean getAtivo() {
         return ativo;

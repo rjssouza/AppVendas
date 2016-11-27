@@ -4,10 +4,10 @@ import android.content.Context;
 
 import com.app.appvenda.entidade.Cliente;
 import com.app.appvenda.entidade.Venda;
-import com.app.appvenda.repositorio.RPPedido;
 import com.app.appvenda.repositorio.RPVenda;
 import com.app.bdframework.IExecutorQuery;
-import com.app.bdframework.enums.EnumStatusVenda;
+import com.app.appvenda.enums.EnumStatusVenda;
+import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.negocio.RegraNegocio;
 import com.app.bdframework.negocio.RegraNegocioResource;
@@ -32,12 +32,10 @@ public class ClientePossuiPedidosPendentes extends RegraNegocioResource implemen
 
     @Override
     public void validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
-        if (entidade != null) {
-            int qtdVenda = this.rpVenda.executarScalar(Venda.ID_STATUS_VENDA + " = ? AND " + Venda.ID_CLIENTE + " = ?",
-                    new String[]{EnumStatusVenda.NAO_PAGO.getNumVal().toString(), entidade.getId_cliente().toString()});
-            if (qtdVenda == 0) {
-                throw new RegraNegocioException(getMsgRegraNegocio());
-            }
+        int qtdVenda = this.rpVenda.executarScalar(Venda.ID_STATUS_VENDA + " = ? AND " + Venda.ID_CLIENTE + " = ?",
+                new String[]{EnumStatusVenda.NAO_PAGO.getNumVal().toString(), entidade.getId_cliente().toString()});
+        if (qtdVenda == 0) {
+            throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.ERRO);
         }
     }
 }

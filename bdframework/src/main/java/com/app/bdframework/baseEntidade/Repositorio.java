@@ -6,7 +6,9 @@ import com.app.bdframework.BDHelper;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
+import com.app.bdframework.utils.ListaUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -39,26 +41,32 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
                 new String[]{parCampoValor.getValor().toString()});
     }
 
-    public void salvar(TEntidade entidade) {
+    public void salvar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
-            if (obterRegrasSalvar() != null) {
-                List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
-                Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
-                    @Override
-                    public int compare(RegraNegocio o1, RegraNegocio o2) {
-                        return o1.getOrdem() < o2.getOrdem() ? o1.getOrdem() : o2.getOrdem();
-                    }
-                });
+            if (entidade != null) {
+                if (obterRegrasSalvar() != null) {
+                    final List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
+                    Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
+                        @Override
+                        public int compare(RegraNegocio o1, RegraNegocio o2) {
+                            return o1.getOrdem() < o2.getOrdem() ? o1.getOrdem() : o2.getOrdem();
+                        }
+                    });
 
-                for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
-                    try {
-                        regraNegocio.validarRegra(entidade, this);
-                    } catch (RegraNegocioException rn) {
-                        TratamentoExcecao.registrarRegraNegocioExcecao(rn);
+                    for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
+                        try {
+                            if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
+                                regraNegocio.validarRegra(entidade, this);
+                        } catch (RegraNegocioException rn) {
+                            TratamentoExcecao.registrarRegraNegocioExcecao(rn);
+                            break;
+                        }
                     }
                 }
+                this.salvarEntidade(entidade);
+            } else {
+                throw new NullPointerException();
             }
-            this.salvarEntidade(entidade);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
@@ -66,7 +74,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         }
     }
 
-    public void deletar(TEntidade entidade) {
+    public void deletar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
             if (obterRegrasSalvar() != null) {
                 List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
@@ -79,9 +87,12 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
                 for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
                     try {
-                        regraNegocio.validarRegra(entidade, this);
+                        if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName())) {
+                            regraNegocio.validarRegra(entidade, this);
+                        }
                     } catch (RegraNegocioException rn) {
                         TratamentoExcecao.registrarRegraNegocioExcecao(rn);
+                        break;
                     }
                 }
             }

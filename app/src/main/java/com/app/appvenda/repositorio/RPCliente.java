@@ -14,8 +14,11 @@ import java.util.List;
 
 public class RPCliente extends Repositorio<Cliente> {
 
+    private RPTelefone rpTelefone;
+
     public RPCliente(Context context) {
         super(context);
+        this.rpTelefone = new RPTelefone(context);
     }
 
     @Override

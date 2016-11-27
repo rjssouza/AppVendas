@@ -1,10 +1,10 @@
-package com.app.bdframework.enums;
+package com.app.appvenda.enums;
 
 /**
  * Created by Robson on 24/11/2016.
  */
 
-public enum EnumStatusVenda {
+public enum EnumStatusVenda  {
 
     PAGO(1), NAO_PAGO(2);
 

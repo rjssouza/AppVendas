@@ -17,14 +17,14 @@ import java.util.List;
  */
 public abstract class Entidade {
 
-    public static List<String> getTodasColunas(Class tipo) {
+    public static String[] getTodasColunas(Class tipo) {
         List<String> todasColunas = new ArrayList<>();
         for (Field field : tipo.getDeclaredFields()) {
             if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                 todasColunas.add(field.getName());
             }
         }
-        return todasColunas;
+        return (String[]) todasColunas.toArray();
     }
 
     protected Entidade(Cursor cursor) {

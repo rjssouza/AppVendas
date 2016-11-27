@@ -10,32 +10,31 @@ import java.util.List;
  */
 public class TratamentoExcecao {
 
-    private static final List<RegraNegocioException> regraNegocioExceptions = new ArrayList<>();
-    private static final List<Exception> exceptions = new ArrayList<>();
+    private static RegraNegocioException regraNegocioException;
+    private static Exception exception;
+    private static EventoVoid<RegraNegocioMensagem> eventoRegraNegocioException = null;
     private static final List<EventoVoid<RegraNegocioMensagem>> eventoException = new ArrayList<>();
 
     public static void registrarRegraNegocioExcecao(RegraNegocioException rn) {
-        regraNegocioExceptions.add(rn);
+        regraNegocioException = rn;
     }
 
     public static void registrarExcecao(Exception e) {
-        exceptions.add(e);
+        exception = e;
     }
 
     public static void invocarEvento() {
-        if (regraNegocioExceptions.size() > 0) {
-            if (eventoException.size() > 0) {
-                for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
-                    RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exceptions, true);
-                    eventoVoid.executarEvento(regraNegocioMensagem);
-                }
+        if (regraNegocioException != null) {
+            if (eventoRegraNegocioException != null) {
+                RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException, true);
+                eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
             }
         }
 
-        if (exceptions.size() > 0) {
+        if (exception != null) {
             if (eventoException.size() > 0) {
                 for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
-                    RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exceptions, true);
+                    RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
                     eventoVoid.executarEvento(regraNegocioMensagem);
                 }
             }
@@ -44,6 +43,10 @@ public class TratamentoExcecao {
 
     public static void registrarEvento(EventoVoid<RegraNegocioMensagem> _eventoException) {
         eventoException.add(_eventoException);
+    }
+
+    public static void registrarEventoRegraNegocio(EventoVoid<RegraNegocioMensagem> _eventoRegraNegocioException) {
+        eventoRegraNegocioException = _eventoRegraNegocioException;
     }
 
 }
