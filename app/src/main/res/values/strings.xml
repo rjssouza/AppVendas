@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">AppVenda</string>
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
     <string name="msg_statusvendaincompleto">Teste</string>
     <string name="msg_clientepossuipedidospendentes">Este Cliente possui pedidos pendentes e não pode ser excluido</string>
 </resources>

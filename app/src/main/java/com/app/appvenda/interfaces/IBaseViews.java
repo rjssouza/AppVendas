@@ -5,5 +5,7 @@ package com.app.appvenda.interfaces;
  */
 
 public interface IBaseViews {
+
     void init();
+
 }
