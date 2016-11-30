@@ -32,40 +32,12 @@ import java.util.List;
 @EActivity
 public abstract class BaseActivity extends AppCompatActivity implements IBaseViews {
 
-    @ViewById
-    Toolbar toolbar;
-    @ViewById
-    DrawerLayout drawer_layout;
-    @ViewById
-    NavigationView nvView;
-
-    ActionBarDrawerToggle mDrawerToggle;
     IFragment fragmentAtual;
-    List<IFragment> listaFragment;
+    List<Class> listaFragment;
 
     @AfterViews
     public void init() {
-        setSupportActionBar(toolbar);
-        setupDrawerContent(nvView);
-        mDrawerToggle = setupDrawerToggle();
-        drawer_layout.addDrawerListener(mDrawerToggle);
         listaFragment = new ArrayList<>();
-    }
-
-    public void registrarFragment(IFragment fragment) {
-        this.listaFragment.add(fragment);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
-        mDrawerToggle.syncState();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
     @Override
@@ -75,49 +47,8 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         }
     }
 
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.drawer_open, R.string.drawer_close);
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
-    private void selectDrawerItem(final MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        Class fragmentClass = null;
-
-        for (IFragment iFragment : listaFragment) {
-            if (iFragment.getFragmentID().equals(menuItem.getTitleCondensed())) {
-                fragmentAtual = iFragment;
-                fragmentAtual.registrarEventoVoltar(new EventoVoid<IFragment>() {
-                    @Override
-                    public void executarEvento(IFragment item) {
-                        carregarFragment(item.getClass());
-                        menuItem.setChecked(true);
-                    }
-                });
-            }
-        }
-
-        carregarFragment(fragmentAtual.getClass());
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        drawer_layout.closeDrawers();
-    }
-
-    private void carregarFragment(Class fragmentClass) {
+    protected void carregarFragment(IFragment iFragment) {
+        Class fragmentClass = iFragment.getClass();
         Fragment fragment = null;
 
         try {
@@ -129,6 +60,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         // Insert the fragment by replacing any existing fragment
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.flConteudo, fragment).commit();
+    }
+
+    protected void registrarFragment(Class fragment) {
+        this.listaFragment.add(fragment);
     }
 
 }

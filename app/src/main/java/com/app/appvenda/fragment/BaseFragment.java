@@ -1,6 +1,7 @@
 package com.app.appvenda.fragment;
 
 import android.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 
 import com.app.appvenda.MainActivity;
 import com.app.appvenda.interfaces.IBaseViews;
