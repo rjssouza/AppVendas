@@ -4,20 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 
-import com.app.appvenda.fragment.FragmentVendas_;
-import com.app.appvenda.interfaces.IFragment;
+import com.app.appvenda.exportadorVenda.ExportadorVendas;
+import com.app.appvenda.exportadorVenda.ExportadorVendasDropBox;
+import com.app.appvenda.fragment.BaseFragment;
 import com.app.bdframework.eventos.EventoVoid;
-import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,6 +23,8 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+    private static final String SINC_ARQUIVOS = "Sincronizar";
+
     @ViewById
     Toolbar toolbar;
     @ViewById
@@ -36,9 +33,15 @@ public class MainActivity extends BaseActivity {
     NavigationView nvView;
 
     ActionBarDrawerToggle mDrawerToggle;
+    ExportadorVendas exportadorVendas;
 
     @AfterViews
-    void Init(){
+    void Init() {
+        configurarDrawerLayout();
+        this.exportadorVendas = new ExportadorVendasDropBox(this);
+    }
+
+    private void configurarDrawerLayout() {
         setSupportActionBar(toolbar);
         setupDrawerContent(nvView);
         mDrawerToggle = setupDrawerToggle();
@@ -47,6 +50,7 @@ public class MainActivity extends BaseActivity {
         registrarFragment(com.app.appvenda.fragment.FragmentVendas.class);
         this.nvView.getMenu().getItem(0).setChecked(true);
     }
+
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -80,20 +84,23 @@ public class MainActivity extends BaseActivity {
 
             if (fragmentClass.getSimpleName().equals(menuItem.getTitleCondensed())) {
                 try {
-                    fragmentAtual =  (IFragment) fragmentClass.newInstance();
-                    fragmentAtual.registrarEventoVoltar(new EventoVoid<IFragment>() {
+                    fragmentAtual = (BaseFragment) fragmentClass.newInstance();
+                    fragmentAtual.registrarEventoVoltar(new EventoVoid<BaseFragment>() {
                         @Override
-                        public void executarEvento(IFragment item) {
+                        public void executarEvento(BaseFragment item) {
                             carregarFragment(item);
                             menuItem.setChecked(true);
                         }
                     });
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
+                } catch (InstantiationException ex) {
+                    ex.printStackTrace();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 }
+            }
 
+            if (menuItem.getTitleCondensed().equals(SINC_ARQUIVOS)) {
+                exportadorVendas.importarBaseDados();
             }
         }
 
@@ -106,5 +113,6 @@ public class MainActivity extends BaseActivity {
         // Close the navigation drawer
         drawer_layout.closeDrawers();
     }
+
 
 }

@@ -1,11 +1,8 @@
 package com.app.appvenda.fragment;
 
-import android.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.Fragment;
 
-import com.app.appvenda.MainActivity;
 import com.app.appvenda.interfaces.IBaseViews;
-import com.app.appvenda.interfaces.IFragment;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
@@ -18,10 +15,10 @@ import org.androidannotations.annotations.EFragment;
  * Created by Robson on 29/11/2016.
  */
 @EFragment
-public abstract class BaseFragment extends Fragment implements IBaseViews, IFragment, EventoVoid<RegraNegocioMensagem> {
+public abstract class BaseFragment extends Fragment implements IBaseViews, EventoVoid<RegraNegocioMensagem> {
 
-    private IFragment fragmentPai;
-    EventoVoid<IFragment> eventoVoid;
+    private BaseFragment fragmentPai;
+    EventoVoid<BaseFragment> eventoVoid;
 
     @AfterViews
     public void init() {
@@ -46,22 +43,18 @@ public abstract class BaseFragment extends Fragment implements IBaseViews, IFrag
 
     protected abstract void executarErro(RegraNegocioMensagem item);
 
-    @Override
-    public void setFragmentPai(IFragment fragmentPai) {
+    public void setFragmentPai(BaseFragment fragmentPai) {
         this.fragmentPai = fragmentPai;
     }
 
-    @Override
     public String getFragmentID() {
         return this.getClass().getSimpleName();
     }
 
-    @Override
-    public void registrarEventoVoltar(EventoVoid<IFragment> eventoVoid) {
+    public void registrarEventoVoltar(EventoVoid<BaseFragment> eventoVoid) {
         this.eventoVoid = eventoVoid;
     }
 
-    @Override
     public void voltar() {
         eventoVoid.executarEvento(fragmentPai);
     }

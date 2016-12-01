@@ -15,6 +15,7 @@ public class Cliente extends Entidade {
     public final static String CPF = "cpf";
     public final static String ENDERECO = "endereco";
     public final static String ID_CLIENTE = "id_cliente";
+    public final static String COD_CLIENTE = "cod_cliente";
     public final static String NOME = "nome";
     public final static String RAZAO_SOCIAL = "razao_social";
 
@@ -24,6 +25,8 @@ public class Cliente extends Entidade {
 
     @ChavePrimaria
     private int id_cliente;
+    @ColunaTabela
+    private Integer cod_cliente;
     @ColunaTabela
     private String nome;
     @ColunaTabela
@@ -42,6 +45,14 @@ public class Cliente extends Entidade {
     private Boolean ativo;
     private Telefone fixo;
     private Telefone celular;
+
+    public Integer getCod_cliente() {
+        return cod_cliente;
+    }
+
+    public void setCod_cliente(Integer cod_cliente) {
+        this.cod_cliente = cod_cliente;
+    }
 
     public Telefone getFixo() {
         return fixo;
