@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -12,7 +14,9 @@ import android.view.MenuItem;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.exportadorVenda.ExportadorVendasDropBox;
 import com.app.appvenda.fragment.BaseFragment;
+import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -21,9 +25,10 @@ import org.androidannotations.annotations.ViewById;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final String SINC_ARQUIVOS = "Sincronizar";
+    private static final String FRAGM_VENDAS = "FragmentVendas";
+    private static final String FRAGM_CONFIG = "FragmentConfigurar";
 
     @ViewById
     Toolbar toolbar;
@@ -43,8 +48,8 @@ public class MainActivity extends BaseActivity {
 
     private void configurarDrawerLayout() {
         setSupportActionBar(toolbar);
-        setupDrawerContent(nvView);
-        mDrawerToggle = setupDrawerToggle();
+        nvView.setNavigationItemSelectedListener(this);
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.drawer_open, R.string.drawer_close);
         drawer_layout.addDrawerListener(mDrawerToggle);
         this.nvView.getMenu().getItem(0).setChecked(true);
     }
@@ -61,56 +66,53 @@ public class MainActivity extends BaseActivity {
         mDrawerToggle.onConfigurationChanged(newConfig);
     }
 
-    private ActionBarDrawerToggle setupDrawerToggle() {
-        return new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.drawer_open, R.string.drawer_close);
-    }
-
-    private void setupDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
-                    @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        selectDrawerItem(menuItem);
-                        return true;
-                    }
-                });
-    }
-
-    private void selectDrawerItem(final MenuItem menuItem) {
-        // Create a new fragment and specify the fragment to show based on nav item clicked
-        for (Class fragmentClass : listaFragment) {
-
-            if (fragmentClass.getSimpleName().equals(menuItem.getTitleCondensed())) {
-                try {
-                    fragmentAtual = (BaseFragment) fragmentClass.newInstance();
-                    fragmentAtual.registrarEventoVoltar(new EventoVoid<BaseFragment>() {
-                        @Override
-                        public void executarEvento(BaseFragment item) {
-                            carregarFragment(item);
-                            menuItem.setChecked(true);
-                        }
-                    });
-                } catch (InstantiationException ex) {
-                    ex.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            if (menuItem.getTitleCondensed().equals(SINC_ARQUIVOS)) {
-                exportadorVendas.importarBaseDados();
-            }
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        switch ((String) item.getTitleCondensed()) {
+            case FRAGM_VENDAS:
+                return chamarFragment(FragmentVendas_.class, item, null);
+            case FRAGM_CONFIG:
+                return true;
+            default:
+                this.exportadorVendas.exportarVendas();
+                this.exportadorVendas.importarBaseDados();
+                return true;
         }
 
-        carregarFragment(fragmentAtual);
-
-        // Highlight the selected item has been done by NavigationView
-        menuItem.setChecked(true);
-        // Set action bar title
-        setTitle(menuItem.getTitle());
-        // Close the navigation drawer
-        drawer_layout.closeDrawers();
     }
 
+    private <T extends Fragment> boolean chamarFragment(Class fragmentClass, MenuItem item, EventoVoid<T> sucessoChamadaFragment) {
+        try {
+            T fragment = (T) fragmentClass.newInstance();
 
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flConteudo, fragment).commit();
+            if (sucessoChamadaFragment != null)
+                sucessoChamadaFragment.executarEvento(fragment);
+            item.setChecked(true);
+            setTitle(item.getTitle());
+            drawer_layout.closeDrawers();
+            return true;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    @Override
+    protected void executarAlerta(RegraNegocioMensagem item) {
+
+    }
+
+    @Override
+    protected void executarPergunta(RegraNegocioMensagem item) {
+
+    }
+
+    @Override
+    protected void executarErro(RegraNegocioMensagem item) {
+
+    }
 }

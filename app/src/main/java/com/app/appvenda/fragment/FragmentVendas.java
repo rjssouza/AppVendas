@@ -14,6 +14,7 @@ public class FragmentVendas extends BaseFragment {
 
     @AfterViews
     void Init(){
+
     }
 
     @Override
