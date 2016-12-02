@@ -17,12 +17,9 @@ import org.androidannotations.annotations.EFragment;
 @EFragment
 public abstract class BaseFragment extends Fragment implements IBaseViews, EventoVoid<RegraNegocioMensagem> {
 
-    private BaseFragment fragmentPai;
-    EventoVoid<BaseFragment> eventoVoid;
-
     @AfterViews
     public void init() {
-        fragmentPai = null;
+
     }
 
     @Override
@@ -42,21 +39,5 @@ public abstract class BaseFragment extends Fragment implements IBaseViews, Event
     protected abstract void executarPergunta(RegraNegocioMensagem item);
 
     protected abstract void executarErro(RegraNegocioMensagem item);
-
-    public void setFragmentPai(BaseFragment fragmentPai) {
-        this.fragmentPai = fragmentPai;
-    }
-
-    public String getFragmentID() {
-        return this.getClass().getSimpleName();
-    }
-
-    public void registrarEventoVoltar(EventoVoid<BaseFragment> eventoVoid) {
-        this.eventoVoid = eventoVoid;
-    }
-
-    public void voltar() {
-        eventoVoid.executarEvento(fragmentPai);
-    }
 
 }

@@ -46,8 +46,6 @@ public class MainActivity extends BaseActivity {
         setupDrawerContent(nvView);
         mDrawerToggle = setupDrawerToggle();
         drawer_layout.addDrawerListener(mDrawerToggle);
-
-        registrarFragment(com.app.appvenda.fragment.FragmentVendas.class);
         this.nvView.getMenu().getItem(0).setChecked(true);
     }
 
