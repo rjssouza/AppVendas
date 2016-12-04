@@ -14,7 +14,7 @@
             android:orientation="vertical">
 
             <Switch
-                android:id="@+id/tipoConfig"
+                android:id="@+id/swtTipoConfig"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

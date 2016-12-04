@@ -1,8 +1,8 @@
 package com.app.appvenda.modelos;
 
-import android.net.Uri;
-
 import com.app.appvenda.enums.EnumTipoConfiguracao;
+
+import java.net.URI;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -10,86 +10,86 @@ import com.app.appvenda.enums.EnumTipoConfiguracao;
 
 public class MConfiguracao {
 
-    private Integer IdConfiguracao;
-    private EnumTipoConfiguracao TipoConfig;
-    private Uri EnderecoServico;
-    private String PastaFotos;
-    private String PastaCliente;
-    private String PastaEstoque;
-    private String PastaProduto;
-    private String PastaVenda;
-    private String PastaVendedor;
+    private Integer idConfiguracao;
+    private EnumTipoConfiguracao tipoConfig;
+    private URI enderecoServico;
+    private String pastaFotos;
+    private String pastaCliente;
+    private String pastaEstoque;
+    private String pastaProduto;
+    private String pastaVenda;
+    private String pastaVendedor;
 
     public Integer getIdConfiguracao() {
-        return IdConfiguracao;
+        return idConfiguracao;
     }
 
     public void setIdConfiguracao(Integer idConfiguracao) {
-        IdConfiguracao = idConfiguracao;
-    }
-
-    public Uri getEnderecoServico() {
-        return EnderecoServico;
-    }
-
-    public void setEnderecoServico(Uri enderecoServico) {
-        EnderecoServico = enderecoServico;
-    }
-
-    public String getPastaFotos() {
-        return PastaFotos;
-    }
-
-    public void setPastaFotos(String pastaFotos) {
-        PastaFotos = pastaFotos;
+        this.idConfiguracao = idConfiguracao;
     }
 
     public EnumTipoConfiguracao getTipoConfig() {
-        return TipoConfig;
+        return tipoConfig;
     }
 
     public void setTipoConfig(EnumTipoConfiguracao tipoConfig) {
-        TipoConfig = tipoConfig;
+        this.tipoConfig = tipoConfig;
+    }
+
+    public URI getEnderecoServico() {
+        return enderecoServico;
+    }
+
+    public void setEnderecoServico(URI enderecoServico) {
+        this.enderecoServico = enderecoServico;
+    }
+
+    public String getPastaFotos() {
+        return pastaFotos;
+    }
+
+    public void setPastaFotos(String pastaFotos) {
+        this.pastaFotos = pastaFotos;
     }
 
     public String getPastaCliente() {
-        return PastaCliente;
+        return pastaCliente;
     }
 
     public void setPastaCliente(String pastaCliente) {
-        PastaCliente = pastaCliente;
+        this.pastaCliente = pastaCliente;
     }
 
     public String getPastaEstoque() {
-        return PastaEstoque;
+        return pastaEstoque;
     }
 
     public void setPastaEstoque(String pastaEstoque) {
-        PastaEstoque = pastaEstoque;
+        this.pastaEstoque = pastaEstoque;
     }
 
     public String getPastaProduto() {
-        return PastaProduto;
+        return pastaProduto;
     }
 
     public void setPastaProduto(String pastaProduto) {
-        PastaProduto = pastaProduto;
+        this.pastaProduto = pastaProduto;
     }
 
     public String getPastaVenda() {
-        return PastaVenda;
+        return pastaVenda;
     }
 
     public void setPastaVenda(String pastaVenda) {
-        PastaVenda = pastaVenda;
+        this.pastaVenda = pastaVenda;
     }
 
     public String getPastaVendedor() {
-        return PastaVendedor;
+        return pastaVendedor;
     }
 
     public void setPastaVendedor(String pastaVendedor) {
-        PastaVendedor = pastaVendedor;
+        this.pastaVendedor = pastaVendedor;
     }
 
 }
