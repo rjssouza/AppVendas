@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Switch
+                android:id="@+id/tipoConfig"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <EditText
+                android:id="@+id/txtEndServicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="EnderecoServico" />
+
+            <EditText
+                android:id="@+id/txtPastaFotos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaFotos" />
+
+            <EditText
+                android:id="@+id/txtPastaCliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaCliente" />
+
+            <EditText
+                android:id="@+id/txtPastaEstoque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaEstoque" />
+
+            <EditText
+                android:id="@+id/txtPastaProdutos"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaProduto" />
+
+            <EditText
+                android:id="@+id/txtPastaVenda"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaVenda" />
+
+            <EditText
+                android:id="@+id/txtPastaVendedor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaVendedor" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+
+    <Button
+        android:id="@+id/btnSalvar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Salvar" />
+</LinearLayout>

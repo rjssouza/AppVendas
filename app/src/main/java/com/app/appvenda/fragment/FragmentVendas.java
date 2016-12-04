@@ -1,7 +1,7 @@
 package com.app.appvenda.fragment;
 
 import com.app.appvenda.R;
-import com.app.bdframework.excecoes.RegraNegocioMensagem;
+import com.app.appvenda.fragment.Base.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -14,21 +14,6 @@ public class FragmentVendas extends BaseFragment {
 
     @AfterViews
     void Init(){
-
     }
 
-    @Override
-    protected void executarAlerta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarPergunta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarErro(RegraNegocioMensagem item) {
-
-    }
 }

@@ -1,29 +1,18 @@
-package com.app.appvenda;
+package com.app.appvenda.fragment.Base;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
-
-import com.app.appvenda.fragment.BaseFragment;
-import com.app.appvenda.interfaces.IBaseViews;
 import com.app.bdframework.enums.EnumTipoMensagem;
+import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EActivity;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
- * Classe base para activities
+ * Created by Robson on 03/12/2016.
  */
-@EActivity
-public abstract class BaseActivity extends AppCompatActivity implements IBaseViews {
 
-    @AfterViews
-    public void init() {
+public abstract class BaseFragmentRN extends BaseFragment implements EventoVoid<RegraNegocioMensagem> {
+
+    public BaseFragmentRN() {
         TratamentoExcecao.registrarEvento(this);
     }
 

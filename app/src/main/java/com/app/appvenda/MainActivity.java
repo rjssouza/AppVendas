@@ -3,20 +3,22 @@ package com.app.appvenda;
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
+import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.exportadorVenda.ExportadorVendasDropBox;
-import com.app.appvenda.fragment.BaseFragment;
+import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
-import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -33,7 +35,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @ViewById
     Toolbar toolbar;
     @ViewById
-    DrawerLayout drawer_layout;
+    DrawerLayout drawerLayout;
     @ViewById
     NavigationView nvView;
 
@@ -43,14 +45,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @AfterViews
     void Init() {
         configurarDrawerLayout();
+        configurarFragmentPrincipal();
         this.exportadorVendas = new ExportadorVendasDropBox(this);
     }
 
     private void configurarDrawerLayout() {
         setSupportActionBar(toolbar);
         nvView.setNavigationItemSelectedListener(this);
-        mDrawerToggle = new ActionBarDrawerToggle(this, drawer_layout, toolbar, R.string.drawer_open, R.string.drawer_close);
-        drawer_layout.addDrawerListener(mDrawerToggle);
+        mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
+        drawerLayout.addDrawerListener(mDrawerToggle);
+    }
+
+    private void configurarFragmentPrincipal() {
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
+        tx.replace(R.id.flConteudo, new FragmentVendas_());
+        tx.commit();
         this.nvView.getMenu().getItem(0).setChecked(true);
     }
 
@@ -67,12 +76,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch ((String) item.getTitleCondensed()) {
             case FRAGM_VENDAS:
                 return chamarFragment(FragmentVendas_.class, item, null);
             case FRAGM_CONFIG:
-                return true;
+                return chamarFragment(FragmentConfigurar_.class, item, null);
             default:
                 this.exportadorVendas.exportarVendas();
                 this.exportadorVendas.importarBaseDados();
@@ -91,28 +100,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 sucessoChamadaFragment.executarEvento(fragment);
             item.setChecked(true);
             setTitle(item.getTitle());
-            drawer_layout.closeDrawers();
+            drawerLayout.closeDrawers();
             return true;
         } catch (InstantiationException e) {
             e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
         }
         return false;
     }
 
-    @Override
-    protected void executarAlerta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarPergunta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarErro(RegraNegocioMensagem item) {
-
-    }
 }

@@ -7,7 +7,7 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
  * Interface para operações basicas entre active view e fragment view
  */
 
-public interface IBaseViews extends EventoVoid<RegraNegocioMensagem> {
+public interface IBaseViews {
 
     void init();
 

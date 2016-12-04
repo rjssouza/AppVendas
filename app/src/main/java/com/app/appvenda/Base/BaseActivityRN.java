@@ -1,25 +1,18 @@
-package com.app.appvenda.fragment;
+package com.app.appvenda.base;
 
-import android.support.v4.app.Fragment;
-
-import com.app.appvenda.interfaces.IBaseViews;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EFragment;
-
 /**
- * Created by Robson on 29/11/2016.
+ * Created by Robson on 03/12/2016.
  */
-@EFragment
-public abstract class BaseFragment extends Fragment implements IBaseViews {
 
-    @AfterViews
-    public void init() {
+public abstract class BaseActivityRN extends BaseActivity implements EventoVoid<RegraNegocioMensagem> {
+
+    public BaseActivityRN() {
         TratamentoExcecao.registrarEvento(this);
     }
 

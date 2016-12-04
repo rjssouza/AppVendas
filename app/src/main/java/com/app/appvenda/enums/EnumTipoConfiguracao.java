@@ -4,7 +4,7 @@ package com.app.appvenda.enums;
  * Created by Robson on 30/11/2016.
  */
 
-public enum  EnumTipoConfiguracao {
+public enum EnumTipoConfiguracao {
 
     DROPBOX(1), SERVICO(2);
 
