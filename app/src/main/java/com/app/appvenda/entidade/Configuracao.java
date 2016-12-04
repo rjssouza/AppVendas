@@ -24,10 +24,11 @@ public class Configuracao extends Entidade {
 
     public Configuracao(Cursor cursor) {
         super(cursor);
+        id_configuracao = null;
     }
 
     @ChavePrimaria
-    private int id_configuracao;
+    private Integer id_configuracao;
     @ColunaTabela
     private String endereco_servico;
     @ColunaTabela

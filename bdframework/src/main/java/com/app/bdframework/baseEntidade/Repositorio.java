@@ -8,7 +8,6 @@ import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
 import com.app.bdframework.utils.ListaUtils;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -25,7 +24,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     private void salvarEntidade(TEntidade entidade) {
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
-                new String[]{parCampoValor.getValor().toString()}) > 0;
+                new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
         if (existe)
             this.getReadableDatabase().update(getNomeTabela(), entidade.getContentValue(),
                     parCampoValor.getNomeCampo() + " = ?",

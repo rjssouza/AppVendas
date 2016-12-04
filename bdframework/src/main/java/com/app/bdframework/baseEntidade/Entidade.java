@@ -72,7 +72,14 @@ public abstract class Entidade {
                 ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
                 if (chavePrimaria != null) {
                     try {
-                        return new ParCampoValor<>(field.getInt(this), field.getName());
+                        switch (field.getType().getSimpleName().toUpperCase()) {
+                            case "INT":
+                                return new ParCampoValor<>(field.getInt(this), field.getName());
+                            case "INTEGER":
+                                return new ParCampoValor<>((Integer) field.get(this), field.getName());
+                            default:
+                                return null;
+                        }
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }

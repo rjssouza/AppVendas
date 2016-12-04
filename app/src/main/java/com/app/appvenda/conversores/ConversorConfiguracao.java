@@ -17,6 +17,7 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
     @Override
     public Configuracao converterDePara(MConfiguracao mConfiguracao) {
         Configuracao configuracao = new Configuracao(null);
+        configuracao.setId_configuracao(mConfiguracao.getIdConfiguracao());
         configuracao.setEndereco_servico(mConfiguracao.getEnderecoServico().toString());
         configuracao.setTipo_config(mConfiguracao.getTipoConfig().getNumVal().shortValue());
         configuracao.setPasta_cliente(mConfiguracao.getPastaCliente());
@@ -33,7 +34,7 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
         MConfiguracao mConfiguracao = new MConfiguracao();
         try {
             mConfiguracao.setPastaCliente(configuracao.getPasta_cliente());
-            EnumTipoConfiguracao enumTipoConfiguracao = null;
+            EnumTipoConfiguracao enumTipoConfiguracao;
             if (configuracao.getTipo_config() == 1)
                 enumTipoConfiguracao = EnumTipoConfiguracao.DROPBOX;
             else

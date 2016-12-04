@@ -20,6 +20,10 @@ public class MConfiguracao {
     private String pastaVenda;
     private String pastaVendedor;
 
+    public MConfiguracao(){
+        idConfiguracao = null;
+    }
+
     public Integer getIdConfiguracao() {
         return idConfiguracao;
     }
