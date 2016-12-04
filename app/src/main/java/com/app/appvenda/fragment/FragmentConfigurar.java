@@ -50,6 +50,8 @@ public class FragmentConfigurar extends BaseFragmentRN {
     void Init() {
         mConfiguracao = new MConfiguracao();
         configuracaoDAO = new ConfiguracaoDAO(this.getContext());
+
+        swtTipoConfig.setChecked(true);
     }
 
     @CheckedChange(R.id.swtTipoConfig)
@@ -70,7 +72,6 @@ public class FragmentConfigurar extends BaseFragmentRN {
         try {
             uri = new URI(enderecoUri);
             mConfiguracao.setEnderecoServico(uri);
-            mConfiguracao.setIdConfiguracao(Integer.parseInt(txtEndServicio.getText().toString()));
             mConfiguracao.setPastaCliente(txtPastaCliente.getText().toString());
             mConfiguracao.setPastaEstoque(txtPastaEstoque.getText().toString());
             mConfiguracao.setPastaProduto(txtPastaProdutos.getText().toString());

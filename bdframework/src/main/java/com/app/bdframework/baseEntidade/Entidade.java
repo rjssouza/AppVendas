@@ -86,25 +86,27 @@ public abstract class Entidade {
             if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
                 try {
-                    switch (field.getType().getSimpleName().toUpperCase()) {
-                        case "STRING":
-                            contentValues.put(field.getName(), field.get(this).toString());
-                            break;
-                        case "BOOLEAN":
-                            contentValues.put(field.getName(), field.getBoolean(this));
-                            break;
-                        case "INT":
-                        case "INTEGER":
-                            contentValues.put(field.getName(), field.getInt(this));
-                            break;
-                        case "LONG":
-                            contentValues.put(field.getName(), field.getLong(this));
-                            break;
-                        case "DOUBLE":
-                            contentValues.put(field.getName(), field.getDouble(this));
-                            break;
-                        default:
-                            break;
+                    if(field.get(this) != null) {
+                        switch (field.getType().getSimpleName().toUpperCase()) {
+                            case "STRING":
+                                contentValues.put(field.getName(), field.get(this).toString());
+                                break;
+                            case "BOOLEAN":
+                                contentValues.put(field.getName(), field.getBoolean(this));
+                                break;
+                            case "INT":
+                            case "INTEGER":
+                                contentValues.put(field.getName(), field.getInt(this));
+                                break;
+                            case "LONG":
+                                contentValues.put(field.getName(), field.getLong(this));
+                                break;
+                            case "DOUBLE":
+                                contentValues.put(field.getName(), field.getDouble(this));
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();

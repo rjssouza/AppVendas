@@ -2,6 +2,8 @@ package com.app.appvenda.entidade;
 
 import android.database.Cursor;
 
+import com.app.bdframework.auxiliar.ChavePrimaria;
+import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 /**
@@ -16,7 +18,7 @@ public class Configuracao extends Entidade {
     public final static String TIPO_CONFIG = "tipo_config";
     public final static String PASTA_CLIENTE = "pasta_cliente";
     public final static String PASTA_ESTOQUE = "pasta_estoque";
-    public final static String PASTA_PRODUTO = "pasta_produto" ;
+    public final static String PASTA_PRODUTO = "pasta_produto";
     public final static String PASTA_VENDA = "pasta_venda";
     public final static String PASTA_VENDEDOR = "pasta_vendedor";
 
@@ -24,14 +26,23 @@ public class Configuracao extends Entidade {
         super(cursor);
     }
 
-    private Integer id_configuracao;
+    @ChavePrimaria
+    private int id_configuracao;
+    @ColunaTabela
     private String endereco_servico;
+    @ColunaTabela
     private String pasta_fotos;
+    @ColunaTabela
     private Short tipo_config;
+    @ColunaTabela
     private String pasta_cliente;
+    @ColunaTabela
     private String pasta_estoque;
-    private String pasta_produto ;
+    @ColunaTabela
+    private String pasta_produto;
+    @ColunaTabela
     private String pasta_venda;
+    @ColunaTabela
     private String pasta_vendedor;
 
     public Integer getId_configuracao() {

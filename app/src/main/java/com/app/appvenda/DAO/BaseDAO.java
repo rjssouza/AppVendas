@@ -20,7 +20,10 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
 
     BaseDAO(Context context) {
         this.context = context;
+        this.repositorio = obterRepositorio(context);
     }
+
+    protected abstract Repositorio<TEntidade> obterRepositorio(Context context);
 
     public abstract void salvar(TModelo tModelo, String[] regrasIgnorar);
 

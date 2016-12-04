@@ -3,7 +3,12 @@ package com.app.appvenda;
 import android.app.Application;
 import android.util.Log;
 
+import com.app.appvenda.conversores.ConversorConfiguracao;
+import com.app.appvenda.entidade.Configuracao;
 import com.app.appvenda.eventosExcecao.TratamentoEventoGeral;
+import com.app.appvenda.repositorio.RPConfiguracao;
+import com.app.bdframework.BDHelper;
+import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.TradutorMensagemException;
 
@@ -15,6 +20,9 @@ public class AppVendaApp extends Application {
         super.onCreate();
 
         TratamentoExcecao.registrarEvento(new TratamentoEventoGeral());
+        ConversorHelper.registrarConversor(new ConversorConfiguracao());
+        BDHelper<Configuracao> configuracaoBDHelper = new RPConfiguracao(this.getApplicationContext());
+        configuracaoBDHelper.salvarBDLocal();
     }
 
     private void addUnhandledEventGlobal() {

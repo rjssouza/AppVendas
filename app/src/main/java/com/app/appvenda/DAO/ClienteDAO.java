@@ -14,19 +14,22 @@ import java.util.List;
 
 public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
 
-    private RPCliente rpCliente;
     private RPTelefone rpTelefone;
 
     public ClienteDAO(Context context) {
         super(context);
-        this.rpCliente = new RPCliente(context);
         this.rpTelefone = new RPTelefone(context);
+    }
+
+    @Override
+    protected Repositorio<Cliente> obterRepositorio(Context context) {
+        return new RPCliente(context);
     }
 
     @Override
     public void salvar(MCliente mCliente, String[] regrasIgnorar) {
         Cliente cliente = ConversorHelper.converter(mCliente);
-        this.rpCliente.salvar(cliente, regrasIgnorar);
+        this.repositorio.salvar(cliente, regrasIgnorar);
         this.rpTelefone.salvar(cliente.getCelular(), regrasIgnorar);
         this.rpTelefone.salvar(cliente.getFixo(), regrasIgnorar);
     }
