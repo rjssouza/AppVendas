@@ -13,7 +13,7 @@ import com.app.bdframework.excecoes.TratamentoExcecao;
 public abstract class BaseFragmentRN extends BaseFragment implements EventoVoid<RegraNegocioMensagem> {
 
     public BaseFragmentRN() {
-        TratamentoExcecao.registrarEvento(this);
+        TratamentoExcecao.registrarEventoRegraNegocio(this);
     }
 
     @Override

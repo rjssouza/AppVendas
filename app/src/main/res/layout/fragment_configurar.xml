@@ -22,43 +22,43 @@
                 android:id="@+id/txtEndServicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="EnderecoServico" />
+                android:hint="EnderecoServico"/>
 
             <EditText
                 android:id="@+id/txtPastaFotos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaFotos" />
+                android:hint="PastaFotos"/>
 
             <EditText
                 android:id="@+id/txtPastaCliente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaCliente" />
+                android:hint="PastaCliente"/>
 
             <EditText
                 android:id="@+id/txtPastaEstoque"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaEstoque" />
+                android:hint="PastaEstoque"/>
 
             <EditText
                 android:id="@+id/txtPastaProdutos"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaProduto" />
+                android:hint="PastaProduto"/>
 
             <EditText
                 android:id="@+id/txtPastaVenda"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaVenda" />
+                android:hint="PastaVenda"/>
 
             <EditText
                 android:id="@+id/txtPastaVendedor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="PastaVendedor" />
+                android:hint="PastaVendedor"/>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>

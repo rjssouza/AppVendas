@@ -2,13 +2,11 @@ package com.app.bdframework.baseEntidade;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.os.Environment;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +22,8 @@ public abstract class Entidade {
                 todasColunas.add(field.getName());
             }
         }
-        return (String[]) todasColunas.toArray();
+        String[] todasColunas_ = todasColunas.toArray(new String[todasColunas.size()]);
+        return todasColunas_;
     }
 
     protected Entidade(Cursor cursor) {
@@ -47,6 +46,9 @@ public abstract class Entidade {
                                     break;
                                 case "LONG":
                                     field.set(this, cursor.getLong(cursor.getColumnIndex(field.getName())));
+                                    break;
+                                case "SHORT":
+                                    field.set(this, cursor.getShort(cursor.getColumnIndex(field.getName())));
                                     break;
                                 case "DOUBLE":
                                     field.set(this, cursor.getDouble(cursor.getColumnIndex(field.getName())));
@@ -86,7 +88,7 @@ public abstract class Entidade {
             if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
                 try {
-                    if(field.get(this) != null) {
+                    if (field.get(this) != null) {
                         switch (field.getType().getSimpleName().toUpperCase()) {
                             case "STRING":
                                 contentValues.put(field.getName(), field.get(this).toString());
@@ -95,11 +97,16 @@ public abstract class Entidade {
                                 contentValues.put(field.getName(), field.getBoolean(this));
                                 break;
                             case "INT":
-                            case "INTEGER":
                                 contentValues.put(field.getName(), field.getInt(this));
+                                break;
+                            case "INTEGER":
+                                contentValues.put(field.getName(), (Integer) field.get(this));
                                 break;
                             case "LONG":
                                 contentValues.put(field.getName(), field.getLong(this));
+                                break;
+                            case "SHORT":
+                                contentValues.put(field.getName(), (Short) field.get(this));
                                 break;
                             case "DOUBLE":
                                 contentValues.put(field.getName(), field.getDouble(this));

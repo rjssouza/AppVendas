@@ -15,6 +15,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.net.URI;
@@ -54,8 +55,23 @@ public class FragmentConfigurar extends BaseFragmentRN {
         swtTipoConfig.setChecked(true);
     }
 
+    @UiThread
+    void configurarPreenchimento() {
+        if (mConfiguracao.getEnderecoServico() != null)
+            txtEndServicio.setText(mConfiguracao.getEnderecoServico().toString());
+        else
+            txtEndServicio.setText("");
+        txtPastaCliente.setText(mConfiguracao.getPastaCliente());
+        txtPastaEstoque.setText(mConfiguracao.getPastaEstoque());
+        txtPastaFotos.setText(mConfiguracao.getPastaFotos());
+        txtPastaProdutos.setText(mConfiguracao.getPastaProduto());
+        txtPastaVenda.setText(mConfiguracao.getPastaVenda());
+        txtPastaVendedor.setText(mConfiguracao.getPastaVendedor());
+    }
+
     @CheckedChange(R.id.swtTipoConfig)
     void tipoConfig() {
+        mConfiguracao = new MConfiguracao();
         if (swtTipoConfig.isChecked()) {
             mConfiguracao.setTipoConfig(EnumTipoConfiguracao.DROPBOX);
             swtTipoConfig.setText("DROPBOX");
@@ -63,6 +79,13 @@ public class FragmentConfigurar extends BaseFragmentRN {
             mConfiguracao.setTipoConfig(EnumTipoConfiguracao.SERVICO);
             swtTipoConfig.setText("SERVICO");
         }
+        preencherTela();
+    }
+
+    private void preencherTela() {
+        MConfiguracao mConfiguracao1 = configuracaoDAO.obterConfiguracao(mConfiguracao.getTipoConfig());
+        mConfiguracao = mConfiguracao1 != null ? mConfiguracao1 : mConfiguracao;
+        configurarPreenchimento();
     }
 
     @Click(R.id.btnSalvar)

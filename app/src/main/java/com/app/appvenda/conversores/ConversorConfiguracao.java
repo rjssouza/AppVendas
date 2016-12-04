@@ -45,6 +45,7 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
             mConfiguracao.setEnderecoServico(new URI(configuracao.getEndereco_servico()));
             mConfiguracao.setPastaProduto(configuracao.getPasta_produto());
             mConfiguracao.setPastaVenda(configuracao.getPasta_venda());
+            mConfiguracao.setPastaFotos(configuracao.getPasta_fotos());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }
