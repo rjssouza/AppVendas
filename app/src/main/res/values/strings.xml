@@ -4,4 +4,8 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="msg_statusvendaincompleto">Teste</string>
     <string name="msg_clientepossuipedidospendentes">Este Cliente possui pedidos pendentes e não pode ser excluido</string>
+    <string name="aceitar">Aceitar</string>
+    <string name="cancelar">Cancelar</string>
+    <string name="sim">Sim</string>
+    <string name="nao">Não</string>
 </resources>

@@ -13,21 +13,23 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.app.appvenda.base.BaseActivity;
+import com.app.appvenda.base.BaseActivityRN;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.exportadorVenda.ExportadorVendasDropBox;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivityRN implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String FRAGM_VENDAS = "FragmentVendas";
     private static final String FRAGM_CONFIG = "FragmentConfigurar";
@@ -83,11 +85,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             case FRAGM_CONFIG:
                 return chamarFragment(FragmentConfigurar_.class, item, null);
             default:
-                this.exportadorVendas.exportarVendas();
-                this.exportadorVendas.importarBaseDados();
+                this.sincronizar();
                 return true;
         }
+    }
 
+    @Background
+    void sincronizar() {
+        this.exportadorVendas.exportarVendas();
+        this.exportadorVendas.importarBaseDados();
     }
 
     private <T extends Fragment> boolean chamarFragment(Class fragmentClass, MenuItem item, EventoVoid<T> sucessoChamadaFragment) {
@@ -110,4 +116,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return false;
     }
 
+    @Override
+    protected void executarAlerta(RegraNegocioMensagem item) {
+        this.exibirMensagemToast(item.getMensagem());
+    }
+
+    @Override
+    protected void executarPergunta(RegraNegocioMensagem item) {
+        this.exibirMensagemToast(item.getMensagem());
+    }
+
+    @Override
+    protected void executarErro(RegraNegocioMensagem item) {
+        this.exibirMensagemToast(item.getMensagem());
+    }
 }

@@ -6,7 +6,7 @@ import android.widget.Switch;
 import com.app.appvenda.DAO.ConfiguracaoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
-import com.app.appvenda.fragment.Base.BaseFragmentRN;
+import com.app.appvenda.fragment.base.BaseFragmentRN;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;

@@ -1,7 +1,7 @@
 package com.app.appvenda.fragment;
 
 import com.app.appvenda.R;
-import com.app.appvenda.fragment.Base.BaseFragment;
+import com.app.appvenda.fragment.base.BaseFragment;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;

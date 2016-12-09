@@ -24,7 +24,8 @@ public class Configuracao extends Entidade {
 
     public Configuracao(Cursor cursor) {
         super(cursor);
-        id_configuracao = null;
+        if (cursor == null)
+            id_configuracao = null;
     }
 
     @ChavePrimaria

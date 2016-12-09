@@ -1,4 +1,4 @@
-package com.app.appvenda.fragment.Base;
+package com.app.appvenda.fragment.base;
 
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;

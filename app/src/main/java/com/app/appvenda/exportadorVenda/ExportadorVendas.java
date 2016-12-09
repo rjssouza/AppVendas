@@ -3,6 +3,7 @@ package com.app.appvenda.exportadorVenda;
 import android.content.Context;
 
 import com.app.appvenda.DAO.ClienteDAO;
+import com.app.appvenda.DAO.ConfiguracaoDAO;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MProduto;
@@ -18,11 +19,13 @@ import java.util.ArrayList;
 public abstract class ExportadorVendas {
 
     private ClienteDAO clienteDAO;
-
+    public ConfiguracaoDAO configuracaoDAO;
     protected Context context;
 
     ExportadorVendas(Context context) {
         this.context = context;
+        clienteDAO = new ClienteDAO(context);
+        configuracaoDAO = new ConfiguracaoDAO(context);
     }
 
     public void importarBaseDados() {
