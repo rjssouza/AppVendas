@@ -32,7 +32,6 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
     @Override
     public MConfiguracao converterParaDe(Configuracao configuracao) {
         MConfiguracao mConfiguracao = new MConfiguracao();
-        try {
             mConfiguracao.setPastaCliente(configuracao.getPasta_cliente());
             EnumTipoConfiguracao enumTipoConfiguracao;
             if (configuracao.getTipo_config() == 1)
@@ -43,13 +42,11 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
             mConfiguracao.setIdConfiguracao(configuracao.getId_configuracao());
             mConfiguracao.setPastaEstoque(configuracao.getPasta_estoque());
             mConfiguracao.setPastaVendedor(configuracao.getPasta_vendedor());
-            mConfiguracao.setEnderecoServico(new URI(configuracao.getEndereco_servico()));
+            mConfiguracao.setEnderecoServico(configuracao.getEndereco_servico());
             mConfiguracao.setPastaProduto(configuracao.getPasta_produto());
             mConfiguracao.setPastaVenda(configuracao.getPasta_venda());
             mConfiguracao.setPastaFotos(configuracao.getPasta_fotos());
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+
         return mConfiguracao;
     }
 

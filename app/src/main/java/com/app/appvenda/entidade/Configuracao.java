@@ -6,6 +6,9 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
 /**
  * Created by Robson on 30/11/2016.
  */

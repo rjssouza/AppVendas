@@ -11,6 +11,8 @@ import com.app.appvenda.modelos.MVendedor;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,6 +21,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -68,8 +72,21 @@ public class ExportadorVendasDropBox extends ExportadorVendas {
 
     private String obterTexto(String pasta, String arquivo) throws IOException {
         List<String> tempArray = new ArrayList<String>();
-        URI url = mConfiguracao.getEnderecoServico();
-        URL url2 = new URL(url.toString() + "/" + pasta + "/" + arquivo);
+        URI url = mConfiguracao.getEnderecoCompleto(pasta, arquivo);
+        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+
+        asyncHttpClient.get(context, url.toString(), new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
 
         URLConnection con = url2.openConnection();
         InputStream stream = con.getInputStream();

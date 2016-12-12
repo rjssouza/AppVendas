@@ -3,6 +3,7 @@ package com.app.appvenda.modelos;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -12,15 +13,15 @@ public class MConfiguracao {
 
     private Integer idConfiguracao;
     private EnumTipoConfiguracao tipoConfig;
-    private URI enderecoServico;
     private String pastaFotos;
+    private String enderecoServico;
     private String pastaCliente;
     private String pastaEstoque;
     private String pastaProduto;
     private String pastaVenda;
     private String pastaVendedor;
 
-    public MConfiguracao(){
+    public MConfiguracao() {
         idConfiguracao = null;
     }
 
@@ -40,11 +41,11 @@ public class MConfiguracao {
         this.tipoConfig = tipoConfig;
     }
 
-    public URI getEnderecoServico() {
+    public String getEnderecoServico() {
         return enderecoServico;
     }
 
-    public void setEnderecoServico(URI enderecoServico) {
+    public void setEnderecoServico(String enderecoServico) {
         this.enderecoServico = enderecoServico;
     }
 
@@ -96,4 +97,13 @@ public class MConfiguracao {
         this.pastaVendedor = pastaVendedor;
     }
 
+
+    public URI getEnderecoCompleto(String pasta, String arquivo) {
+        try {
+            return new URI(this.enderecoServico + "/" + pasta + "/" + arquivo);
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
