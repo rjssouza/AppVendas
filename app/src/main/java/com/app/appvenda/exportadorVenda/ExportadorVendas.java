@@ -4,11 +4,11 @@ import android.content.Context;
 
 import com.app.appvenda.DAO.ClienteDAO;
 import com.app.appvenda.DAO.ConfiguracaoDAO;
+import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
-import com.app.appvenda.modelos.MEstoque;
-import com.app.appvenda.modelos.MProduto;
+import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MVenda;
-import com.app.appvenda.modelos.MVendedor;
+import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
@@ -18,21 +18,35 @@ import java.util.ArrayList;
  * Created by Robson on 30/11/2016.
  */
 
-public abstract class ExportadorVendas {
+public class ExportadorVendas {
 
     private ClienteDAO clienteDAO;
-    public ConfiguracaoDAO configuracaoDAO;
-    protected Context context;
+    private ConfiguracaoDAO configuracaoDAO;
+    private Context context;
+    private IExportadorVendas iExportadorVendas;
 
-    ExportadorVendas(Context context) {
+    public ExportadorVendas(Context context) {
         this.context = context;
         clienteDAO = new ClienteDAO(context);
         configuracaoDAO = new ConfiguracaoDAO(context);
     }
 
-    public void importarBaseDados() {
+    private MConfiguracao getmConfiguracao() throws RegraNegocioException {
+        MConfiguracao mConfiguracao = null;
+        if (mConfiguracao == null) {
+            mConfiguracao = this.configuracaoDAO.obterConfiguracao(EnumTipoConfiguracao.DROPBOX);
+            if (mConfiguracao == null)
+                throw new RegraNegocioException("", EnumTipoMensagem.ERRO);
+        }
+        return mConfiguracao;
+    }
+
+    public void evetuarSincronizacao() {
         try {
-            importarClientes();
+            MConfiguracao mConfiguracao = getmConfiguracao();
+            this.iExportadorVendas = mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX ? new ExportadorVendasDropBox(context, mConfiguracao) : null;
+            importarBaseDados();
+            exportarVendas();
         } catch (RegraNegocioException e) {
             TratamentoExcecao.registrarRegraNegocioExcecao(e);
         } finally {
@@ -40,25 +54,21 @@ public abstract class ExportadorVendas {
         }
     }
 
-    public void exportarVendas() {
-        ArrayList<MVenda> mVenda = obterVendasEfetuadas();
-
+    private void importarBaseDados() throws RegraNegocioException {
+        importarClientes();
     }
 
-    protected abstract ArrayList<MCliente> obterClientes() throws RegraNegocioException;
+    private void exportarVendas() {
+        ArrayList<MVenda> mVenda = obterVendasEfetuadas();
+    }
 
-    protected abstract ArrayList<MEstoque> obterEstoques() throws RegraNegocioException;
-
-    protected abstract ArrayList<MProduto> obterProdutos() throws RegraNegocioException;
-
-    protected abstract ArrayList<MVendedor> obterVendedores() throws RegraNegocioException;
 
     private ArrayList<MVenda> obterVendasEfetuadas() {
         return null;
     }
 
     private void importarClientes() throws RegraNegocioException {
-        ArrayList<MCliente> mClientes = obterClientes();
+        ArrayList<MCliente> mClientes = iExportadorVendas.obterClientes();
         for (MCliente mCliente : mClientes) {
             clienteDAO.salvar(mCliente, null);
         }

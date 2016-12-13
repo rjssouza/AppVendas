@@ -2,6 +2,8 @@ package com.app.appvenda.exportadorVenda;
 
 import android.content.Context;
 
+import com.app.appvenda.DAO.ConfiguracaoDAO;
+import com.app.appvenda.entidade.Configuracao;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
@@ -23,47 +25,40 @@ import cz.msebera.android.httpclient.Header;
  * Created by Robson on 30/11/2016.
  */
 
-public class ExportadorVendasDropBox extends ExportadorVendas {
+public class ExportadorVendasDropBox implements IExportadorVendas {
 
-    private MConfiguracao getmConfiguracao() throws RegraNegocioException {
-        MConfiguracao mConfiguracao = null;
-        if (mConfiguracao == null) {
-            mConfiguracao = this.configuracaoDAO.obterConfiguracao(EnumTipoConfiguracao.DROPBOX);
-            if (mConfiguracao == null)
-                throw new RegraNegocioException("", EnumTipoMensagem.ERRO);
-        }
-        return mConfiguracao;
-    }
+    private Context context;
+    private MConfiguracao mConfiguracao;
 
-    public ExportadorVendasDropBox(Context context) {
-        super(context);
-
+    public ExportadorVendasDropBox(Context context, MConfiguracao mConfiguracao) {
+        this.mConfiguracao = mConfiguracao;
+        this.context = context;
     }
 
     @Override
-    protected ArrayList<MCliente> obterClientes() throws RegraNegocioException {
-        String texto = obterTexto(this.getmConfiguracao().getPastaCliente(), "file.txt");
+    public ArrayList<MCliente> obterClientes() throws RegraNegocioException {
+        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "file.txt");
         return null;
     }
 
     @Override
-    protected ArrayList<MEstoque> obterEstoques() throws RegraNegocioException {
+    public ArrayList<MEstoque> obterEstoques() throws RegraNegocioException {
         return null;
     }
 
     @Override
-    protected ArrayList<MProduto> obterProdutos() throws RegraNegocioException {
+    public ArrayList<MProduto> obterProdutos() throws RegraNegocioException {
         return null;
     }
 
     @Override
-    protected ArrayList<MVendedor> obterVendedores() throws RegraNegocioException {
+    public ArrayList<MVendedor> obterVendedores() throws RegraNegocioException {
         return null;
     }
 
     private String obterTexto(String pasta, String arquivo) throws RegraNegocioException {
         List<String> tempArray = new ArrayList<String>();
-        URI url = getmConfiguracao().getEnderecoCompleto(pasta, arquivo);
+        URI url = this.mConfiguracao.getEnderecoCompleto(pasta, arquivo);
         SyncHttpClient asyncHttpClient = new SyncHttpClient();
         final String[] texto = {""};
 

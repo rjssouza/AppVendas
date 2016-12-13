@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     void Init() {
         configurarDrawerLayout();
         configurarFragmentPrincipal();
-        this.exportadorVendas = new ExportadorVendasDropBox(this);
+        this.exportadorVendas = new ExportadorVendas(this);
     }
 
     private void configurarDrawerLayout() {
@@ -93,8 +93,7 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
 
     @Background
     void sincronizar() {
-        this.exportadorVendas.exportarVendas();
-        this.exportadorVendas.importarBaseDados();
+        this.exportadorVendas.evetuarSincronizacao();
     }
 
     private <T extends Fragment> boolean chamarFragment(Class fragmentClass, MenuItem item, EventoVoid<T> sucessoChamadaFragment) {

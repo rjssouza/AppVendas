@@ -42,4 +42,11 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
         });
         return ConversorHelper.converter(configuracao, true);
     }
+
+    public MConfiguracao obterConfiguracaoAtiva() {
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.TIPO_CONFIG + " = ?", new String[]{
+                EnumTipoConfiguracao.DROPBOX.getNumVal().toString()
+        });
+        return ConversorHelper.converter(configuracao, true);
+    }
 }
