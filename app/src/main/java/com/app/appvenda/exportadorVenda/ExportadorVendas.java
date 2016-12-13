@@ -9,6 +9,8 @@ import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVenda;
 import com.app.appvenda.modelos.MVendedor;
+import com.app.bdframework.excecoes.RegraNegocioException;
+import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import java.util.ArrayList;
 
@@ -29,7 +31,13 @@ public abstract class ExportadorVendas {
     }
 
     public void importarBaseDados() {
-        importarClientes();
+        try {
+            importarClientes();
+        } catch (RegraNegocioException e) {
+            TratamentoExcecao.registrarRegraNegocioExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
+        }
     }
 
     public void exportarVendas() {
@@ -37,19 +45,19 @@ public abstract class ExportadorVendas {
 
     }
 
-    protected abstract ArrayList<MCliente> obterClientes();
+    protected abstract ArrayList<MCliente> obterClientes() throws RegraNegocioException;
 
-    protected abstract ArrayList<MEstoque> obterEstoques();
+    protected abstract ArrayList<MEstoque> obterEstoques() throws RegraNegocioException;
 
-    protected abstract ArrayList<MProduto> obterProdutos();
+    protected abstract ArrayList<MProduto> obterProdutos() throws RegraNegocioException;
 
-    protected abstract ArrayList<MVendedor> obterVendedores();
+    protected abstract ArrayList<MVendedor> obterVendedores() throws RegraNegocioException;
 
     private ArrayList<MVenda> obterVendasEfetuadas() {
         return null;
     }
 
-    private void importarClientes() {
+    private void importarClientes() throws RegraNegocioException {
         ArrayList<MCliente> mClientes = obterClientes();
         for (MCliente mCliente : mClientes) {
             clienteDAO.salvar(mCliente, null);

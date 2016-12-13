@@ -94,7 +94,7 @@ public class FragmentConfigurar extends BaseFragmentRN {
         URI uri = null;
         try {
             uri = new URI(enderecoUri);
-            mConfiguracao.setEnderecoServico(uri);
+            mConfiguracao.setEnderecoServico(uri.toString());
             mConfiguracao.setPastaCliente(txtPastaCliente.getText().toString());
             mConfiguracao.setPastaEstoque(txtPastaEstoque.getText().toString());
             mConfiguracao.setPastaProduto(txtPastaProdutos.getText().toString());

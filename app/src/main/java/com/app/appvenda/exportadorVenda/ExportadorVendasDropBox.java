@@ -10,15 +10,10 @@ import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVendedor;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.excecoes.RegraNegocioException;
-import com.app.bdframework.excecoes.TratamentoExcecao;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.SyncHttpClient;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,55 +25,52 @@ import cz.msebera.android.httpclient.Header;
 
 public class ExportadorVendasDropBox extends ExportadorVendas {
 
-    MConfiguracao mConfiguracao;
+    private MConfiguracao getmConfiguracao() throws RegraNegocioException {
+        MConfiguracao mConfiguracao = null;
+        if (mConfiguracao == null) {
+            mConfiguracao = this.configuracaoDAO.obterConfiguracao(EnumTipoConfiguracao.DROPBOX);
+            if (mConfiguracao == null)
+                throw new RegraNegocioException("", EnumTipoMensagem.ERRO);
+        }
+        return mConfiguracao;
+    }
 
     public ExportadorVendasDropBox(Context context) {
         super(context);
-        this.mConfiguracao = this.configuracaoDAO.obterConfiguracao(EnumTipoConfiguracao.DROPBOX);
-        try {
-            if (this.mConfiguracao == null)
-                throw new RegraNegocioException("", EnumTipoMensagem.ERRO);
-        } catch (RegraNegocioException e) {
-            TratamentoExcecao.registrarRegraNegocioExcecao(new RegraNegocioException("", EnumTipoMensagem.ERRO));
-        } finally {
-            TratamentoExcecao.invocarEvento();
-        }
+
     }
 
     @Override
-    protected ArrayList<MCliente> obterClientes() {
-        try {
-            String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "file.txt");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    protected ArrayList<MCliente> obterClientes() throws RegraNegocioException {
+        String texto = obterTexto(this.getmConfiguracao().getPastaCliente(), "file.txt");
         return null;
     }
 
     @Override
-    protected ArrayList<MEstoque> obterEstoques() {
+    protected ArrayList<MEstoque> obterEstoques() throws RegraNegocioException {
         return null;
     }
 
     @Override
-    protected ArrayList<MProduto> obterProdutos() {
+    protected ArrayList<MProduto> obterProdutos() throws RegraNegocioException {
         return null;
     }
 
     @Override
-    protected ArrayList<MVendedor> obterVendedores() {
+    protected ArrayList<MVendedor> obterVendedores() throws RegraNegocioException {
         return null;
     }
 
-    private String obterTexto(String pasta, String arquivo) throws IOException {
+    private String obterTexto(String pasta, String arquivo) throws RegraNegocioException {
         List<String> tempArray = new ArrayList<String>();
-        URI url = mConfiguracao.getEnderecoCompleto(pasta, arquivo);
-        AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
+        URI url = getmConfiguracao().getEnderecoCompleto(pasta, arquivo);
+        SyncHttpClient asyncHttpClient = new SyncHttpClient();
+        final String[] texto = {""};
 
         asyncHttpClient.get(context, url.toString(), new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
+                texto[0] = new String(responseBody);
             }
 
             @Override
@@ -86,19 +78,6 @@ public class ExportadorVendasDropBox extends ExportadorVendas {
 
             }
         });
-
-
-        URLConnection con = url2.openConnection();
-        InputStream stream = con.getInputStream();
-        String cont = "";
-        int ch;
-        byte[] bytes = new byte[1];
-        while ((ch = stream.read()) != -1) {
-            bytes[0] = (byte) ch;
-            cont = cont + new String(bytes);
-        }
-
-        stream.close();
-        return cont;
+        return texto[0];
     }
 }

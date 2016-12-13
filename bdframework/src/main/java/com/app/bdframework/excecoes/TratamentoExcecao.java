@@ -26,7 +26,7 @@ public class TratamentoExcecao {
     public static void invocarEvento() {
         if (regraNegocioException != null) {
             if (eventoRegraNegocioException != null) {
-                RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException, true);
+                RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
                 eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
             }
         }

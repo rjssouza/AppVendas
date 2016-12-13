@@ -24,6 +24,7 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 
@@ -127,6 +128,7 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     }
 
     @Override
+    @UiThread
     protected void executarErro(RegraNegocioMensagem item) {
         this.exibirMensagemToast(item.getMensagem());
     }
