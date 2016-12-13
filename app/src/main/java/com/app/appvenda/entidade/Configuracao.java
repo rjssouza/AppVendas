@@ -6,9 +6,6 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
  * Created by Robson on 30/11/2016.
  */
@@ -49,6 +46,16 @@ public class Configuracao extends Entidade {
     private String pasta_venda;
     @ColunaTabela
     private String pasta_vendedor;
+    @ColunaTabela
+    private boolean principal;
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
+    }
 
     public Integer getId_configuracao() {
         return id_configuracao;

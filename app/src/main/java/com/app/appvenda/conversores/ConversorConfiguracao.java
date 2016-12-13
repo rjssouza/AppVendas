@@ -5,9 +5,6 @@ import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.conversor.Conversor;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-
 /**
  * Created by Robson on 04/12/2016.
  */
@@ -26,27 +23,28 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
         configuracao.setPasta_venda(mConfiguracao.getPastaVenda());
         configuracao.setPasta_vendedor(mConfiguracao.getPastaVendedor());
         configuracao.setPasta_produto(mConfiguracao.getPastaProduto());
+        configuracao.setPrincipal(mConfiguracao.isPrincipal());
         return configuracao;
     }
 
     @Override
     public MConfiguracao converterParaDe(Configuracao configuracao) {
         MConfiguracao mConfiguracao = new MConfiguracao();
-            mConfiguracao.setPastaCliente(configuracao.getPasta_cliente());
-            EnumTipoConfiguracao enumTipoConfiguracao;
-            if (configuracao.getTipo_config() == 1)
-                enumTipoConfiguracao = EnumTipoConfiguracao.DROPBOX;
-            else
-                enumTipoConfiguracao = EnumTipoConfiguracao.SERVICO;
-            mConfiguracao.setTipoConfig(enumTipoConfiguracao);
-            mConfiguracao.setIdConfiguracao(configuracao.getId_configuracao());
-            mConfiguracao.setPastaEstoque(configuracao.getPasta_estoque());
-            mConfiguracao.setPastaVendedor(configuracao.getPasta_vendedor());
-            mConfiguracao.setEnderecoServico(configuracao.getEndereco_servico());
-            mConfiguracao.setPastaProduto(configuracao.getPasta_produto());
-            mConfiguracao.setPastaVenda(configuracao.getPasta_venda());
-            mConfiguracao.setPastaFotos(configuracao.getPasta_fotos());
-
+        mConfiguracao.setPastaCliente(configuracao.getPasta_cliente());
+        EnumTipoConfiguracao enumTipoConfiguracao;
+        if (configuracao.getTipo_config() == 1)
+            enumTipoConfiguracao = EnumTipoConfiguracao.DROPBOX;
+        else
+            enumTipoConfiguracao = EnumTipoConfiguracao.SERVICO;
+        mConfiguracao.setTipoConfig(enumTipoConfiguracao);
+        mConfiguracao.setIdConfiguracao(configuracao.getId_configuracao());
+        mConfiguracao.setPastaEstoque(configuracao.getPasta_estoque());
+        mConfiguracao.setPastaVendedor(configuracao.getPasta_vendedor());
+        mConfiguracao.setEnderecoServico(configuracao.getEndereco_servico());
+        mConfiguracao.setPastaProduto(configuracao.getPasta_produto());
+        mConfiguracao.setPastaVenda(configuracao.getPasta_venda());
+        mConfiguracao.setPastaFotos(configuracao.getPasta_fotos());
+        mConfiguracao.setPrincipal(configuracao.isPrincipal());
         return mConfiguracao;
     }
 

@@ -20,9 +20,18 @@ public class MConfiguracao {
     private String pastaProduto;
     private String pastaVenda;
     private String pastaVendedor;
+    private boolean principal;
 
     public MConfiguracao() {
         idConfiguracao = null;
+    }
+
+    public boolean isPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(boolean principal) {
+        this.principal = principal;
     }
 
     public Integer getIdConfiguracao() {
@@ -96,7 +105,6 @@ public class MConfiguracao {
     public void setPastaVendedor(String pastaVendedor) {
         this.pastaVendedor = pastaVendedor;
     }
-
 
     public URI getEnderecoCompleto(String pasta, String arquivo) {
         try {
