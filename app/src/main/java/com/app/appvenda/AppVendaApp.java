@@ -1,6 +1,7 @@
 package com.app.appvenda;
 
 import android.app.Application;
+import android.support.v4.util.LogWriter;
 import android.util.Log;
 
 import com.app.appvenda.conversores.ConversorConfiguracao;
@@ -19,7 +20,7 @@ public class AppVendaApp extends Application {
     public void onCreate() {
         super.onCreate();
 
-        TratamentoExcecao.registrarEvento(new TratamentoEventoGeral());
+        TratamentoExcecao.registrarEvento(new TratamentoEventoGeral(this.getApplicationContext()));
         ConversorHelper.registrarConversor(new ConversorConfiguracao());
         BDHelper<Configuracao> configuracaoBDHelper = new RPConfiguracao(this.getApplicationContext());
         configuracaoBDHelper.salvarBDLocal();

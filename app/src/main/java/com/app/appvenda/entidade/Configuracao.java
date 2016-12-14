@@ -21,6 +21,7 @@ public class Configuracao extends Entidade {
     public final static String PASTA_PRODUTO = "pasta_produto";
     public final static String PASTA_VENDA = "pasta_venda";
     public final static String PASTA_VENDEDOR = "pasta_vendedor";
+    public final static String PRINCIPAL = "principal";
 
     public Configuracao(Cursor cursor) {
         super(cursor);

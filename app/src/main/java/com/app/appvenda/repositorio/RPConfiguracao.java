@@ -4,9 +4,11 @@ import android.content.Context;
 import android.database.Cursor;
 
 import com.app.appvenda.entidade.Configuracao;
+import com.app.appvenda.regrasNegocio.SalvarEntidade.RNConfiguracao.ConfiguracaoPrincipal;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.negocio.RegraNegocio;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,7 +23,9 @@ public class RPConfiguracao extends Repositorio<Configuracao> {
 
     @Override
     protected List<RegraNegocio<Configuracao>> obterRegrasSalvar() {
-        return null;
+        List<RegraNegocio<Configuracao>> regraNegocioList = new ArrayList<>();
+        regraNegocioList.add(new ConfiguracaoPrincipal(this));
+        return regraNegocioList;
     }
 
     @Override

@@ -44,9 +44,24 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
     }
 
     public MConfiguracao obterConfiguracaoAtiva() {
-        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.TIPO_CONFIG + " = ?", new String[]{
-                EnumTipoConfiguracao.DROPBOX.getNumVal().toString()
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
+                "1"
         });
         return ConversorHelper.converter(configuracao, true);
+    }
+
+    public MConfiguracao obterConfiguracaoSecundaria() {
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
+                "0"
+        });
+        return ConversorHelper.converter(configuracao, true);
+    }
+
+    public void transformarPrincipal(EnumTipoConfiguracao tipoConfiguracao) {
+        MConfiguracao mConfiguracao = obterConfiguracao(tipoConfiguracao);
+        if (mConfiguracao != null) {
+            mConfiguracao.setPrincipal(true);
+            salvar(mConfiguracao, null);
+        }
     }
 }

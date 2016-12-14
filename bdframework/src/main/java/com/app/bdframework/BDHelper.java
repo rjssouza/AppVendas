@@ -64,13 +64,14 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
             Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
                     " where " + whereClause, argumentos);
             int count = -1;
-            mCount.moveToPosition(0);
-            do {
-                count = mCount.getInt(0);
-            } while (mCount.moveToNext());
+            if (mCount.moveToFirst()) {
+                do {
+                    count = mCount.getInt(0);
+                } while (mCount.moveToNext());
 
-            mCount.close();
-            return count;
+                mCount.close();
+                return count;
+            }
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
@@ -84,12 +85,13 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
         try {
             List<TEntidade> tEntidades = new ArrayList<>();
             Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-            cursor.moveToPosition(0);
-            do {
-                TEntidade entidade = obterEntidade(cursor);
-                tEntidades.add(entidade);
-            } while (cursor.moveToNext());
-            return tEntidades;
+            if (cursor.moveToFirst()) {
+                do {
+                    TEntidade entidade = obterEntidade(cursor);
+                    tEntidades.add(entidade);
+                } while (cursor.moveToNext());
+                return tEntidades;
+            }
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
@@ -102,12 +104,13 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
     public TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
         try {
             Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-            TEntidade _entidade;
-            cursor.moveToPosition(0);
-            do {
-                _entidade = obterEntidade(cursor);
-            } while (cursor.moveToNext());
-            return _entidade;
+            if (cursor.moveToFirst()) {
+                TEntidade _entidade;
+                do {
+                    _entidade = obterEntidade(cursor);
+                } while (cursor.moveToNext());
+                return _entidade;
+            }
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {

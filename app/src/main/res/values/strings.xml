@@ -8,4 +8,6 @@
     <string name="cancelar">Cancelar</string>
     <string name="sim">Sim</string>
     <string name="nao">Não</string>
+    <string name="aguarde">Por favor Aguarde</string>
+    <string name="msg_config_salva_sucesso">Configurações salvas com sucesso</string>
 </resources>

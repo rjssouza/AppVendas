@@ -108,7 +108,7 @@ public class MConfiguracao {
 
     public URI getEnderecoCompleto(String pasta, String arquivo) {
         try {
-            return new URI(this.enderecoServico + "/" + pasta + "/" + arquivo);
+            return new URI((this.enderecoServico + "/" + pasta + "/" + arquivo).toLowerCase());
         } catch (URISyntaxException e) {
             e.printStackTrace();
         }

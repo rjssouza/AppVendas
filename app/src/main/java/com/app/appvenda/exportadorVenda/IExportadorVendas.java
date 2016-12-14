@@ -22,4 +22,6 @@ public interface IExportadorVendas {
 
     ArrayList<MVendedor> obterVendedores() throws RegraNegocioException;
 
+    void efetuarTesteConexao() throws RegraNegocioException;
+
 }

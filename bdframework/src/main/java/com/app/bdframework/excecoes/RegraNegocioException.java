@@ -12,6 +12,8 @@ public class RegraNegocioException extends Exception {
 
     public RegraNegocioException(String mensagem, EnumTipoMensagem tipoMensagem) {
         super(mensagem);
+        if (tipoMensagem == null)
+            throw new NullPointerException("Tipo Mensagem");
         this.tipoMensagem = tipoMensagem;
     }
 

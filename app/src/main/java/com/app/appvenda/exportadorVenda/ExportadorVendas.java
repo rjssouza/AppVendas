@@ -34,7 +34,7 @@ public class ExportadorVendas {
     private MConfiguracao getmConfiguracao() throws RegraNegocioException {
         MConfiguracao mConfiguracao = null;
         if (mConfiguracao == null) {
-            mConfiguracao = this.configuracaoDAO.obterConfiguracao(EnumTipoConfiguracao.DROPBOX);
+            mConfiguracao = this.configuracaoDAO.obterConfiguracaoAtiva();
             if (mConfiguracao == null)
                 throw new RegraNegocioException("", EnumTipoMensagem.ERRO);
         }
@@ -44,11 +44,14 @@ public class ExportadorVendas {
     public void evetuarSincronizacao() {
         try {
             MConfiguracao mConfiguracao = getmConfiguracao();
-            this.iExportadorVendas = mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX ? new ExportadorVendasDropBox(context, mConfiguracao) : null;
+            this.iExportadorVendas = mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX ? new ExportadorVendasDropBox(context, mConfiguracao) : new ExportadorVendasServico(context, mConfiguracao);
+            this.iExportadorVendas.efetuarTesteConexao();
             importarBaseDados();
             exportarVendas();
         } catch (RegraNegocioException e) {
             TratamentoExcecao.registrarRegraNegocioExcecao(e);
+        } catch (Exception e){
+            TratamentoExcecao.registrarExcecao(e);
         } finally {
             TratamentoExcecao.invocarEvento();
         }

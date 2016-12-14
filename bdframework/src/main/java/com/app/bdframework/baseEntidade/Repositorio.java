@@ -43,25 +43,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     public void salvar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
             if (entidade != null) {
-                if (obterRegrasSalvar() != null) {
-                    final List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
-                    Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
-                        @Override
-                        public int compare(RegraNegocio o1, RegraNegocio o2) {
-                            return o1.getOrdem() < o2.getOrdem() ? o1.getOrdem() : o2.getOrdem();
-                        }
-                    });
-
-                    for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
-                        try {
-                            if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
-                                regraNegocio.validarRegra(entidade, this);
-                        } catch (RegraNegocioException rn) {
-                            TratamentoExcecao.registrarRegraNegocioExcecao(rn);
-                            break;
-                        }
-                    }
-                }
+                executarRegraNegocio(obterRegrasSalvar(), entidade, regrasIgnorar);
                 this.salvarEntidade(entidade);
             } else {
                 throw new NullPointerException();
@@ -75,26 +57,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     public void deletar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
-            if (obterRegrasSalvar() != null) {
-                List<RegraNegocio<TEntidade>> regraNegocios = obterRegrasSalvar();
-                Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
-                    @Override
-                    public int compare(RegraNegocio o1, RegraNegocio o2) {
-                        return o1.getOrdem() < o2.getOrdem() ? o1.getOrdem() : o2.getOrdem();
-                    }
-                });
-
-                for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
-                    try {
-                        if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName())) {
-                            regraNegocio.validarRegra(entidade, this);
-                        }
-                    } catch (RegraNegocioException rn) {
-                        TratamentoExcecao.registrarRegraNegocioExcecao(rn);
-                        break;
-                    }
-                }
-            }
+            executarRegraNegocio(obterRegrasDeletar(), entidade, regrasIgnorar);
             this.deletarEntidade(entidade);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
@@ -106,5 +69,26 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     protected abstract List<RegraNegocio<TEntidade>> obterRegrasSalvar();
 
     protected abstract List<RegraNegocio<TEntidade>> obterRegrasDeletar();
+
+    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) {
+        if (regraNegocios != null) {
+            Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
+                @Override
+                public int compare(RegraNegocio o1, RegraNegocio o2) {
+                    return o1.getOrdem() < o2.getOrdem() ? o1.getOrdem() : o2.getOrdem();
+                }
+            });
+
+            for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
+                try {
+                    if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
+                        regraNegocio.validarRegra(tEntidade, this);
+                } catch (RegraNegocioException rn) {
+                    TratamentoExcecao.registrarRegraNegocioExcecao(rn);
+                    break;
+                }
+            }
+        }
+    }
 
 }

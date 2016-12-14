@@ -56,6 +56,14 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
         return null;
     }
 
+    @Override
+    public void efetuarTesteConexao()  throws RegraNegocioException {
+        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "file.txt");
+        if(texto == ""){
+            throw new RegraNegocioException("Url indisponivel favor verificar configuracao", EnumTipoMensagem.ERRO);
+        }
+    }
+
     private String obterTexto(String pasta, String arquivo) throws RegraNegocioException {
         List<String> tempArray = new ArrayList<String>();
         URI url = this.mConfiguracao.getEnderecoCompleto(pasta, arquivo);

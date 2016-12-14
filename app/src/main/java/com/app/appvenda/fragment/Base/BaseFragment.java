@@ -9,6 +9,7 @@ import com.app.bdframework.eventos.EventosCaixaDialogo;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 
 /**
  * Created by Robson on 29/11/2016.
@@ -34,11 +35,13 @@ public class BaseFragment extends Fragment implements IBaseViews {
     }
 
     @Override
+    @UiThread
     public void exibirProgress(int messageId, boolean cancelavel) {
         this.baseActivity.exibirProgress(messageId, cancelavel);
     }
 
     @Override
+    @UiThread
     public void esconderProgress() {
         this.baseActivity.esconderProgress();
     }

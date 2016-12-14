@@ -49,10 +49,17 @@ public class FragmentConfigurar extends BaseFragmentRN {
 
     @AfterViews
     void Init() {
-        mConfiguracao = new MConfiguracao();
         configuracaoDAO = new ConfiguracaoDAO(this.getContext());
+        mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva() == null ? new MConfiguracao() : configuracaoDAO.obterConfiguracaoAtiva();
 
-        swtTipoConfig.setChecked(true);
+        if (mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX) {
+            swtTipoConfig.setChecked(true);
+        }else {
+            mConfiguracao.setTipoConfig(EnumTipoConfiguracao.SERVICO);
+            swtTipoConfig.setText("SERVICO");
+            configuracaoDAO.transformarPrincipal(EnumTipoConfiguracao.SERVICO);
+            preencherTela();
+        }
     }
 
     @UiThread
@@ -75,9 +82,11 @@ public class FragmentConfigurar extends BaseFragmentRN {
         if (swtTipoConfig.isChecked()) {
             mConfiguracao.setTipoConfig(EnumTipoConfiguracao.DROPBOX);
             swtTipoConfig.setText("DROPBOX");
+            configuracaoDAO.transformarPrincipal(EnumTipoConfiguracao.DROPBOX);
         } else {
             mConfiguracao.setTipoConfig(EnumTipoConfiguracao.SERVICO);
             swtTipoConfig.setText("SERVICO");
+            configuracaoDAO.transformarPrincipal(EnumTipoConfiguracao.SERVICO);
         }
         preencherTela();
     }
@@ -89,9 +98,11 @@ public class FragmentConfigurar extends BaseFragmentRN {
     }
 
     @Click(R.id.btnSalvar)
+    @UiThread
     void salvarConfig() {
         String enderecoUri = txtEndServicio.getText().toString();
         URI uri = null;
+        exibirProgress(R.string.aguarde, false);
         try {
             uri = new URI(enderecoUri);
             mConfiguracao.setEnderecoServico(uri.toString());
@@ -101,10 +112,15 @@ public class FragmentConfigurar extends BaseFragmentRN {
             mConfiguracao.setPastaFotos(txtPastaFotos.getText().toString());
             mConfiguracao.setPastaVenda(txtPastaVenda.getText().toString());
             mConfiguracao.setPastaVendedor(txtPastaVendedor.getText().toString());
+            mConfiguracao.setPrincipal(true);
 
             configuracaoDAO.salvar(mConfiguracao, null);
-        } catch (URISyntaxException e) {
+            exibirMensagemToast(R.string.msg_config_salva_sucesso);
+        } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            esconderProgress();
+            TratamentoExcecao.invocarEvento();
         }
     }
 
