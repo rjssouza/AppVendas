@@ -20,7 +20,7 @@ public class TratamentoEventoGeral implements EventoVoid<RegraNegocioMensagem> {
     @Override
     public void executarEvento(RegraNegocioMensagem item) {
         item.getException().printStackTrace();
-        Toast.makeText(context, item.getMensagem(), Toast.LENGTH_SHORT).show();
+       // Toast.makeText(context, item.getMensagem(), Toast.LENGTH_SHORT).show();
     }
 
 }
