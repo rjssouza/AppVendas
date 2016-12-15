@@ -127,7 +127,6 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     }
 
     @Override
-    @UiThread
     protected void executarErro(RegraNegocioMensagem item) {
         this.exibirMensagemToast(item.getMensagem());
     }

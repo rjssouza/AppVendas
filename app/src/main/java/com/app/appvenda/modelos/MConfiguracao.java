@@ -13,8 +13,8 @@ public class MConfiguracao {
 
     private Integer idConfiguracao;
     private EnumTipoConfiguracao tipoConfig;
-    private String pastaFotos;
     private String enderecoServico;
+    private String pastaFotos;
     private String pastaCliente;
     private String pastaEstoque;
     private String pastaProduto;

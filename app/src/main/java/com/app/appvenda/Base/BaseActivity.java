@@ -66,6 +66,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
         edtText.setText(texto);
     }
 
+    @UiThread
     public void exibirDialogoAlerta(int resIdTitulo, int resIdMesaje, EventosCaixaDialogo eventos) {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)
@@ -76,6 +77,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
                 .show();
     }
 
+    @UiThread
     public void exibirDialogoConfirmacion(int resIdTitulo, int resIdMesaje, EventosCaixaDialogo eventos) {
         new AlertDialog.Builder(this)
                 .setIcon(android.R.drawable.ic_dialog_alert)

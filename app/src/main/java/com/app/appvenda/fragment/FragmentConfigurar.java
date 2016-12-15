@@ -124,19 +124,4 @@ public class FragmentConfigurar extends BaseFragmentRN {
         }
     }
 
-    @Override
-    protected void executarAlerta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarPergunta(RegraNegocioMensagem item) {
-
-    }
-
-    @Override
-    protected void executarErro(RegraNegocioMensagem item) {
-
-    }
-
 }

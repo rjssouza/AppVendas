@@ -25,11 +25,13 @@ public class BaseFragment extends Fragment implements IBaseViews {
     }
 
     @Override
+    @UiThread
     public void exibirMensagemToast(int stringId) {
         this.baseActivity.exibirMensagemToast(stringId);
     }
 
     @Override
+    @UiThread
     public void exibirMensagemToast(String msg) {
         this.baseActivity.exibirMensagemToast(msg);
     }
@@ -47,16 +49,19 @@ public class BaseFragment extends Fragment implements IBaseViews {
     }
 
     @Override
+    @UiThread
     public void actualizarTexto(EditText edtText, String texto) {
         this.baseActivity.actualizarTexto(edtText, texto);
     }
 
     @Override
+    @UiThread
     public void exibirDialogoAlerta(int resIdTitulo, int resIdMesaje, EventosCaixaDialogo eventos) {
         this.baseActivity.exibirDialogoAlerta(resIdTitulo, resIdMesaje, eventos);
     }
 
     @Override
+    @UiThread
     public void exibirDialogoConfirmacion(int resIdTitulo, int resIdMesaje, EventosCaixaDialogo eventos) {
         this.baseActivity.exibirDialogoConfirmacion(resIdTitulo, resIdMesaje, eventos);
     }

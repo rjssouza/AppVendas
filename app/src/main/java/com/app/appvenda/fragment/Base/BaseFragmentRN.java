@@ -1,37 +1,32 @@
 package com.app.appvenda.fragment.base;
 
+import com.app.appvenda.base.BaseActivity;
+import com.app.appvenda.base.BaseActivityRN;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EFragment;
+
 /**
  * Created by Robson on 03/12/2016.
  */
-
+@EFragment
 public abstract class BaseFragmentRN extends BaseFragment implements EventoVoid<RegraNegocioMensagem> {
 
-    public BaseFragmentRN() {
-        TratamentoExcecao.registrarEventoRegraNegocio(this);
+    private BaseActivityRN baseActivityRN;
+
+    @AfterViews
+    public void init() {
+        this.baseActivityRN = (BaseActivityRN) this.getActivity();
     }
 
     @Override
     public void executarEvento(RegraNegocioMensagem item) {
-        RegraNegocioException exception = item.getRegraNegocioException();
-        if (exception.getTipoMensagem().equals(EnumTipoMensagem.PERGUNTA)) {
-            this.executarPergunta(item);
-        } else if (exception.getTipoMensagem().equals(EnumTipoMensagem.ALERTA)) {
-            this.executarAlerta(item);
-        } else {
-            this.executarErro(item);
-        }
+       this.baseActivityRN.executarEvento(item);
     }
-
-    protected abstract void executarAlerta(RegraNegocioMensagem item);
-
-    protected abstract void executarPergunta(RegraNegocioMensagem item);
-
-    protected abstract void executarErro(RegraNegocioMensagem item);
 
 }

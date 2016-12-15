@@ -15,6 +15,8 @@ import com.app.bdframework.excecoes.RegraNegocioException;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.SyncHttpClient;
 
+import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,28 +39,36 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
     @Override
     public ArrayList<MCliente> obterClientes() throws RegraNegocioException {
-        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "file.txt");
+        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "cliente.txt");
+        StringReader inputStreamReader = new StringReader(texto);
+
         return null;
     }
 
     @Override
     public ArrayList<MEstoque> obterEstoques() throws RegraNegocioException {
+        String texto = obterTexto(this.mConfiguracao.getPastaEstoque(), "estoque.txt");
+
         return null;
     }
 
     @Override
     public ArrayList<MProduto> obterProdutos() throws RegraNegocioException {
+        String texto = obterTexto(this.mConfiguracao.getPastaProduto(), "produto.txt");
+
         return null;
     }
 
     @Override
     public ArrayList<MVendedor> obterVendedores() throws RegraNegocioException {
+        String texto = obterTexto(this.mConfiguracao.getPastaVendedor(), "vendedor.txt");
+
         return null;
     }
 
     @Override
     public void efetuarTesteConexao()  throws RegraNegocioException {
-        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "file.txt");
+        String texto = obterTexto(this.mConfiguracao.getPastaCliente(), "cliente.txt");
         if(texto == ""){
             throw new RegraNegocioException("Url indisponivel favor verificar configuracao", EnumTipoMensagem.ERRO);
         }
@@ -81,6 +91,8 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
             }
         });
+
         return texto[0];
     }
+
 }
