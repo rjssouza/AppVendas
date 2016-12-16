@@ -16,16 +16,6 @@ public class RPVenda extends Repositorio<Venda> {
     }
 
     @Override
-    protected List<RegraNegocio<Venda>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<Venda>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected Venda obterEntidade(Cursor cursor) {
         return new Venda(cursor);
     }

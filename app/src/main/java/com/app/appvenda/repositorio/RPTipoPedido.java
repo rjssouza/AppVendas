@@ -16,16 +16,6 @@ public class RPTipoPedido extends Repositorio<TipoPedido> {
     }
 
     @Override
-    protected List<RegraNegocio<TipoPedido>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<TipoPedido>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected TipoPedido obterEntidade(Cursor cursor) {
         return new TipoPedido(cursor);
     }

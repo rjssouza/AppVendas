@@ -14,23 +14,8 @@ import java.util.List;
 
 public class RPCliente extends Repositorio<Cliente> {
 
-    private RPTelefone rpTelefone;
-
     public RPCliente(Context context) {
         super(context);
-        this.rpTelefone = new RPTelefone(context);
-    }
-
-    @Override
-    protected List<RegraNegocio<Cliente>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<Cliente>> obterRegrasDeletar() {
-        List<RegraNegocio<Cliente>> regraNegocios = new ArrayList<>();
-        regraNegocios.add(new ClientePossuiPedidosPendentes(_context));
-        return regraNegocios;
     }
 
     @Override

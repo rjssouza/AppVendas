@@ -22,18 +22,6 @@ public class RPConfiguracao extends Repositorio<Configuracao> {
     }
 
     @Override
-    protected List<RegraNegocio<Configuracao>> obterRegrasSalvar() {
-        List<RegraNegocio<Configuracao>> regraNegocioList = new ArrayList<>();
-        regraNegocioList.add(new ConfiguracaoPrincipal(this));
-        return regraNegocioList;
-    }
-
-    @Override
-    protected List<RegraNegocio<Configuracao>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected Configuracao obterEntidade(Cursor cursor) {
         return new Configuracao(cursor);
     }

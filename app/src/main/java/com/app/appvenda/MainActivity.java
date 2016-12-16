@@ -112,6 +112,8 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
             e.printStackTrace();
         } catch (IllegalAccessException ex) {
             ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         return false;
     }

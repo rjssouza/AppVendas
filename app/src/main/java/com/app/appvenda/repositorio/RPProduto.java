@@ -16,16 +16,6 @@ public class RPProduto extends Repositorio<Produto> {
     }
 
     @Override
-    protected List<RegraNegocio<Produto>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<Produto>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected Produto obterEntidade(Cursor cursor) {
         return new Produto(cursor);
     }

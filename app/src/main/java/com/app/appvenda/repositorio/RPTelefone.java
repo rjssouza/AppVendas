@@ -16,16 +16,6 @@ public class RPTelefone extends Repositorio<Telefone> {
     }
 
     @Override
-    protected List<RegraNegocio<Telefone>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<Telefone>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected Telefone obterEntidade(Cursor cursor) {
         return new Telefone(cursor);
     }

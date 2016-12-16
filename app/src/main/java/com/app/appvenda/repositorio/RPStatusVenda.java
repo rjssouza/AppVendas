@@ -16,16 +16,6 @@ public class RPStatusVenda extends Repositorio<StatusVenda> {
     }
 
     @Override
-    protected List<RegraNegocio<StatusVenda>> obterRegrasSalvar() {
-        return null;
-    }
-
-    @Override
-    protected List<RegraNegocio<StatusVenda>> obterRegrasDeletar() {
-        return null;
-    }
-
-    @Override
     protected StatusVenda obterEntidade(Cursor cursor) {
         return new StatusVenda(cursor);
     }

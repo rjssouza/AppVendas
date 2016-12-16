@@ -64,4 +64,5 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
             salvar(mConfiguracao, null);
         }
     }
+
 }

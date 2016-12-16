@@ -8,6 +8,7 @@ import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
 import com.app.bdframework.utils.ListaUtils;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -17,8 +18,13 @@ import java.util.List;
  */
 public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<TEntidade> {
 
+    private List<RegraNegocio<TEntidade>> regraNegociosSalvar;
+    private List<RegraNegocio<TEntidade>> regraNegociosDeletar;
+
     protected Repositorio(Context context) {
         super(context);
+        this.regraNegociosDeletar = new ArrayList<>();
+        this.regraNegociosSalvar = new ArrayList<>();
     }
 
     private void salvarEntidade(TEntidade entidade) {
@@ -43,7 +49,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     public void salvar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
             if (entidade != null) {
-                executarRegraNegocio(obterRegrasSalvar(), entidade, regrasIgnorar);
+                executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
                 this.salvarEntidade(entidade);
             } else {
                 throw new NullPointerException();
@@ -57,7 +63,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     public void deletar(TEntidade entidade, final String[] regrasIgnorar) {
         try {
-            executarRegraNegocio(obterRegrasDeletar(), entidade, regrasIgnorar);
+            executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
             this.deletarEntidade(entidade);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
@@ -66,9 +72,13 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         }
     }
 
-    protected abstract List<RegraNegocio<TEntidade>> obterRegrasSalvar();
+    private void registrarRegraNegocioSalvar(RegraNegocio<TEntidade> regraNegocio){
+        this.regraNegociosSalvar.add(regraNegocio);
+    }
 
-    protected abstract List<RegraNegocio<TEntidade>> obterRegrasDeletar();
+    private void obterRegrasDeletar(RegraNegocio<TEntidade> regraNegocio){
+        this.regraNegociosDeletar.add(regraNegocio);
+    }
 
     private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) {
         if (regraNegocios != null) {

@@ -27,7 +27,11 @@ public class TratamentoExcecao {
         if (regraNegocioException != null) {
             if (eventoRegraNegocioException != null) {
                 RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
-                eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                try {
+                    eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -35,7 +39,11 @@ public class TratamentoExcecao {
             if (eventoException.size() > 0) {
                 for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
                     RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
-                    eventoVoid.executarEvento(regraNegocioMensagem);
+                    try {
+                        eventoVoid.executarEvento(regraNegocioMensagem);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }
