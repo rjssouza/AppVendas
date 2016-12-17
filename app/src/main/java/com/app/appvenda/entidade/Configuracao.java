@@ -49,9 +49,19 @@ public class Configuracao extends Entidade {
     private String pasta_vendedor;
     @ColunaTabela
     private boolean principal;
+    @ColunaTabela
+    private String pasta_forma_pagto;
 
     public boolean isPrincipal() {
         return principal;
+    }
+
+    public String getPasta_forma_pagto() {
+        return pasta_forma_pagto;
+    }
+
+    public void setPasta_forma_pagto(String pasta_forma_pagto) {
+        this.pasta_forma_pagto = pasta_forma_pagto;
     }
 
     public void setPrincipal(boolean principal) {

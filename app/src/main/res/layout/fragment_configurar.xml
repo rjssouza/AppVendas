@@ -60,6 +60,12 @@
                 android:layout_height="wrap_content"
                 android:hint="PastaVendedor"/>
 
+            <EditText
+                android:id="@+id/txtPastaFormaPagto"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="PastaFormaPagto"/>
+
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

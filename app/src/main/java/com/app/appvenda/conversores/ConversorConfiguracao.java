@@ -24,6 +24,7 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
         configuracao.setPasta_vendedor(mConfiguracao.getPastaVendedor());
         configuracao.setPasta_produto(mConfiguracao.getPastaProduto());
         configuracao.setPrincipal(mConfiguracao.isPrincipal());
+        configuracao.setPasta_forma_pagto(mConfiguracao.getPastaFormaPagto());
         return configuracao;
     }
 
@@ -45,6 +46,7 @@ public class ConversorConfiguracao extends Conversor<MConfiguracao, Configuracao
         mConfiguracao.setPastaVenda(configuracao.getPasta_venda());
         mConfiguracao.setPastaFotos(configuracao.getPasta_fotos());
         mConfiguracao.setPrincipal(configuracao.isPrincipal());
+        mConfiguracao.setPastaFormaPagto(configuracao.getPasta_forma_pagto());
         return mConfiguracao;
     }
 

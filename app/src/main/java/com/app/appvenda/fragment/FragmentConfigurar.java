@@ -12,6 +12,7 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -43,6 +44,8 @@ public class FragmentConfigurar extends BaseFragmentRN {
     EditText txtPastaVenda;
     @ViewById
     EditText txtPastaVendedor;
+    @ViewById
+    EditText txtPastaFormaPagto;
 
     private MConfiguracao mConfiguracao;
     private ConfiguracaoDAO configuracaoDAO;
@@ -54,7 +57,7 @@ public class FragmentConfigurar extends BaseFragmentRN {
 
         if (mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX) {
             swtTipoConfig.setChecked(true);
-        }else {
+        } else {
             mConfiguracao.setTipoConfig(EnumTipoConfiguracao.SERVICO);
             swtTipoConfig.setText("SERVICO");
             configuracaoDAO.transformarPrincipal(EnumTipoConfiguracao.SERVICO);
@@ -74,6 +77,7 @@ public class FragmentConfigurar extends BaseFragmentRN {
         txtPastaProdutos.setText(mConfiguracao.getPastaProduto());
         txtPastaVenda.setText(mConfiguracao.getPastaVenda());
         txtPastaVendedor.setText(mConfiguracao.getPastaVendedor());
+        txtPastaFormaPagto.setText(mConfiguracao.getPastaFormaPagto());
     }
 
     @CheckedChange(R.id.swtTipoConfig)
@@ -98,11 +102,16 @@ public class FragmentConfigurar extends BaseFragmentRN {
     }
 
     @Click(R.id.btnSalvar)
-    @UiThread
     void salvarConfig() {
+        exibirProgress(R.string.aguarde, false);
+        efetuarSalvar();
+    }
+
+    @Background
+    void efetuarSalvar() {
         String enderecoUri = txtEndServicio.getText().toString();
         URI uri = null;
-        exibirProgress(R.string.aguarde, false);
+
         try {
             uri = new URI(enderecoUri);
             mConfiguracao.setEnderecoServico(uri.toString());
@@ -112,6 +121,7 @@ public class FragmentConfigurar extends BaseFragmentRN {
             mConfiguracao.setPastaFotos(txtPastaFotos.getText().toString());
             mConfiguracao.setPastaVenda(txtPastaVenda.getText().toString());
             mConfiguracao.setPastaVendedor(txtPastaVendedor.getText().toString());
+            mConfiguracao.setPastaFormaPagto(txtPastaFormaPagto.getText().toString());
             mConfiguracao.setPrincipal(true);
 
             configuracaoDAO.salvar(mConfiguracao, null);

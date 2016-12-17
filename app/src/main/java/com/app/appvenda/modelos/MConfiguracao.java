@@ -20,6 +20,7 @@ public class MConfiguracao {
     private String pastaProduto;
     private String pastaVenda;
     private String pastaVendedor;
+    private String pastaFormaPagto;
     private boolean principal;
 
     public MConfiguracao() {
@@ -28,6 +29,14 @@ public class MConfiguracao {
 
     public boolean isPrincipal() {
         return principal;
+    }
+
+    public String getPastaFormaPagto() {
+        return pastaFormaPagto;
+    }
+
+    public void setPastaFormaPagto(String pastaFormaPagto) {
+        this.pastaFormaPagto = pastaFormaPagto;
     }
 
     public void setPrincipal(boolean principal) {

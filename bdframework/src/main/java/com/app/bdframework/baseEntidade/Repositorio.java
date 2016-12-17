@@ -1,6 +1,7 @@
 package com.app.bdframework.baseEntidade;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import com.app.bdframework.BDHelper;
 import com.app.bdframework.excecoes.RegraNegocioException;
@@ -27,60 +28,78 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         this.regraNegociosSalvar = new ArrayList<>();
     }
 
-    private void salvarEntidade(TEntidade entidade) {
+    private boolean salvarEntidade(TEntidade entidade) {
+        boolean sucesso = false;
+        this.getWritableDatabase().beginTransaction();
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
         if (existe)
-            this.getReadableDatabase().update(getNomeTabela(), entidade.getContentValue(),
+            sucesso = this.getReadableDatabase().update(getNomeTabela(), entidade.getContentValue(),
                     parCampoValor.getNomeCampo() + " = ?",
-                    new String[]{parCampoValor.getValor().toString()});
+                    new String[]{parCampoValor.getValor().toString()}) > 0;
         else
-            this.getWritableDatabase().insert(getNomeTabela(), null, entidade.getContentValue());
+            sucesso = this.getWritableDatabase().insert(getNomeTabela(), null, entidade.getContentValue()) > 0;
+        this.getWritableDatabase().setTransactionSuccessful();
+        return sucesso;
     }
 
-    private void deletarEntidade(TEntidade entidade) {
+    private boolean deletarEntidade(TEntidade entidade) {
+        boolean sucesso = false;
+        this.getWritableDatabase().beginTransaction();
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
-        this.getReadableDatabase().delete(getNomeTabela(),
+        sucesso = this.getWritableDatabase().delete(getNomeTabela(),
                 "where " + parCampoValor.getNomeCampo() + " = ?",
-                new String[]{parCampoValor.getValor().toString()});
+                new String[]{parCampoValor.getValor().toString()}) > 0;
+        this.getWritableDatabase().setTransactionSuccessful();
+        return sucesso;
     }
 
-    public void salvar(TEntidade entidade, final String[] regrasIgnorar) {
+    public void salvar(final TEntidade entidade, final String[] regrasIgnorar) {
         try {
             if (entidade != null) {
                 executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
-                this.salvarEntidade(entidade);
+                salvarEntidade(entidade);
             } else {
-                throw new NullPointerException();
+                throw new NullPointerException("entidade");
             }
+        } catch (RegraNegocioException e) {
+            TratamentoExcecao.registrarRegraNegocioExcecao(e);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
+            getWritableDatabase().endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
 
-    public void deletar(TEntidade entidade, final String[] regrasIgnorar) {
+    public void deletar(final TEntidade entidade, final String[] regrasIgnorar) {
         try {
-            executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
-            this.deletarEntidade(entidade);
+            if (entidade != null) {
+                executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
+                deletarEntidade(entidade);
+            } else {
+                throw new NullPointerException("entidade");
+            }
+        } catch (RegraNegocioException e) {
+            TratamentoExcecao.registrarRegraNegocioExcecao(e);
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
+            getWritableDatabase().endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
 
-    private void registrarRegraNegocioSalvar(RegraNegocio<TEntidade> regraNegocio){
+    private void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosSalvar.add(regraNegocio);
     }
 
-    private void obterRegrasDeletar(RegraNegocio<TEntidade> regraNegocio){
+    private void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosDeletar.add(regraNegocio);
     }
 
-    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) {
+    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException {
         if (regraNegocios != null) {
             Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                 @Override
@@ -90,15 +109,9 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
             });
 
             for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
-                try {
-                    if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
-                        regraNegocio.validarRegra(tEntidade, this);
-                } catch (RegraNegocioException rn) {
-                    TratamentoExcecao.registrarRegraNegocioExcecao(rn);
-                    break;
-                }
+                if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
+                    regraNegocio.validarRegra(tEntidade, this);
             }
         }
     }
-
 }

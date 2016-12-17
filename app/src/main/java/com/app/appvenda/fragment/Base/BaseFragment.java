@@ -1,5 +1,7 @@
 package com.app.appvenda.fragment.base;
 
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
@@ -21,6 +23,11 @@ public class BaseFragment extends Fragment implements IBaseViews {
 
     @AfterViews
     public void init() {
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         this.baseActivity = (BaseActivity) this.getActivity();
     }
 
