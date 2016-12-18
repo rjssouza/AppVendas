@@ -6,10 +6,13 @@ import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
+
 /**
  * Created by Robson on 03/12/2016.
  */
-
+@EActivity
 public abstract class BaseActivityRN extends BaseActivity implements EventoVoid<RegraNegocioMensagem> {
 
     public BaseActivityRN() {
@@ -17,6 +20,7 @@ public abstract class BaseActivityRN extends BaseActivity implements EventoVoid<
     }
 
     @Override
+    @UiThread
     public void executarEvento(RegraNegocioMensagem item) {
         RegraNegocioException exception = item.getRegraNegocioException();
         if (exception.getTipoMensagem().equals(EnumTipoMensagem.PERGUNTA)) {

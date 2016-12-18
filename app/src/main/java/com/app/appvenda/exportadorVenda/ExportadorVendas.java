@@ -45,12 +45,12 @@ public class ExportadorVendas {
         try {
             MConfiguracao mConfiguracao = getmConfiguracao();
             this.iExportadorVendas = mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX ? new ExportadorVendasDropBox(context, mConfiguracao) : new ExportadorVendasServico(context, mConfiguracao);
-            this.iExportadorVendas.efetuarTesteConexao();
+            //this.iExportadorVendas.efetuarTesteConexao();
             importarBaseDados();
             exportarVendas();
         } catch (RegraNegocioException e) {
             TratamentoExcecao.registrarRegraNegocioExcecao(e);
-        } catch (Exception e){
+        } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
             TratamentoExcecao.invocarEvento();

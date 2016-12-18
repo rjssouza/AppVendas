@@ -91,7 +91,6 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
         }
     }
 
-    @Background
     void sincronizar() {
         this.exportadorVendas.evetuarSincronizacao();
     }

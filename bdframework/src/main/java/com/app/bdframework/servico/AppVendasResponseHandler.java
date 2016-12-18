@@ -25,6 +25,10 @@ public abstract class AppVendasResponseHandler<TObjetoSucesso> extends AsyncHttp
     private boolean sucesso = false;
     private Class<TObjetoSucesso> instanciaSucesso;
 
+    public AppVendasResponseHandler(Class<TObjetoSucesso> instanciaSucesso) {
+        this.instanciaSucesso = instanciaSucesso;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -33,8 +37,14 @@ public abstract class AppVendasResponseHandler<TObjetoSucesso> extends AsyncHttp
     @Override
     public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
         sucesso = true;
-        Gson gson = new Gson();
-        TObjetoSucesso objetoSucesso = gson.fromJson(new String(responseBody), instanciaSucesso);
+        String str = new String(responseBody); // for UTF-8 encoding
+        TObjetoSucesso objetoSucesso = null;
+        if (instanciaSucesso.isPrimitive() || instanciaSucesso.equals(String.class)) {
+            objetoSucesso = (TObjetoSucesso) str;
+        } else {
+            Gson gson = new Gson();
+            objetoSucesso = gson.fromJson(str, instanciaSucesso);
+        }
         try {
             posSucesso(statusCode, objetoSucesso);
         } catch (RegraNegocioException e) {

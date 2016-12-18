@@ -25,12 +25,9 @@ public class ClienteHttpAssincrono extends AsyncHttpClient implements EventoVoid
 
     @Override
     protected RequestHandle sendRequest(DefaultHttpClient client, HttpContext httpContext, HttpUriRequest uriRequest, String contentType, ResponseHandlerInterface responseHandler, Context context) {
-        requisicoes++;
-        if (responseHandler.getClass().getSimpleName().equals("AppVendasResponseHandler")) {
-            AppVendasResponseHandler appVendasResponseHandler = (AppVendasResponseHandler) responseHandler;
-            appVendasResponseHandler.setOnPostRequest(this);
-
-            return super.sendRequest(client, httpContext, uriRequest, contentType, appVendasResponseHandler, context);
+        if (responseHandler.getClass().getGenericSuperclass().toString().contains("AppVendasResponseHandler")) {
+            requisicoes++;
+            ((AppVendasResponseHandler) responseHandler).setOnPostRequest(this);
         }
         return super.sendRequest(client, httpContext, uriRequest, contentType, responseHandler, context);
     }

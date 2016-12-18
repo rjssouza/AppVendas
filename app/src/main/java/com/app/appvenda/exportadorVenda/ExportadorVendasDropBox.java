@@ -43,10 +43,10 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
     private boolean sucessoConexao = false;
     private ClienteHttpAssincrono clienteHttpAssincrono;
 
-    private String cliente;
-    private String estoques;
-    private String produtos;
-    private String vendedores;
+    public String[] cliente = {""};
+    public String[] estoques = {""};
+    public String[] produtos = {""};
+    public String[] vendedores = {""};
 
 
     public ExportadorVendasDropBox(Context context, MConfiguracao mConfiguracao) {
@@ -99,7 +99,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
     public void efetuarTesteConexao() throws RegraNegocioException {
         SyncHttpClient syncHttpClient = new SyncHttpClient();
 
-        syncHttpClient.get(context, this.mConfiguracao.getEnderecoServico().toString(), new AsyncHttpResponseHandler() {
+        syncHttpClient.get(context, this.mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaCliente(), "cliente.txt").toString(), new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 sucessoConexao = true;
@@ -117,62 +117,62 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
     }
 
     private void obterTexto(String valores, EventoVoid<Boolean> eventoVoid) throws RegraNegocioException {
-        if (valores == null) {
+        if (valores == "") {
+            clienteHttpAssincrono.setOnPostRequest(eventoVoid);
+
             criarRequisicao(mConfiguracao.getPastaCliente(), "cliente.txt", new EventoVoid<String>() {
                 @Override
                 public void executarEvento(String item) {
-                    cliente = item;
+                    cliente[0] = item;
                 }
             });
             criarRequisicao(mConfiguracao.getPastaEstoque(), "estoque.txt", new EventoVoid<String>() {
                 @Override
                 public void executarEvento(String item) {
-                    estoques = item;
+                    estoques[0] = item;
                 }
             });
             criarRequisicao(mConfiguracao.getPastaProduto(), "produto.txt", new EventoVoid<String>() {
                 @Override
                 public void executarEvento(String item) {
-                    produtos = item;
+                    produtos[0] = item;
                 }
             });
             criarRequisicao(mConfiguracao.getPastaVendedor(), "vendedor.txt", new EventoVoid<String>() {
                 @Override
                 public void executarEvento(String item) {
-                    vendedores = item;
+                    vendedores[0] = item;
                 }
             });
-
-            clienteHttpAssincrono.setOnPostRequest(eventoVoid);
         }
     }
 
     private void criarRequisicao(String pasta, String arquivo, final EventoVoid<String> preencher) {
-        clienteHttpAssincrono.get(context, mConfiguracao.getEnderecoCompleto(pasta, arquivo).toString(), new AppVendasResponseHandler<String>() {
-            @Override
-            protected void posSucesso(int statusCode, String s) throws Exception {
-                preencher.executarEvento(s);
-            }
+            clienteHttpAssincrono.get(context, mConfiguracao.getEnderecoCompleto(pasta, arquivo).toString(), new AppVendasResponseHandler<String>(String.class) {
+                @Override
+                protected void posSucesso(int statusCode, String s) throws Exception {
+                    preencher.executarEvento(s);
+                }
 
-            @Override
-            protected void posErro(int statusCode, Header[] headers, byte[] responseBody, Throwable error) throws RegraNegocioException {
-                throw new RegraNegocioException(error.getMessage(), EnumTipoMensagem.ERRO);
-            }
-        });
+                @Override
+                protected void posErro(int statusCode, Header[] headers, byte[] responseBody, Throwable error) throws RegraNegocioException {
+                    throw new RegraNegocioException(error.getMessage(), EnumTipoMensagem.ERRO);
+                }
+            });
     }
 
-    private <TRetorno> ArrayList<TRetorno> tratarRetorno(final String texto, final EventoRetorno<String[], TRetorno> eventoRetorno) throws RegraNegocioException {
+    private <TRetorno> ArrayList<TRetorno> tratarRetorno(final String[] texto, final EventoRetorno<String[], TRetorno> eventoRetorno) throws RegraNegocioException {
         final ArrayList<TRetorno>[] retornoList = new ArrayList[]{new ArrayList<>()};
 
-        obterTexto(texto, new EventoVoid<Boolean>() {
+        obterTexto(texto[0], new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws RegraNegocioException {
                 if (item)
-                    retornoList[0] = tratarRetorno(texto, eventoRetorno);
+                    retornoList[0] = interpretarLinhas(texto[0], eventoRetorno);
             }
         });
 
-        retornoList[0] = interpretarLinhas(texto, eventoRetorno);
+        retornoList[0] = interpretarLinhas(texto[0], eventoRetorno);
 
         return retornoList[0];
     }

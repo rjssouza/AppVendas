@@ -10,6 +10,7 @@ import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 
 /**
  * Created by Robson on 03/12/2016.
@@ -25,6 +26,7 @@ public abstract class BaseFragmentRN extends BaseFragment implements EventoVoid<
     }
 
     @Override
+    @UiThread
     public void executarEvento(RegraNegocioMensagem item) {
        this.baseActivityRN.executarEvento(item);
     }
