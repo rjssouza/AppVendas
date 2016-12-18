@@ -9,6 +9,7 @@ import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MVenda;
 import com.app.bdframework.enums.EnumTipoMensagem;
+import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
@@ -24,6 +25,7 @@ public class ExportadorVendas {
     private ConfiguracaoDAO configuracaoDAO;
     private Context context;
     private IExportadorVendas iExportadorVendas;
+    private EventoVoid<Boolean> eventoProcessamento;
 
     public ExportadorVendas(Context context) {
         this.context = context;
@@ -45,9 +47,17 @@ public class ExportadorVendas {
         try {
             MConfiguracao mConfiguracao = getmConfiguracao();
             this.iExportadorVendas = mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX ? new ExportadorVendasDropBox(context, mConfiguracao) : new ExportadorVendasServico(context, mConfiguracao);
-            //this.iExportadorVendas.efetuarTesteConexao();
+            this.iExportadorVendas.setEventoProcessamento(new EventoVoid<Boolean>() {
+                @Override
+                public void executarEvento(Boolean item) throws Exception {
+                    if (eventoProcessamento != null) {
+                        eventoProcessamento.executarEvento(item);
+                    }
+                }
+            });
+
+            this.iExportadorVendas.efetuarTesteConexao();
             importarBaseDados();
-            exportarVendas();
         } catch (RegraNegocioException e) {
             TratamentoExcecao.registrarRegraNegocioExcecao(e);
         } catch (Exception e) {
@@ -65,16 +75,22 @@ public class ExportadorVendas {
         ArrayList<MVenda> mVenda = obterVendasEfetuadas();
     }
 
-
     private ArrayList<MVenda> obterVendasEfetuadas() {
         return null;
     }
 
     private void importarClientes() throws RegraNegocioException {
-        ArrayList<MCliente> mClientes = iExportadorVendas.obterClientes();
-        for (MCliente mCliente : mClientes) {
-            clienteDAO.salvar(mCliente, null);
-        }
+        iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
+            @Override
+            public void executarEvento(ArrayList<MCliente> item) throws Exception {
+                for (MCliente mCliente : item) {
+                    clienteDAO.salvar(mCliente, null);
+                }
+            }
+        });
     }
 
+    public void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento) {
+        this.eventoProcessamento = eventoProcessamento;
+    }
 }

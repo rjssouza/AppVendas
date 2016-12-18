@@ -22,7 +22,7 @@ public class Telefone extends Entidade {
     @ColunaTabela
     private int id_cliente;
     @ColunaTabela
-    private int telefone;
+    private long telefone;
     @ColunaTabela
     private int id_tipo_telefone;
 
@@ -42,11 +42,11 @@ public class Telefone extends Entidade {
         this.id_cliente = id_cliente;
     }
 
-    public int getTelefone() {
+    public long getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(long telefone) {
         this.telefone = telefone;
     }
 

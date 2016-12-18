@@ -33,6 +33,7 @@ public class TratamentoExcecao {
                     e.printStackTrace();
                 }
             }
+            return;
         }
 
         if (exception != null) {
@@ -46,6 +47,7 @@ public class TratamentoExcecao {
                     }
                 }
             }
+            return;
         }
     }
 

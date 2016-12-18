@@ -19,13 +19,13 @@ import cz.msebera.android.httpclient.client.ResponseHandler;
  * Created by Robson on 15/12/2016.
  */
 
-public abstract class AppVendasResponseHandler<TObjetoSucesso> extends AsyncHttpResponseHandler {
+public abstract class CustomResponseHandler<TObjetoSucesso> extends AsyncHttpResponseHandler {
 
     private EventoVoid<Boolean> onPostRequest;
     private boolean sucesso = false;
     private Class<TObjetoSucesso> instanciaSucesso;
 
-    public AppVendasResponseHandler(Class<TObjetoSucesso> instanciaSucesso) {
+    public CustomResponseHandler(Class<TObjetoSucesso> instanciaSucesso) {
         this.instanciaSucesso = instanciaSucesso;
     }
 
@@ -50,7 +50,7 @@ public abstract class AppVendasResponseHandler<TObjetoSucesso> extends AsyncHttp
         } catch (RegraNegocioException e) {
             TratamentoExcecao.registrarRegraNegocioExcecao(e);
         } catch (Exception e) {
-            e.printStackTrace();
+            TratamentoExcecao.registrarExcecao(e);
         } finally {
             TratamentoExcecao.invocarEvento();
         }

@@ -4,6 +4,7 @@ import android.app.Application;
 import android.support.v4.util.LogWriter;
 import android.util.Log;
 
+import com.app.appvenda.conversores.ConversorCliente;
 import com.app.appvenda.conversores.ConversorConfiguracao;
 import com.app.appvenda.entidade.Configuracao;
 import com.app.appvenda.eventosExcecao.TratamentoEventoGeral;
@@ -22,6 +23,7 @@ public class AppVendaApp extends Application {
 
         TratamentoExcecao.registrarEvento(new TratamentoEventoGeral(this.getApplicationContext()));
         ConversorHelper.registrarConversor(new ConversorConfiguracao());
+        //ConversorHelper.registrarConversor(new ConversorCliente());
         BDHelper<Configuracao> configuracaoBDHelper = new RPConfiguracao(this.getApplicationContext());
         configuracaoBDHelper.salvarBDLocal();
     }

@@ -11,4 +11,5 @@
     <string name="aguarde">Por favor Aguarde</string>
     <string name="msg_config_salva_sucesso">Configurações salvas com sucesso</string>
     <string name="msg_url_indisponivel">Url indisponivel favor verificar configuracao</string>
+    <string name="msg_sem_conversor">Sem conversor registrado</string>
 </resources>

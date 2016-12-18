@@ -21,13 +21,13 @@ public class ClienteHttpAssincrono extends AsyncHttpClient implements EventoVoid
 
     private boolean sucesso = false;
     private static Integer requisicoes = 0;
-    private EventoVoid<Boolean> onPostRequest;
+    private static EventoVoid<Boolean> onPostRequest;
 
     @Override
     protected RequestHandle sendRequest(DefaultHttpClient client, HttpContext httpContext, HttpUriRequest uriRequest, String contentType, ResponseHandlerInterface responseHandler, Context context) {
-        if (responseHandler.getClass().getGenericSuperclass().toString().contains("AppVendasResponseHandler")) {
+        if (responseHandler.getClass().getGenericSuperclass().toString().contains("CustomResponseHandler")) {
             requisicoes++;
-            ((AppVendasResponseHandler) responseHandler).setOnPostRequest(this);
+            ((CustomResponseHandler) responseHandler).setOnPostRequest(this);
         }
         return super.sendRequest(client, httpContext, uriRequest, contentType, responseHandler, context);
     }

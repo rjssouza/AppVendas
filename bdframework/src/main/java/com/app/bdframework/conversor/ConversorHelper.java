@@ -16,7 +16,7 @@ public class ConversorHelper {
             try {
                 if (de != null)
                     return conversor.converterDePara(de);
-            } catch (Exception e) {
+            } catch (ClassCastException e) {
                 e.printStackTrace();
             }
         return null;
@@ -27,7 +27,7 @@ public class ConversorHelper {
             try {
                 if (para != null)
                     return conversor.converterParaDe(para);
-            } catch (Exception e) {
+            } catch (ClassCastException e) {
                 e.printStackTrace();
             }
         }

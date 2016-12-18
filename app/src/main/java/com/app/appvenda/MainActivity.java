@@ -91,7 +91,16 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
         }
     }
 
+    @UiThread
     void sincronizar() {
+        exibirProgress(R.string.aguarde, false);
+        this.exportadorVendas.setEventoProcessamento(new EventoVoid<Boolean>() {
+            @Override
+            public void executarEvento(Boolean item) throws Exception {
+                esconderProgress();
+            }
+        });
+        
         this.exportadorVendas.evetuarSincronizacao();
     }
 

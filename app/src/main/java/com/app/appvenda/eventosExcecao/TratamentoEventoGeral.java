@@ -13,14 +13,14 @@ public class TratamentoEventoGeral implements EventoVoid<RegraNegocioMensagem> {
 
     private Context context;
 
-    public TratamentoEventoGeral(Context context){
+    public TratamentoEventoGeral(Context context) {
         this.context = context;
     }
 
     @Override
     public void executarEvento(RegraNegocioMensagem item) {
         item.getException().printStackTrace();
-       // Toast.makeText(context, item.getMensagem(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(context, item.getMensagem(), Toast.LENGTH_SHORT).show();
     }
 
 }

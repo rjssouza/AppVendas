@@ -5,8 +5,10 @@ import android.content.Context;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MEstoque;
+import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVendedor;
+import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 
 import java.util.ArrayList;
@@ -26,27 +28,37 @@ public class ExportadorVendasServico implements IExportadorVendas {
     }
 
     @Override
-    public ArrayList<MCliente> obterClientes() throws RegraNegocioException {
-        return null;
+    public void obterClientes(EventoVoid<ArrayList<MCliente>> posPosExecucao) throws RegraNegocioException {
+
     }
 
     @Override
-    public ArrayList<MEstoque> obterEstoques() throws RegraNegocioException {
-        return null;
+    public void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException {
+
     }
 
     @Override
-    public ArrayList<MProduto> obterProdutos() throws RegraNegocioException {
-        return null;
+    public void obterProdutos(EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException {
+
     }
 
     @Override
-    public ArrayList<MVendedor> obterVendedores() throws RegraNegocioException {
-        return null;
+    public void obterVendedores(EventoVoid<ArrayList<MVendedor>> posPosExecucao) throws RegraNegocioException {
+
+    }
+
+    @Override
+    public void obterFormaPagto(EventoVoid<ArrayList<MFormaPagamento>> posPosExecucao) throws RegraNegocioException {
+
     }
 
     @Override
     public void efetuarTesteConexao() throws RegraNegocioException {
+
+    }
+
+    @Override
+    public void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento) {
 
     }
 

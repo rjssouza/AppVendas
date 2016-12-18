@@ -12,8 +12,8 @@ public class MCliente {
     private long cpf;
     private long coord_x;
     private long coord_y;
-    private int telefone;
-    private int celular;
+    private long telefone;
+    private long celular;
     private boolean ativo;
 
     public boolean isAtivo() {
@@ -80,19 +80,19 @@ public class MCliente {
         this.coord_y = coord_y;
     }
 
-    public int getTelefone() {
+    public long getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(int telefone) {
+    public void setTelefone(long telefone) {
         this.telefone = telefone;
     }
 
-    public int getCelular() {
+    public long getCelular() {
         return celular;
     }
 
-    public void setCelular(int celular) {
+    public void setCelular(long celular) {
         this.celular = celular;
     }
 
