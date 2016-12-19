@@ -18,6 +18,7 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
         celular.setId_tipo_telefone(EnumTipoTelefone.CELULAR.getNumVal());
         celular.setTelefone(mCliente.getCelular());
 
+        cliente.setCod_cliente(mCliente.getId());
         cliente.setId_cliente(mCliente.getId());
         cliente.setCnpj(mCliente.getCnpj());
         cliente.setCpf(mCliente.getCpf());

@@ -1,5 +1,7 @@
 package com.app.bdframework.conversor;
 
+import com.app.bdframework.excecoes.RegraNegocioException;
+
 import java.util.ArrayList;
 import java.util.List;
 

@@ -22,6 +22,18 @@ public class Produto extends Entidade {
 
     @ChavePrimaria
     private int id_produto;
+    @ColunaTabela
+    private String nome;
+    @ColunaTabela
+    private Double valor_unitario;
+    @ColunaTabela
+    private String foto;
+    @ColunaTabela
+    private Double valor_final;
+    @ColunaTabela
+    private Boolean ativo;
+    @ColunaTabela
+    private int qtd_limite;
 
     public int getId_produto() {
         return id_produto;
@@ -74,22 +86,9 @@ public class Produto extends Entidade {
     public int getQtd_limite() {
         return qtd_limite;
     }
-
     public void setQtd_limite(int qtd_limite) {
         this.qtd_limite = qtd_limite;
     }
-    @ColunaTabela
-    private String nome;
-    @ColunaTabela
-    private Double valor_unitario;
-    @ColunaTabela
-    private String foto;
-    @ColunaTabela
-    private Double valor_final;
-    @ColunaTabela
-    private Boolean ativo;
-    @ColunaTabela
-    private int qtd_limite;
 
 
 }

@@ -29,11 +29,11 @@ public class TratamentoExcecao {
                 RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
                 try {
                     eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                    regraNegocioException = null;
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-            return;
         }
 
         if (exception != null) {
@@ -42,12 +42,12 @@ public class TratamentoExcecao {
                     RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
                     try {
                         eventoVoid.executarEvento(regraNegocioMensagem);
+                        exception = null;
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
             }
-            return;
         }
     }
 

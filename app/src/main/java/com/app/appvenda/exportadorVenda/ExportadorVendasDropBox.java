@@ -54,9 +54,15 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
             @Override
             public MCliente executarEvento(String[] strings) {
                 MCliente mCliente = new MCliente();
+                mCliente.setId(Integer.parseInt(strings[8]));
+                mCliente.setNome(strings[13]);
+                mCliente.setNomeFantasia(strings[14]);
+                mCliente.setCnpj(Long.parseLong(strings[7]));
                 mCliente.setAtivo(Boolean.parseBoolean(strings[0]));
-                mCliente.setCelular(Long.parseLong(strings[17].replace(" ", "")));
-                mCliente.setCelular(Long.parseLong(strings[18].replace(" ", "")));
+                if (!strings[17].toString().replaceAll("\\D+", "").equals(""))
+                    mCliente.setCelular(Long.parseLong(strings[17].replaceAll("\\D+", "")));
+                if (!strings[18].toString().replaceAll("\\D+", "").equals(""))
+                    mCliente.setCelular(Long.parseLong(strings[18].replaceAll("\\D+", "")));
                 return mCliente;
             }
         });
@@ -131,21 +137,16 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
         });
     }
 
-    private <TRetorno> ArrayList<TRetorno> interpretarLinhas(String texto, EventoRetorno<String[], TRetorno> converterPara) {
+    private <TRetorno> ArrayList<TRetorno> interpretarLinhas(String texto, EventoRetorno<String[], TRetorno> converterPara) throws Exception {
         ArrayList<TRetorno> retornoList = new ArrayList<>();
         if (converterPara != null) {
             String line;
             BufferedReader br = new BufferedReader(new StringReader(texto));
 
-            try {
-                while ((line = br.readLine()) != null) {
-                    retornoList.add(converterPara.executarEvento(line.split("\\|")));
-                }
-            } catch (Exception e) {
-                TratamentoExcecao.registrarExcecao(e);
-            } finally {
-                TratamentoExcecao.invocarEvento();
+            while ((line = br.readLine()) != null) {
+                retornoList.add(converterPara.executarEvento(line.split("\\|")));
             }
+
         }
         return retornoList;
     }

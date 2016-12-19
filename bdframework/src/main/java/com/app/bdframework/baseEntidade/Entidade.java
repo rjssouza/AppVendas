@@ -101,7 +101,7 @@ public abstract class Entidade {
                                 contentValues.put(field.getName(), field.get(this).toString());
                                 break;
                             case "BOOLEAN":
-                                contentValues.put(field.getName(), field.getBoolean(this));
+                                contentValues.put(field.getName(), (Boolean) field.get(this));
                                 break;
                             case "INT":
                                 contentValues.put(field.getName(), field.getInt(this));
@@ -110,13 +110,13 @@ public abstract class Entidade {
                                 contentValues.put(field.getName(), (Integer) field.get(this));
                                 break;
                             case "LONG":
-                                contentValues.put(field.getName(), field.getLong(this));
+                                contentValues.put(field.getName(), (Long) field.get(this));
                                 break;
                             case "SHORT":
                                 contentValues.put(field.getName(), (Short) field.get(this));
                                 break;
                             case "DOUBLE":
-                                contentValues.put(field.getName(), field.getDouble(this));
+                                contentValues.put(field.getName(), (Double) field.get(this));
                                 break;
                             default:
                                 break;

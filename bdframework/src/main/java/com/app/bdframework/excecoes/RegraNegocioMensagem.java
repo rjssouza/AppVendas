@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class RegraNegocioMensagem {
 
-    private String mensagem;
+    private String mensagem = "";
     private RegraNegocioException regraNegocioException;
     private Exception exception;
 
@@ -23,7 +23,7 @@ public class RegraNegocioMensagem {
     RegraNegocioMensagem(Exception exception, @SuppressWarnings("SameParameterValue") boolean somenteException) {
         this.exception = exception;
 
-        mensagem += TradutorMensagemException.obterMensagem(exception, false);
+        mensagem +=  TradutorMensagemException.obterMensagem(exception, false);
         mensagem += "\n";
     }
 

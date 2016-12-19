@@ -23,7 +23,7 @@ public class AppVendaApp extends Application {
 
         TratamentoExcecao.registrarEvento(new TratamentoEventoGeral(this.getApplicationContext()));
         ConversorHelper.registrarConversor(new ConversorConfiguracao());
-        //ConversorHelper.registrarConversor(new ConversorCliente());
+        ConversorHelper.registrarConversor(new ConversorCliente());
         BDHelper<Configuracao> configuracaoBDHelper = new RPConfiguracao(this.getApplicationContext());
         configuracaoBDHelper.salvarBDLocal();
     }

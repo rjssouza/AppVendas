@@ -68,7 +68,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
-            getWritableDatabase().endTransaction();
+            endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
@@ -86,7 +86,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
-            getWritableDatabase().endTransaction();
+            endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
@@ -97,6 +97,11 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     private void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosDeletar.add(regraNegocio);
+    }
+
+    private void endTransaction(){
+        if (getWritableDatabase().inTransaction())
+            getWritableDatabase().endTransaction();
     }
 
     private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException {
