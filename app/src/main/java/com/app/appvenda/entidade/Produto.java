@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -16,7 +17,7 @@ public class Produto extends Entidade<Integer> {
     public final static String VALOR_FINAL = "valor_final";
     public final static String VALOR_UNITARIO = "valor_unitario";
 
-    public Produto(Cursor cursor){
+    public Produto(Cursor cursor) {
         super(cursor);
     }
 
@@ -34,6 +35,21 @@ public class Produto extends Entidade<Integer> {
     private Boolean ativo;
     @ColunaTabela
     private int qtd_limite;
+
+    private Estoque estoque;
+
+    @Override
+    public void complementarEntidade(Context context) {
+
+    }
+
+    public Estoque getEstoque() {
+        return estoque;
+    }
+
+    public void setEstoque(Estoque estoque) {
+        this.estoque = estoque;
+    }
 
     public int getId_produto() {
         return id_produto;
@@ -86,6 +102,7 @@ public class Produto extends Entidade<Integer> {
     public int getQtd_limite() {
         return qtd_limite;
     }
+
     public void setQtd_limite(int qtd_limite) {
         this.qtd_limite = qtd_limite;
     }

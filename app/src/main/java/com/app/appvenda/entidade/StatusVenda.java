@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -14,6 +15,11 @@ public class StatusVenda extends Entidade<Integer> {
 
     public StatusVenda(Cursor cursor){
         super(cursor);
+    }
+
+    @Override
+    public void complementarEntidade(Context context) {
+
     }
 
     @ChavePrimaria

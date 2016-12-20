@@ -21,8 +21,10 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.MessageConstraintException;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -68,26 +70,55 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
         });
     }
 
-    @Override
-    public void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException {
+    private void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException {
         URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_ESTOQUE);
         obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MEstoque>() {
             @Override
             public MEstoque executarEvento(String[] strings) {
-                return null;
+                MEstoque mEstoque = new MEstoque();
+                mEstoque.setIdEstoque(Integer.parseInt(strings[0]));
+                mEstoque.setIdProduto(Integer.parseInt(strings[4]));
+                mEstoque.setQuantidade(Integer.parseInt(strings[2]));
+                mEstoque.setValorFinal(Double.parseDouble(strings[6]));
+                mEstoque.setValorProduto(Double.parseDouble(strings[3]));
+                return mEstoque;
             }
         });
     }
 
     @Override
-    public void obterProdutos(EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException {
-        URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_PRODUTO);
-        obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MProduto>() {
+    public void obterProdutos(final EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException {
+        final URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_PRODUTO);
+        final List<MEstoque> estoques = new ArrayList<>();
+        obterEstoques(new EventoVoid<ArrayList<MEstoque>>() {
             @Override
-            public MProduto executarEvento(String[] strings) {
-                return null;
+            public void executarEvento(ArrayList<MEstoque> item) throws Exception {
+                estoques.addAll(item);
+
+                obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MProduto>() {
+                    @Override
+                    public MProduto executarEvento(String[] strings) {
+                        MProduto mProduto = new MProduto();
+                        mProduto.setIdProduto(Integer.parseInt(strings[1]));
+                        mProduto.setNome(strings[4]);
+                        mProduto.setCodProduto(Integer.parseInt(strings[3]));
+                        mProduto.setAtivo(Boolean.parseBoolean(strings[0]));
+                        mProduto.setFoto(strings[3]);
+                        mProduto.setQtdLimite(Integer.parseInt(strings[8]));
+                        mProduto.setValorFinal(Double.parseDouble(strings[9]));
+                        mProduto.setPercentualVendas(Double.parseDouble(strings[7]));
+
+                        for (MEstoque mEstoque : estoques) {
+                            if (mEstoque.getIdProduto() == mProduto.getIdProduto())
+                                mProduto.setmEstoque(mEstoque);
+                        }
+                        return mProduto;
+                    }
+                });
             }
         });
+
+
     }
 
     @Override

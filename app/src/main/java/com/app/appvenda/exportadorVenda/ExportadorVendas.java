@@ -4,10 +4,13 @@ import android.content.Context;
 
 import com.app.appvenda.DAO.ClienteDAO;
 import com.app.appvenda.DAO.ConfiguracaoDAO;
+import com.app.appvenda.DAO.ProdutoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
+import com.app.appvenda.modelos.MEstoque;
+import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVenda;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;
@@ -24,6 +27,8 @@ public class ExportadorVendas {
 
     private ClienteDAO clienteDAO;
     private ConfiguracaoDAO configuracaoDAO;
+    private ProdutoDAO produtoDAO;
+
     private Context context;
     private IExportadorVendas iExportadorVendas;
     private EventoVoid<Boolean> eventoProcessamento;
@@ -32,9 +37,11 @@ public class ExportadorVendas {
     public ExportadorVendas(Context context) {
         this.context = context;
         clienteDAO = new ClienteDAO(context);
+        produtoDAO = new ProdutoDAO(context);
         configuracaoDAO = new ConfiguracaoDAO(context);
 
         clienteDAO.setEventoPosExecucao(eventoPosProcessamento());
+        produtoDAO.setEventoPosExecucao(eventoPosProcessamento());
     }
 
     public void evetuarSincronizacao() {
@@ -67,22 +74,9 @@ public class ExportadorVendas {
         return mConfiguracao;
     }
 
-    private EventoVoid<Boolean> eventoPosProcessamento()  {
-        return new EventoVoid<Boolean>() {
-            @Override
-            public void executarEvento(Boolean item) throws Exception {
-                qtdRequest--;
-                if (qtdRequest <= 0) {
-                    if (eventoProcessamento != null) {
-                        eventoProcessamento.executarEvento(item);
-                    }
-                }
-            }
-        };
-    }
-
     private void importarBaseDados() throws RegraNegocioException {
         importarClientes();
+        importarProdutos();
     }
 
     private void exportarVendas() {
@@ -93,7 +87,7 @@ public class ExportadorVendas {
         return null;
     }
 
-    private void importarClientes() throws RegraNegocioException {
+    private synchronized void importarClientes() throws RegraNegocioException {
         qtdRequest++;
         iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
             @Override
@@ -103,6 +97,33 @@ public class ExportadorVendas {
                 }
             }
         });
+    }
+
+    private synchronized void importarProdutos() throws RegraNegocioException {
+        qtdRequest++;
+        iExportadorVendas.obterProdutos(new EventoVoid<ArrayList<MProduto>>() {
+            @Override
+            public void executarEvento(ArrayList<MProduto> item) throws Exception {
+                for (MProduto mProduto : item) {
+                    produtoDAO.salvar(mProduto, null);
+                }
+            }
+        });
+    }
+
+
+    private EventoVoid<Boolean> eventoPosProcessamento() {
+        return new EventoVoid<Boolean>() {
+            @Override
+            public synchronized void executarEvento(Boolean item) throws Exception {
+                qtdRequest--;
+                if (qtdRequest <= 0) {
+                    if (eventoProcessamento != null) {
+                        eventoProcessamento.executarEvento(item);
+                    }
+                }
+            }
+        };
     }
 
 }

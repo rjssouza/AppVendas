@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -17,10 +18,19 @@ public class FormaPagto extends Entidade<Integer> {
         super(cursor);
     }
 
+    @Override
+    public void complementarEntidade(Context context) {
+
+    }
+
+    @ColunaTabela
+    private Double val_perc;
     @ChavePrimaria
     private int id_forma_pagto;
     @ColunaTabela
     private int cod_forma_pagto;
+    @ColunaTabela
+    private String descr_forma_pagto;
 
     public int getId_forma_pagto() {
         return id_forma_pagto;
@@ -53,9 +63,5 @@ public class FormaPagto extends Entidade<Integer> {
     public void setVal_perc(Double val_perc) {
         this.val_perc = val_perc;
     }
-    @ColunaTabela
-    private String descr_forma_pagto;
-    @ColunaTabela
-    private Double val_perc;
 
 }

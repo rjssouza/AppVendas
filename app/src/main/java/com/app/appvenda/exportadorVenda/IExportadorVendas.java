@@ -18,8 +18,6 @@ public interface IExportadorVendas {
 
     void obterClientes(EventoVoid<ArrayList<MCliente>> posPosExecucao) throws RegraNegocioException;
 
-    void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException;
-
     void obterProdutos(EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException;
 
     void obterVendedores(EventoVoid<ArrayList<MVendedor>> posPosExecucao) throws RegraNegocioException;

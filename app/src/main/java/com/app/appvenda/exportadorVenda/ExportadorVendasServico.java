@@ -33,11 +33,6 @@ public class ExportadorVendasServico implements IExportadorVendas {
     }
 
     @Override
-    public void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException {
-
-    }
-
-    @Override
     public void obterProdutos(EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException {
 
     }

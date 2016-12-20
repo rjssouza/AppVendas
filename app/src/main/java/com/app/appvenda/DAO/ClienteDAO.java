@@ -17,7 +17,7 @@ public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
     private RPTelefone rpTelefone;
 
     public ClienteDAO(Context context) {
-        super(context);
+        super(context, Cliente.class);
         this.rpTelefone = new RPTelefone(context);
     }
 
@@ -27,16 +27,13 @@ public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
     }
 
     @Override
-    protected void efetuarsalvar(MCliente mCliente, String[] regrasIgnorar) {
-        Cliente cliente = ConversorHelper.converterParaDe(mCliente);
-        this.repositorio.salvar(cliente, regrasIgnorar);
+    protected void posSalvar(Cliente cliente, String[] regrasIgnorar) {
         this.rpTelefone.salvar(cliente.getCelular(), regrasIgnorar);
         this.rpTelefone.salvar(cliente.getFixo(), regrasIgnorar);
     }
 
     @Override
-    protected void efetuardeletar(MCliente mCliente, String[] regrasIgnorar) {
-        Cliente cliente = ConversorHelper.converterParaDe(mCliente);
+    protected void preDeletar(Cliente cliente, String[] regrasIgnorar) {
         List<Telefone> telefones = this.rpTelefone.executarQuery(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + " = ?",
                 new String[]{cliente.getId_cliente().toString()});
         for (Telefone telefone : telefones) {

@@ -88,6 +88,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
             if (cursor.moveToFirst()) {
                 do {
                     TEntidade entidade = obterEntidade(cursor);
+                    entidade.complementarEntidade(_context);
                     tEntidades.add(entidade);
                 } while (cursor.moveToNext());
                 return tEntidades;
@@ -108,6 +109,7 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
                 TEntidade _entidade;
                 do {
                     _entidade = obterEntidade(cursor);
+                    _entidade.complementarEntidade(_context);
                 } while (cursor.moveToNext());
                 return _entidade;
             }

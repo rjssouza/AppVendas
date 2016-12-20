@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -19,6 +20,11 @@ public class Venda extends Entidade<Integer> {
         super(cursor);
     }
 
+    @Override
+    public void complementarEntidade(Context context) {
+
+    }
+
     @ChavePrimaria
     private int id_venda;
     @ColunaTabela
@@ -31,6 +37,10 @@ public class Venda extends Entidade<Integer> {
     private int id_status_venda;
     @ColunaTabela
     private boolean sincronizado;
+
+    private Pedido pedido;
+    private StatusVenda statusVenda;
+    private Vendedor vendedor;
 
     public Integer getId_venda() {
         return id_venda;

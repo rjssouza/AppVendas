@@ -16,24 +16,22 @@ import com.app.bdframework.conversor.ConversorHelper;
 public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
 
     public ConfiguracaoDAO(Context context) {
-        super(context);
+        super(context, Configuracao.class);
+    }
+
+    @Override
+    protected void posSalvar(Configuracao configuracao, String[] regrasIgnorar) {
+
+    }
+
+    @Override
+    protected void preDeletar(Configuracao configuracao, String[] regrasIgnorar) {
+
     }
 
     @Override
     protected Repositorio<Configuracao> obterRepositorio(Context context) {
         return new RPConfiguracao(context);
-    }
-
-    @Override
-    protected void efetuarsalvar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
-        Configuracao configuracao = ConversorHelper.converterParaDe(mConfiguracao);
-        this.repositorio.salvar(configuracao, regrasIgnorar);
-    }
-
-    @Override
-    protected void efetuardeletar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
-        Configuracao configuracao = ConversorHelper.converterParaDe(mConfiguracao);
-        this.repositorio.deletar(configuracao, null);
     }
 
     public MConfiguracao obterConfiguracao(EnumTipoConfiguracao tipoConfiguracao) {

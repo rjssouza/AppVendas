@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -18,10 +19,21 @@ public class PedidoProduto extends Entidade<Integer> {
         super(cursor);
     }
 
+    @Override
+    public void complementarEntidade(Context context) {
+
+    }
+
     @ChavePrimaria
     private int id_pedido_produto;
     @ColunaTabela
     private int id_pedido;
+    @ColunaTabela
+    private int id_produto;
+    @ColunaTabela
+    private int quantidade;
+    @ColunaTabela
+    private int id_tipo_pedido;
 
     public int getId_pedido_produto() {
         return id_pedido_produto;
@@ -62,11 +74,5 @@ public class PedidoProduto extends Entidade<Integer> {
     public void setId_tipo_pedido(int id_tipo_pedido) {
         this.id_tipo_pedido = id_tipo_pedido;
     }
-    @ColunaTabela
-    private int id_produto;
-    @ColunaTabela
-    private int quantidade;
-    @ColunaTabela
-    private int id_tipo_pedido;
 
 }

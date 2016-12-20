@@ -1,5 +1,6 @@
 package com.app.appvenda.entidade;
 
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -31,6 +32,13 @@ public class Pedido extends Entidade<Integer> {
     private Long coord_y;
     @ColunaTabela
     private int id_forma_pagto;
+
+    private FormaPagto formaPagto;
+
+    @Override
+    public void complementarEntidade(Context context) {
+
+    }
 
     public Integer getId_pedido() {
         return id_pedido;

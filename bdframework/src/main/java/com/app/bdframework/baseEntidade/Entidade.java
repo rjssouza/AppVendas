@@ -1,6 +1,7 @@
 package com.app.bdframework.baseEntidade;
 
 import android.content.ContentValues;
+import android.content.Context;
 import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -122,5 +123,7 @@ public abstract class Entidade<TChavePrimaria> {
         }
         return contentValues;
     }
+
+    public abstract void complementarEntidade(Context context);
 
 }
