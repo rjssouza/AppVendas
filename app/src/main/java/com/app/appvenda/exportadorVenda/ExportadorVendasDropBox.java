@@ -118,11 +118,6 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
     }
 
-    @Override
-    public void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento) {
-        this.clienteHttpAssincrono.setOnPostRequest(eventoProcessamento);
-    }
-
     public <TRetorno> void obterTexto(URI uri, final EventoVoid<ArrayList<TRetorno>> posPosExecucao, final EventoRetorno<String[], TRetorno> converterPara) {
         clienteHttpAssincrono.get(context, uri.toString(), new CustomResponseHandler<String>(String.class) {
             @Override

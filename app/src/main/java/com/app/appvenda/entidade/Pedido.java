@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class Pedido extends Entidade {
+public class Pedido extends Entidade<Integer> {
 
     public final static String COORD_X = "coord_x";
     public final static String COORD_Y = "coord_y";

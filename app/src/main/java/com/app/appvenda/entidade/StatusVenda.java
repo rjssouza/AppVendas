@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class StatusVenda extends Entidade {
+public class StatusVenda extends Entidade<Integer> {
 
     public final static String COD_STATUS = "cod_status";
     public final static String DESCR_STATUS = "descr_status";

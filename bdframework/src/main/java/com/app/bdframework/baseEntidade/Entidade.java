@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * Classe base para todas as entidades, esta possui metodos necessarios a operações CRUD do objeto
  */
-public abstract class Entidade {
+public abstract class Entidade<TChavePrimaria> {
 
     public static String[] getTodasColunas(Class tipo) {
         List<String> todasColunas = new ArrayList<>();
@@ -65,21 +65,14 @@ public abstract class Entidade {
         }
     }
 
-    ParCampoValor<Integer> getChavePrimaria() {
+    ParCampoValor<TChavePrimaria> getChavePrimaria() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
                 ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
                 if (chavePrimaria != null) {
                     try {
-                        switch (field.getType().getSimpleName().toUpperCase()) {
-                            case "INT":
-                                return new ParCampoValor<>(field.getInt(this), field.getName());
-                            case "INTEGER":
-                                return new ParCampoValor<>((Integer) field.get(this), field.getName());
-                            default:
-                                return null;
-                        }
+                        return new ParCampoValor<>((TChavePrimaria) field.get(this), field.getName());
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }

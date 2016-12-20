@@ -10,7 +10,7 @@ import com.app.bdframework.baseEntidade.Entidade;
  * Created by Robson on 30/11/2016.
  */
 
-public class Configuracao extends Entidade {
+public class Configuracao extends Entidade<Integer> {
 
     public final static String ID_CONFIGURACAO = "id_configuracao";
     public final static String ENDERECO_ATIVO = "endereco_servico";

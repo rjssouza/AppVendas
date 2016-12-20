@@ -19,4 +19,5 @@ INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (2, 'TR
 INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (3, 'DEVOLUCAO');
 INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (1, 'PAGO');
 INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (2, 'NAO_PAGO');
+INSERT INTO [tb_configuracao] (endereco_servico, pasta_forma_pagto, pasta_fotos, tipo_config, pasta_cliente, pasta_estoque, pasta_produto, pasta_venda, pasta_vendedor, principal ) values ('https://dl.dropboxusercontent.com/s/', 'iks2sqzhtylaen3', 'vxpn8dlp9l8y4ck', '1', 'dh9utttcgq7qa95', 'jnkkvykemi6681b', 'sm9z6xlj7m2lkeb', '56wf3el68whhf6w', 'unmgecnxg4s9ri1', '1');
 INSERT INTO [tb_vendedor] (nome) VALUES ('TESTE');

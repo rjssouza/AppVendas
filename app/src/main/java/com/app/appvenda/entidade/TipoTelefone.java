@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class TipoTelefone extends Entidade{
+public class TipoTelefone extends Entidade<Integer> {
 
     public final static String DESCR_TIPO_TELEFONE = "descr_tipo_telefone";
     public final static String ID_TIPO_TELEFONE = "id_tipo_telefone";

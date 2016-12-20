@@ -13,7 +13,7 @@ public class ConversorHelper {
         listaConversor.add(conversor);
     }
 
-    public static <TDe, TPara> TPara converter(TDe de) {
+    public static <TDe, TPara> TPara converterParaDe(TDe de) {
         for (@SuppressWarnings("unchecked") Conversor<TDe, TPara> conversor : listaConversor)
             try {
                 if (de != null)
@@ -24,7 +24,7 @@ public class ConversorHelper {
         return null;
     }
 
-    public static <TDe, TPara> TDe converter(TPara para, boolean cde) {
+    public static <TDe, TPara> TDe converterParaDe(TPara para, boolean cde) {
         for (@SuppressWarnings("unchecked") Conversor<TDe, TPara> conversor : listaConversor) {
             try {
                 if (para != null)

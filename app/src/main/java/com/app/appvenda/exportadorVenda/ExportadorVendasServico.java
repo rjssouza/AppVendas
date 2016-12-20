@@ -57,9 +57,5 @@ public class ExportadorVendasServico implements IExportadorVendas {
 
     }
 
-    @Override
-    public void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento) {
-
-    }
 
 }

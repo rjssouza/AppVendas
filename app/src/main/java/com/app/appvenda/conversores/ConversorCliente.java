@@ -14,9 +14,12 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
         Telefone telefone = new Telefone(null);
         telefone.setId_tipo_telefone(EnumTipoTelefone.FIXO.getNumVal());
         telefone.setTelefone(mCliente.getTelefone());
+        telefone.setId_cliente(mCliente.getId());
+
         Telefone celular = new Telefone(null);
         celular.setId_tipo_telefone(EnumTipoTelefone.CELULAR.getNumVal());
         celular.setTelefone(mCliente.getCelular());
+        celular.setId_cliente(mCliente.getId());
 
         cliente.setCod_cliente(mCliente.getId());
         cliente.setId_cliente(mCliente.getId());

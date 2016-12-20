@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Classe base para repositorios, esta possui métodos básicos de consulta e CRUD, trabalha em conjunto com a base de entidades
@@ -31,7 +33,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     private boolean salvarEntidade(TEntidade entidade) {
         boolean sucesso = false;
         this.getWritableDatabase().beginTransaction();
-        ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
+        ParCampoValor parCampoValor = entidade.getChavePrimaria();
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
         if (existe)
@@ -55,7 +57,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         return sucesso;
     }
 
-    public void salvar(final TEntidade entidade, final String[] regrasIgnorar) {
+    public void salvar(final TEntidade entidade, final String[] regrasIgnorar)  {
         try {
             if (entidade != null) {
                 executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
@@ -99,9 +101,13 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         this.regraNegociosDeletar.add(regraNegocio);
     }
 
-    private void endTransaction(){
-        if (getWritableDatabase().inTransaction())
+    private void endTransaction() {
+        if (getWritableDatabase().inTransaction()) {
+            if (!TratamentoExcecao.existeExcecao() && Thread.currentThread().getUncaughtExceptionHandler() == null) {
+                getWritableDatabase().setTransactionSuccessful();
+            }
             getWritableDatabase().endTransaction();
+        }
     }
 
     private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException {

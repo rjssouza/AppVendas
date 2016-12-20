@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class Vendedor extends Entidade {
+public class Vendedor extends Entidade<Integer> {
 
     public final static String ID_VENDEDOR = "id_vendedor";
     public final static String NOME = "nome";

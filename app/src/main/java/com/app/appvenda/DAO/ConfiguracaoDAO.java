@@ -25,14 +25,14 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
     }
 
     @Override
-    public void salvar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
-        Configuracao configuracao = ConversorHelper.converter(mConfiguracao);
+    protected void efetuarsalvar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
+        Configuracao configuracao = ConversorHelper.converterParaDe(mConfiguracao);
         this.repositorio.salvar(configuracao, regrasIgnorar);
     }
 
     @Override
-    public void deletar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
-        Configuracao configuracao = ConversorHelper.converter(mConfiguracao);
+    protected void efetuardeletar(MConfiguracao mConfiguracao, String[] regrasIgnorar) {
+        Configuracao configuracao = ConversorHelper.converterParaDe(mConfiguracao);
         this.repositorio.deletar(configuracao, null);
     }
 
@@ -40,21 +40,21 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
         Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.TIPO_CONFIG + " = ?", new String[]{
                 tipoConfiguracao.getNumVal().toString()
         });
-        return ConversorHelper.converter(configuracao, true);
+        return ConversorHelper.converterParaDe(configuracao, true);
     }
 
     public MConfiguracao obterConfiguracaoAtiva() {
         Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
                 "1"
         });
-        return ConversorHelper.converter(configuracao, true);
+        return ConversorHelper.converterParaDe(configuracao, true);
     }
 
     public MConfiguracao obterConfiguracaoSecundaria() {
         Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
                 "0"
         });
-        return ConversorHelper.converter(configuracao, true);
+        return ConversorHelper.converterParaDe(configuracao, true);
     }
 
     public void transformarPrincipal(EnumTipoConfiguracao tipoConfiguracao) {

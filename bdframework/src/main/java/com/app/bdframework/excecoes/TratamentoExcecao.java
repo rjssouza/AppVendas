@@ -15,6 +15,10 @@ public class TratamentoExcecao {
     private static EventoVoid<RegraNegocioMensagem> eventoRegraNegocioException = null;
     private static final List<EventoVoid<RegraNegocioMensagem>> eventoException = new ArrayList<>();
 
+    public static boolean existeExcecao(){
+        return (exception != null || regraNegocioException != null);
+    }
+
     public static void registrarRegraNegocioExcecao(RegraNegocioException rn) {
         regraNegocioException = rn;
     }

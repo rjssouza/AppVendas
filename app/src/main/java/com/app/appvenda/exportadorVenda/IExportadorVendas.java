@@ -28,6 +28,4 @@ public interface IExportadorVendas {
 
     void efetuarTesteConexao() throws RegraNegocioException;
 
-    void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento);
-
 }

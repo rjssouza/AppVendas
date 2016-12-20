@@ -22,6 +22,7 @@ public abstract class BaseActivityRN extends BaseActivity implements EventoVoid<
     @Override
     @UiThread
     public void executarEvento(RegraNegocioMensagem item) {
+        esconderProgress();
         RegraNegocioException exception = item.getRegraNegocioException();
         if (exception.getTipoMensagem().equals(EnumTipoMensagem.PERGUNTA)) {
             this.executarPergunta(item);

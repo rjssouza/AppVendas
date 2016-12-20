@@ -1,7 +1,7 @@
 package com.app.bdframework.utils;
 
 /**
- * Classe responsavel por converter exceções em mensagem de texto corrida
+ * Classe responsavel por converterParaDe exceções em mensagem de texto corrida
  */
 public class TradutorMensagemException {
 

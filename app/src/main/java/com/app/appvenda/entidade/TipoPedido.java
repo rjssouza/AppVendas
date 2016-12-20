@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class TipoPedido extends Entidade {
+public class TipoPedido extends Entidade<Integer> {
 
     public final static String COD_TIPO_PEDIDO = "cod_tipo_pedido";
     public final static String DESCR_TIPO_PEDIDO = "descr_tipo_pedido";

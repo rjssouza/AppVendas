@@ -8,6 +8,7 @@ import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.fragment.base.BaseFragmentRN;
 import com.app.appvenda.modelos.MConfiguracao;
+import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
@@ -53,6 +54,13 @@ public class FragmentConfigurar extends BaseFragmentRN {
     @AfterViews
     void Init() {
         configuracaoDAO = new ConfiguracaoDAO(this.getContext());
+        configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
+            @Override
+            public void executarEvento(Boolean item) throws Exception {
+                exibirMensagemToast(R.string.msg_config_salva_sucesso);
+                esconderProgress();
+            }
+        });
         mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva() == null ? new MConfiguracao() : configuracaoDAO.obterConfiguracaoAtiva();
 
         if (mConfiguracao.getTipoConfig() == EnumTipoConfiguracao.DROPBOX) {
@@ -104,11 +112,6 @@ public class FragmentConfigurar extends BaseFragmentRN {
     @Click(R.id.btnSalvar)
     void salvarConfig() {
         exibirProgress(R.string.aguarde, false);
-        efetuarSalvar();
-    }
-
-    @Background
-    void efetuarSalvar() {
         String enderecoUri = txtEndServicio.getText().toString();
         URI uri = null;
 
@@ -123,13 +126,11 @@ public class FragmentConfigurar extends BaseFragmentRN {
             mConfiguracao.setPastaVendedor(txtPastaVendedor.getText().toString());
             mConfiguracao.setPastaFormaPagto(txtPastaFormaPagto.getText().toString());
             mConfiguracao.setPrincipal(true);
-
             configuracaoDAO.salvar(mConfiguracao, null);
-            exibirMensagemToast(R.string.msg_config_salva_sucesso);
         } catch (Exception e) {
+            esconderProgress();
             TratamentoExcecao.registrarExcecao(e);
         } finally {
-            esconderProgress();
             TratamentoExcecao.invocarEvento();
         }
     }

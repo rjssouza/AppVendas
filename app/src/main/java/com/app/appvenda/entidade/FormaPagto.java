@@ -6,7 +6,7 @@ import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
-public class FormaPagto extends Entidade {
+public class FormaPagto extends Entidade<Integer> {
 
     public final static String COD_FORMA_PAGTO = "cod_forma_pagto";
     public final static String DESCR_FORMA_PAGTO = "descr_forma_pagto";
