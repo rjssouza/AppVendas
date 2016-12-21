@@ -4,12 +4,14 @@ import android.os.Environment;
 
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 
 /**
  * Classe para gerar arquivos de qualquer extensao
@@ -51,15 +53,41 @@ public class GeradorArquivo {
         }
     }
 
+    public static void criarArquivoTexto(String texto, String destino, String nomeArquivo) {
+        InputStream in;
+        OutputStream out;
+
+        if (validarExistenciaDiretorio(destino)) {
+            try {
+                String dest = destino + "/" + nomeArquivo + ".txt";
+                File arquivo = new File(dest);
+
+                if(arquivo.exists() || arquivo.createNewFile()) {
+                    in = new ByteArrayInputStream(texto.getBytes());
+                    out = new FileOutputStream(dest);
+
+                    byte[] buffer = new byte[1024];
+                    int read;
+                    while ((read = in.read(buffer)) != -1) {
+                        out.write(buffer, 0, read);
+                    }
+                    in.close();
+
+                    out.flush();
+                    out.close();
+                }
+            } catch (IOException ex) {
+                TratamentoExcecao.registrarExcecao(ex);
+            } finally {
+                TratamentoExcecao.invocarEvento();
+            }
+        }
+    }
+
     private static boolean validarExistenciaDiretorio(String diretorioArquivo) {
         File arquivo = new File(diretorioArquivo);
-        if (arquivo.isDirectory()) {
-            if (!arquivo.exists()) {
-                return arquivo.mkdirs();
-            }
-            return arquivo.exists();
-        }
-        return validarExistenciaDiretorio(arquivo.getParent());
+        arquivo.mkdirs();
+        return true;
     }
 
 }

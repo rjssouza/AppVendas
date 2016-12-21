@@ -11,13 +11,7 @@ public class MProduto {
     private Boolean ativo;
     private int qtdLimite;
     private String foto;
-
-    //TODO adicionar a tabela
     private int codProduto;
-
-    //TODO remover da tabela
-    private Double valorUnitario;
-    private Double valorFinal;
 
     public Double getPercentualVendas() {
         return percentualVendas;
@@ -63,28 +57,12 @@ public class MProduto {
         this.nome = nome;
     }
 
-    public Double getValorUnitario() {
-        return valorUnitario;
-    }
-
-    public void setValorUnitario(Double valorUnitario) {
-        this.valorUnitario = valorUnitario;
-    }
-
     public String getFoto() {
         return foto;
     }
 
     public void setFoto(String foto) {
         this.foto = foto;
-    }
-
-    public Double getValorFinal() {
-        return valorFinal;
-    }
-
-    public void setValorFinal(Double valorFinal) {
-        this.valorFinal = valorFinal;
     }
 
     public Boolean getAtivo() {

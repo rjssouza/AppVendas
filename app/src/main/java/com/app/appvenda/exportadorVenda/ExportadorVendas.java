@@ -88,10 +88,11 @@ public class ExportadorVendas {
     }
 
     private synchronized void importarClientes() throws RegraNegocioException {
-        qtdRequest++;
+
         iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
             @Override
             public void executarEvento(ArrayList<MCliente> item) throws Exception {
+                qtdRequest++;
                 for (MCliente mCliente : item) {
                     clienteDAO.salvar(mCliente, null);
                 }
@@ -100,10 +101,10 @@ public class ExportadorVendas {
     }
 
     private synchronized void importarProdutos() throws RegraNegocioException {
-        qtdRequest++;
         iExportadorVendas.obterProdutos(new EventoVoid<ArrayList<MProduto>>() {
             @Override
             public void executarEvento(ArrayList<MProduto> item) throws Exception {
+                qtdRequest++;
                 for (MProduto mProduto : item) {
                     produtoDAO.salvar(mProduto, null);
                 }

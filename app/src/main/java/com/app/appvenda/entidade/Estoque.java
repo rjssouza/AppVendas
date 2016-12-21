@@ -12,8 +12,11 @@ public class Estoque extends Entidade<Integer> {
     public final static String ID_ESTOQUE = "id_estoque";
     public final static String ID_PRODUTO = "id_produto";
     public final static String QUANTIDADE = "quantidade";
+    public final static String VALOR_PRODUTO = "valor_produto";
+    public final static String VALOR_FINAL = "valor_final";
+    public final static String ALERTA_FALTA = "alerta_falta";
 
-    public Estoque(Cursor cursor){
+    public Estoque(Cursor cursor) {
         super(cursor);
     }
 
@@ -28,6 +31,36 @@ public class Estoque extends Entidade<Integer> {
     private int id_produto;
     @ColunaTabela
     private int quantidade;
+    @ColunaTabela
+    private Double valor_produto;
+    @ColunaTabela
+    private Double valor_final;
+    @ColunaTabela
+    private int alerta_falta;
+
+    public Double getValor_produto() {
+        return valor_produto;
+    }
+
+    public void setValor_produto(Double valor_produto) {
+        this.valor_produto = valor_produto;
+    }
+
+    public Double getValor_final() {
+        return valor_final;
+    }
+
+    public void setValor_final(Double valor_final) {
+        this.valor_final = valor_final;
+    }
+
+    public int getAlerta_falta() {
+        return alerta_falta;
+    }
+
+    public void setAlerta_falta(int alerta_falta) {
+        this.alerta_falta = alerta_falta;
+    }
 
     public int getId_estoque() {
         return id_estoque;

@@ -9,6 +9,9 @@ public class MEstoque {
     private int idEstoque;
     private int idProduto;
     private int quantidade;
+    private Double valorProduto;
+    private Double valorFinal;
+    private int alertaFalta;
 
     public Double getValorProduto() {
         return valorProduto;
@@ -17,11 +20,6 @@ public class MEstoque {
     public void setValorProduto(Double valorProduto) {
         this.valorProduto = valorProduto;
     }
-
-    //TODO Adicionar a tabela
-    private Double valorProduto;
-    private Double valorFinal;
-    private int alertaFalta;
 
     public int getAlertaFalta() {
         return alertaFalta;

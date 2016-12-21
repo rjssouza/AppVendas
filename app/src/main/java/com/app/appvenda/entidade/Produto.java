@@ -35,6 +35,8 @@ public class Produto extends Entidade<Integer> {
     private Boolean ativo;
     @ColunaTabela
     private int qtd_limite;
+    @ColunaTabela
+    private int cod_produto;
 
     private Estoque estoque;
 
@@ -107,5 +109,12 @@ public class Produto extends Entidade<Integer> {
         this.qtd_limite = qtd_limite;
     }
 
+    public int getCod_produto() {
+        return cod_produto;
+    }
+
+    public void setCod_produto(int cod_produto) {
+        this.cod_produto = cod_produto;
+    }
 
 }

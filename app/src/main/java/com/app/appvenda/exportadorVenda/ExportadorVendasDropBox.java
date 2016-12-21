@@ -70,7 +70,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
         });
     }
 
-    private void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) throws RegraNegocioException {
+    private void obterEstoques(EventoVoid<ArrayList<MEstoque>> posPosExecucao) {
         URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_ESTOQUE);
         obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MEstoque>() {
             @Override
@@ -105,7 +105,6 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                         mProduto.setAtivo(Boolean.parseBoolean(strings[0]));
                         mProduto.setFoto(strings[3]);
                         mProduto.setQtdLimite(Integer.parseInt(strings[8]));
-                        mProduto.setValorFinal(Double.parseDouble(strings[9]));
                         mProduto.setPercentualVendas(Double.parseDouble(strings[7]));
 
                         for (MEstoque mEstoque : estoques) {
