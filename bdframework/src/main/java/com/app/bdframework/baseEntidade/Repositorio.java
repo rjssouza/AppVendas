@@ -57,18 +57,16 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         if (entidade != null) {
             executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
             return salvarEntidade(entidade);
-        } else {
-            throw new NullPointerException("entidade nao informada");
         }
+        return false;
     }
 
     public synchronized boolean deletar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (entidade != null) {
             executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
             return deletarEntidade(entidade);
-        } else {
-            throw new NullPointerException("entidade");
         }
+        return false;
     }
 
     private void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
