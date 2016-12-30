@@ -37,10 +37,13 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
-                repositorio.salvar(tEntidade, regrasIgnorar);
-                posSalvar(tEntidade, regrasIgnorar);
-                eventoFinal();
+                synchronized (this) {
+                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                    repositorio.salvar(tEntidade, regrasIgnorar);
+                    if (tEntidade != null)
+                        posSalvar(tEntidade, regrasIgnorar);
+                    eventoFinal();
+                }
             }
         });
     }
@@ -50,23 +53,26 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
-                preDeletar(tEntidade, regrasIgnorar);
-                repositorio.deletar(tEntidade, regrasIgnorar);
-                eventoFinal();
+                synchronized (this) {
+                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                    if (tEntidade != null)
+                        preDeletar(tEntidade, regrasIgnorar);
+                    repositorio.deletar(tEntidade, regrasIgnorar);
+                    eventoFinal();
+                }
             }
         });
     }
 
-    public List<TEntidade> getLista(String queryString, String[] queryArg){
+    public List<TEntidade> getLista(String queryString, String[] queryArg) {
         return this.repositorio.executarQuery(TEntidade.getTodasColunas(pEntidade), queryString, queryArg);
     }
 
-    public TEntidade getUnico(String queryString, String[] queryArg){
+    public TEntidade getUnico(String queryString, String[] queryArg) {
         return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, queryArg);
     }
 
-    public int getScalar(String queryString, String[] queryArg){
+    public int getScalar(String queryString, String[] queryArg) {
         return this.repositorio.executarScalar(queryString, queryArg);
     }
 

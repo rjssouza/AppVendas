@@ -32,7 +32,6 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     private boolean salvarEntidade(TEntidade entidade) {
         boolean sucesso = false;
-        this.getWritableDatabase().beginTransaction();
         ParCampoValor parCampoValor = entidade.getChavePrimaria();
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
@@ -42,22 +41,19 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
                     new String[]{parCampoValor.getValor().toString()}) > 0;
         else
             sucesso = this.getWritableDatabase().insert(getNomeTabela(), null, entidade.getContentValue()) > 0;
-        this.getWritableDatabase().setTransactionSuccessful();
         return sucesso;
     }
 
     private boolean deletarEntidade(TEntidade entidade) {
         boolean sucesso = false;
-        this.getWritableDatabase().beginTransaction();
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
         sucesso = this.getWritableDatabase().delete(getNomeTabela(),
                 "where " + parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor().toString()}) > 0;
-        this.getWritableDatabase().setTransactionSuccessful();
         return sucesso;
     }
 
-    public void salvar(final TEntidade entidade, final String[] regrasIgnorar)  {
+    public synchronized void salvar(final TEntidade entidade, final String[] regrasIgnorar)  {
         try {
             if (entidade != null) {
                 executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
@@ -70,12 +66,11 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
-            endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
 
-    public void deletar(final TEntidade entidade, final String[] regrasIgnorar) {
+    public synchronized void deletar(final TEntidade entidade, final String[] regrasIgnorar) {
         try {
             if (entidade != null) {
                 executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
@@ -88,7 +83,6 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
-            endTransaction();
             TratamentoExcecao.invocarEvento();
         }
     }
@@ -99,15 +93,6 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
 
     private void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosDeletar.add(regraNegocio);
-    }
-
-    private void endTransaction() {
-        if (getWritableDatabase().inTransaction()) {
-            if (!TratamentoExcecao.existeExcecao() && Thread.currentThread().getUncaughtExceptionHandler() == null) {
-                getWritableDatabase().setTransactionSuccessful();
-            }
-            getWritableDatabase().endTransaction();
-        }
     }
 
     private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException {

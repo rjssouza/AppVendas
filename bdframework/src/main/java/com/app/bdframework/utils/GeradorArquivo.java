@@ -4,13 +4,16 @@ import android.os.Environment;
 
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -54,33 +57,25 @@ public class GeradorArquivo {
     }
 
     public static void criarArquivoTexto(String texto, String destino, String nomeArquivo) {
-        InputStream in;
-        OutputStream out;
+        try {
+            if (validarExistenciaDiretorio(destino)) {
 
-        if (validarExistenciaDiretorio(destino)) {
-            try {
                 String dest = destino + "/" + nomeArquivo + ".txt";
                 File arquivo = new File(dest);
 
-                if(arquivo.exists() || arquivo.createNewFile()) {
-                    in = new ByteArrayInputStream(texto.getBytes());
-                    out = new FileOutputStream(dest);
-
-                    byte[] buffer = new byte[1024];
-                    int read;
-                    while ((read = in.read(buffer)) != -1) {
-                        out.write(buffer, 0, read);
-                    }
-                    in.close();
-
+                if (arquivo.exists() || arquivo.createNewFile()) {
+                    FileWriter fw = new FileWriter(arquivo, true);
+                    BufferedWriter bw = new BufferedWriter(fw);
+                    PrintWriter out = new PrintWriter(bw);
+                    out.println(texto);
                     out.flush();
                     out.close();
                 }
-            } catch (IOException ex) {
-                TratamentoExcecao.registrarExcecao(ex);
-            } finally {
-                TratamentoExcecao.invocarEvento();
             }
+        } catch (IOException ex) {
+            TratamentoExcecao.registrarExcecao(ex);
+        } finally {
+            TratamentoExcecao.invocarEvento();
         }
     }
 

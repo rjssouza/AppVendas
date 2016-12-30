@@ -19,7 +19,7 @@ public class ConversorHelper {
                 if (de != null)
                     return conversor.converterDePara(de);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         return null;
     }
@@ -30,7 +30,7 @@ public class ConversorHelper {
                 if (para != null)
                     return conversor.converterParaDe(para);
             } catch (ClassCastException e) {
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         }
         return null;

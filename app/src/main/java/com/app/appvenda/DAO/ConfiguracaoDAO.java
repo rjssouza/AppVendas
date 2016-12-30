@@ -57,7 +57,7 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
 
     public void transformarPrincipal(EnumTipoConfiguracao tipoConfiguracao) {
         MConfiguracao mConfiguracao = obterConfiguracao(tipoConfiguracao);
-        if (mConfiguracao != null) {
+        if (mConfiguracao != null && !mConfiguracao.isPrincipal()) {
             mConfiguracao.setPrincipal(true);
             salvar(mConfiguracao, null);
         }

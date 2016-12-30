@@ -1,5 +1,8 @@
 package com.app.bdframework.excecoes;
 
+import android.os.Handler;
+import android.os.Looper;
+
 import com.app.bdframework.eventos.EventoVoid;
 
 import java.util.ArrayList;
@@ -15,7 +18,7 @@ public class TratamentoExcecao {
     private static EventoVoid<RegraNegocioMensagem> eventoRegraNegocioException = null;
     private static final List<EventoVoid<RegraNegocioMensagem>> eventoException = new ArrayList<>();
 
-    public static boolean existeExcecao(){
+    public static boolean existeExcecao() {
         return (exception != null || regraNegocioException != null);
     }
 
@@ -28,31 +31,38 @@ public class TratamentoExcecao {
     }
 
     public static void invocarEvento() {
-        if (regraNegocioException != null) {
-            if (eventoRegraNegocioException != null) {
-                RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
-                try {
-                    eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
-                    regraNegocioException = null;
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
 
-        if (exception != null) {
-            if (eventoException.size() > 0) {
-                for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
-                    RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
-                    try {
-                        eventoVoid.executarEvento(regraNegocioMensagem);
-                        exception = null;
-                    } catch (Exception e) {
-                        e.printStackTrace();
+        new Handler(Looper.getMainLooper()).post(new Runnable() {
+            @Override
+            public void run() {
+                if (regraNegocioException != null) {
+                    if (eventoRegraNegocioException != null) {
+                        RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
+                        try {
+                            eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                            regraNegocioException = null;
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
+                if (exception != null) {
+                    if (eventoException.size() > 0) {
+                        for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
+                            RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
+                            try {
+                                eventoVoid.executarEvento(regraNegocioMensagem);
+                                exception = null;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
             }
-        }
+        });
+
     }
 
     public static void registrarEvento(EventoVoid<RegraNegocioMensagem> _eventoException) {

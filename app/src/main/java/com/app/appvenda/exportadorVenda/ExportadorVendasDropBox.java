@@ -8,6 +8,7 @@ import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVendedor;
+import com.app.appvenda.utils.ConversorUtils;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoRetorno;
 import com.app.bdframework.eventos.EventoVoid;
@@ -79,8 +80,8 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                 mEstoque.setIdEstoque(Integer.parseInt(strings[0]));
                 mEstoque.setIdProduto(Integer.parseInt(strings[4]));
                 mEstoque.setQuantidade(Integer.parseInt(strings[2]));
-                mEstoque.setValorFinal(Double.parseDouble(strings[6]));
-                mEstoque.setValorProduto(Double.parseDouble(strings[3]));
+                mEstoque.setValorFinal(ConversorUtils.stringDouble(strings[6]));
+                mEstoque.setValorProduto(ConversorUtils.stringDouble(strings[3]));
                 return mEstoque;
             }
         });
@@ -88,12 +89,11 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
     @Override
     public void obterProdutos(final EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException {
-        final URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_PRODUTO);
-        final List<MEstoque> estoques = new ArrayList<>();
+        final URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaProduto(), F_PRODUTO);
+
         obterEstoques(new EventoVoid<ArrayList<MEstoque>>() {
             @Override
-            public void executarEvento(ArrayList<MEstoque> item) throws Exception {
-                estoques.addAll(item);
+            public void executarEvento(final ArrayList<MEstoque> item) throws Exception {
 
                 obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MProduto>() {
                     @Override
@@ -101,13 +101,13 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                         MProduto mProduto = new MProduto();
                         mProduto.setIdProduto(Integer.parseInt(strings[1]));
                         mProduto.setNome(strings[4]);
-                        mProduto.setCodProduto(Integer.parseInt(strings[3]));
+                        mProduto.setCodProduto(Integer.parseInt(strings[2]));
                         mProduto.setAtivo(Boolean.parseBoolean(strings[0]));
-                        mProduto.setFoto(strings[3]);
+                        mProduto.setFoto(strings[2]);
                         mProduto.setQtdLimite(Integer.parseInt(strings[8]));
-                        mProduto.setPercentualVendas(Double.parseDouble(strings[7]));
+                        mProduto.setPercentualVendas(ConversorUtils.stringDouble(strings[7]));
 
-                        for (MEstoque mEstoque : estoques) {
+                        for (MEstoque mEstoque : item) {
                             if (mEstoque.getIdProduto() == mProduto.getIdProduto())
                                 mProduto.setmEstoque(mEstoque);
                         }
