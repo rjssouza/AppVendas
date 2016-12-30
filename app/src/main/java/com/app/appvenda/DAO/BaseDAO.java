@@ -41,7 +41,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             public void run() {
                 synchronized (this) {
                     try {
-                        repositorio.createTransaction();
+                        //repositorio.createTransaction();
                         TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
                         repositorio.salvar(tEntidade, regrasIgnorar);
                         if (tEntidade != null)
@@ -53,7 +53,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
                         sucesso = false;
                         TratamentoExcecao.registrarExcecao(e);
                     } finally {
-                        repositorio.endTransaction();
+                        //repositorio.endTransaction();
                         eventoFinal();
                         TratamentoExcecao.invocarEvento();
                     }
@@ -69,7 +69,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             public void run() {
                 synchronized (this) {
                     try {
-                        repositorio.createTransaction();
+                        //repositorio.createTransaction();
                         TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
                         if (tEntidade != null)
                             preDeletar(tEntidade, regrasIgnorar);
@@ -81,7 +81,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
                         sucesso = false;
                         TratamentoExcecao.registrarExcecao(e);
                     } finally {
-                        repositorio.endTransaction();
+                        //repositorio.endTransaction();
                         eventoFinal();
                         TratamentoExcecao.invocarEvento();
                     }
