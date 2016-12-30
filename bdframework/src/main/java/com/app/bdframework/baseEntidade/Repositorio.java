@@ -53,37 +53,21 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         return sucesso;
     }
 
-    public synchronized void salvar(final TEntidade entidade, final String[] regrasIgnorar)  {
-        try {
-            if (entidade != null) {
-                executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
-                salvarEntidade(entidade);
-            } else {
-                throw new NullPointerException("entidade");
-            }
-        } catch (RegraNegocioException e) {
-            TratamentoExcecao.registrarRegraNegocioExcecao(e);
-        } catch (Exception e) {
-            TratamentoExcecao.registrarExcecao(e);
-        } finally {
-            TratamentoExcecao.invocarEvento();
+    public synchronized boolean salvar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
+        if (entidade != null) {
+            executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
+            return salvarEntidade(entidade);
+        } else {
+            throw new NullPointerException("entidade nao informada");
         }
     }
 
-    public synchronized void deletar(final TEntidade entidade, final String[] regrasIgnorar) {
-        try {
-            if (entidade != null) {
-                executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
-                deletarEntidade(entidade);
-            } else {
-                throw new NullPointerException("entidade");
-            }
-        } catch (RegraNegocioException e) {
-            TratamentoExcecao.registrarRegraNegocioExcecao(e);
-        } catch (Exception e) {
-            TratamentoExcecao.registrarExcecao(e);
-        } finally {
-            TratamentoExcecao.invocarEvento();
+    public synchronized boolean deletar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
+        if (entidade != null) {
+            executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
+            return deletarEntidade(entidade);
+        } else {
+            throw new NullPointerException("entidade");
         }
     }
 
@@ -95,7 +79,7 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         this.regraNegociosDeletar.add(regraNegocio);
     }
 
-    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException {
+    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (regraNegocios != null) {
             Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                 @Override
@@ -110,4 +94,6 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
             }
         }
     }
+
+
 }

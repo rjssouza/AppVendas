@@ -1,31 +1,35 @@
 package com.app.appvenda;
 
 import android.app.Application;
-import android.support.v4.util.LogWriter;
+import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.app.appvenda.conversores.ConversorCliente;
 import com.app.appvenda.conversores.ConversorConfiguracao;
-import com.app.appvenda.entidade.Configuracao;
-import com.app.appvenda.eventosExcecao.TratamentoEventoGeral;
+import com.app.appvenda.conversores.ConversorEstoque;
+import com.app.appvenda.conversores.ConversorProduto;
 import com.app.appvenda.repositorio.RPConfiguracao;
-import com.app.bdframework.BDHelper;
+import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
+import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
+import com.app.bdframework.utils.AppLog;
 import com.app.bdframework.utils.TradutorMensagemException;
 
 
-public class AppVendaApp extends Application {
+public class AppVendaApp extends Application implements EventoVoid<RegraNegocioMensagem> {
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        TratamentoExcecao.registrarEvento(new TratamentoEventoGeral(this.getApplicationContext()));
-        ConversorHelper.registrarConversor(new ConversorConfiguracao());
-        ConversorHelper.registrarConversor(new ConversorCliente());
-        BDHelper<Configuracao> configuracaoBDHelper = new RPConfiguracao(this.getApplicationContext());
-        configuracaoBDHelper.salvarBDLocal();
+        TratamentoExcecao.registrarEvento(this);
+        registrarConversores();
+
+        Repositorio repositorio = new RPConfiguracao(getApplicationContext());
+        repositorio.salvarBDLocal();
     }
 
     private void addUnhandledEventGlobal() {
@@ -40,4 +44,24 @@ public class AppVendaApp extends Application {
         });
     }
 
+    private void registrarConversores() {
+        ConversorHelper.registrarConversor(new ConversorConfiguracao());
+        ConversorHelper.registrarConversor(new ConversorCliente());
+        ConversorHelper.registrarConversor(new ConversorEstoque());
+        ConversorHelper.registrarConversor(new ConversorProduto());
+    }
+
+    @Override
+    public void executarEvento(final RegraNegocioMensagem item) throws Exception {
+        Toast.makeText(getApplicationContext(), item.getMensagem(), Toast.LENGTH_SHORT).show();
+        AsyncTask task = new AsyncTask() {
+
+            @Override
+            protected Object doInBackground(Object[] params) {
+                AppLog.CriarLog(item);
+                return null;
+            }
+        };
+        task.execute();
+    }
 }

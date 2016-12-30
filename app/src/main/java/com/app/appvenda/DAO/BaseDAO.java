@@ -6,6 +6,7 @@ import com.app.bdframework.baseEntidade.Entidade;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import java.util.List;
@@ -24,6 +25,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
     protected Repositorio<TEntidade> repositorio;
     private EventoVoid<Boolean> eventoPosExecucao;
     private Class<TEntidade> pEntidade;
+    private boolean sucesso = true;
 
     BaseDAO(Context context, Class<TEntidade> pEntidade) {
         this.context = context;
@@ -38,11 +40,23 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             @Override
             public void run() {
                 synchronized (this) {
-                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
-                    repositorio.salvar(tEntidade, regrasIgnorar);
-                    if (tEntidade != null)
-                        posSalvar(tEntidade, regrasIgnorar);
-                    eventoFinal();
+                    try {
+                        repositorio.createTransaction();
+                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                        repositorio.salvar(tEntidade, regrasIgnorar);
+                        if (tEntidade != null)
+                            posSalvar(tEntidade, regrasIgnorar);
+                    } catch (RegraNegocioException e) {
+                        sucesso = false;
+                        TratamentoExcecao.registrarRegraNegocioExcecao(e);
+                    } catch (Exception e) {
+                        sucesso = false;
+                        TratamentoExcecao.registrarExcecao(e);
+                    } finally {
+                        repositorio.endTransaction();
+                        eventoFinal();
+                        TratamentoExcecao.invocarEvento();
+                    }
                 }
             }
         });
@@ -54,11 +68,23 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             @Override
             public void run() {
                 synchronized (this) {
-                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
-                    if (tEntidade != null)
-                        preDeletar(tEntidade, regrasIgnorar);
-                    repositorio.deletar(tEntidade, regrasIgnorar);
-                    eventoFinal();
+                    try {
+                        repositorio.createTransaction();
+                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                        if (tEntidade != null)
+                            preDeletar(tEntidade, regrasIgnorar);
+                        repositorio.deletar(tEntidade, regrasIgnorar);
+                    } catch (RegraNegocioException e) {
+                        sucesso = false;
+                        TratamentoExcecao.registrarRegraNegocioExcecao(e);
+                    } catch (Exception e) {
+                        sucesso = false;
+                        TratamentoExcecao.registrarExcecao(e);
+                    } finally {
+                        repositorio.endTransaction();
+                        eventoFinal();
+                        TratamentoExcecao.invocarEvento();
+                    }
                 }
             }
         });
@@ -80,9 +106,13 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         this.eventoPosExecucao = eventoPosExecucao;
     }
 
-    protected abstract void posSalvar(TEntidade tEntidade, String[] regrasIgnorar);
+    public void salvarBD() {
+        this.repositorio.salvarBDLocal();
+    }
 
-    protected abstract void preDeletar(TEntidade tEntidade, String[] regrasIgnorar);
+    protected abstract void posSalvar(TEntidade tEntidade, String[] regrasIgnorar) throws RegraNegocioException, Exception;
+
+    protected abstract void preDeletar(TEntidade tEntidade, String[] regrasIgnorar) throws RegraNegocioException, Exception;
 
     protected abstract Repositorio<TEntidade> obterRepositorio(Context context);
 
@@ -91,7 +121,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         if (qtdThreads <= 0) {
             if (eventoPosExecucao != null) {
                 try {
-                    eventoPosExecucao.executarEvento(true);
+                    eventoPosExecucao.executarEvento(sucesso);
                 } catch (Exception e) {
                     TratamentoExcecao.registrarExcecao(e);
                 } finally {

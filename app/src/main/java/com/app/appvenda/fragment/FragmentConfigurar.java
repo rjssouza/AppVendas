@@ -57,7 +57,8 @@ public class FragmentConfigurar extends BaseFragmentRN {
         configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
-                exibirMensagemToast(R.string.msg_config_salva_sucesso);
+                if (item)
+                    exibirMensagemToast(R.string.msg_config_salva_sucesso);
                 esconderProgress();
             }
         });

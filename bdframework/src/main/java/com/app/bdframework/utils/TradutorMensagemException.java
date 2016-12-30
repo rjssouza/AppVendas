@@ -15,6 +15,7 @@ public class TradutorMensagemException {
         String mensagem = "";
         if (exception != null) {
             mensagem += exception.getMessage();
+            mensagem += "\n";
 
             if (obterStackTrace) {
                 for (StackTraceElement stackTraceElement : exception.getStackTrace()) {

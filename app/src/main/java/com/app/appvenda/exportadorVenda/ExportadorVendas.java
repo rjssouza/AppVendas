@@ -112,7 +112,6 @@ public class ExportadorVendas {
         });
     }
 
-
     private EventoVoid<Boolean> eventoPosProcessamento() {
         return new EventoVoid<Boolean>() {
             @Override
@@ -121,6 +120,7 @@ public class ExportadorVendas {
                 if (qtdRequest <= 0) {
                     if (eventoProcessamento != null) {
                         eventoProcessamento.executarEvento(item);
+                        produtoDAO.salvarBD();
                     }
                 }
             }

@@ -11,6 +11,6 @@ public interface RegraNegocio<TEntidade extends Entidade> {
 
     int getOrdem();
 
-    void validarRegra(TEntidade entidade, IExecutorQuery<TEntidade> queryHelper) throws RegraNegocioException;
+    void validarRegra(TEntidade entidade, IExecutorQuery<TEntidade> queryHelper) throws RegraNegocioException, Exception;
 
 }
