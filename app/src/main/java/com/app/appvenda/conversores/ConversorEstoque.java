@@ -19,7 +19,7 @@ public class ConversorEstoque extends Conversor<MEstoque, Estoque> {
         estoque.setId_estoque(mEstoque.getIdEstoque());
         estoque.setQuantidade(mEstoque.getQuantidade());
         estoque.setValor_produto(mEstoque.getValorProduto());
-        return null;
+        return estoque;
     }
 
     @Override
