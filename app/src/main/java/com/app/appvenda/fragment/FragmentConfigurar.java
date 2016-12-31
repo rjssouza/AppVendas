@@ -6,14 +6,11 @@ import android.widget.Switch;
 import com.app.appvenda.DAO.ConfiguracaoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
-import com.app.appvenda.fragment.base.BaseFragmentRN;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
-import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -21,13 +18,12 @@ import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * Created by Robson on 03/12/2016.
  */
 @EFragment(R.layout.fragment_configurar)
-public class FragmentConfigurar extends BaseFragmentRN {
+public class FragmentConfigurar extends com.app.appvenda.fragment.base._BaseFragmentRN {
 
     @ViewById
     Switch swtTipoConfig;

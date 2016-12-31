@@ -12,7 +12,7 @@ import org.androidannotations.annotations.UiThread;
  * Created by Robson on 03/12/2016.
  */
 @EFragment
-public abstract class BaseFragmentRN extends BaseFragment implements EventoVoid<RegraNegocioMensagem> {
+public abstract class _BaseFragmentRN extends BaseFragment implements EventoVoid<RegraNegocioMensagem> {
 
     private _BaseActivityRN baseActivityRN;
 

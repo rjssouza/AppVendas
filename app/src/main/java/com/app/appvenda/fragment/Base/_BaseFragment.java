@@ -17,7 +17,7 @@ import org.androidannotations.annotations.UiThread;
  * Created by Robson on 29/11/2016.
  */
 @EFragment
-public class BaseFragment extends Fragment implements IBaseViews {
+public class _BaseFragment extends Fragment implements IBaseViews {
 
     private _BaseActivity baseActivity;
 
