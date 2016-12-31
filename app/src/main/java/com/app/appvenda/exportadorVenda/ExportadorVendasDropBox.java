@@ -2,7 +2,7 @@ package com.app.appvenda.exportadorVenda;
 
 import android.content.Context;
 
-import com.app.appvenda.modelos.MCliente;
+import com.app.appvenda.modelos._MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MFormaPagamento;
@@ -13,19 +13,15 @@ import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoRetorno;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
-import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.servico.ClienteHttpAssincrono;
 import com.app.bdframework.servico.CustomResponseHandler;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.StringReader;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.MessageConstraintException;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -51,12 +47,12 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
     }
 
     @Override
-    public void obterClientes(EventoVoid<ArrayList<MCliente>> posPosExecucao) throws RegraNegocioException {
+    public void obterClientes(EventoVoid<ArrayList<_MCliente>> posPosExecucao) throws RegraNegocioException {
         URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaCliente(), F_CLIENTE);
-        obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MCliente>() {
+        obterTexto(uri, posPosExecucao, new EventoRetorno<String[], _MCliente>() {
             @Override
-            public MCliente executarEvento(String[] strings) {
-                MCliente mCliente = new MCliente();
+            public _MCliente executarEvento(String[] strings) {
+                _MCliente mCliente = new _MCliente();
                 mCliente.setId(Integer.parseInt(strings[8]));
                 mCliente.setNome(strings[13]);
                 mCliente.setNomeFantasia(strings[14]);

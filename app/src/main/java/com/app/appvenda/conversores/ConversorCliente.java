@@ -3,13 +3,13 @@ package com.app.appvenda.conversores;
 import com.app.appvenda.entidade.Cliente;
 import com.app.appvenda.entidade.Telefone;
 import com.app.appvenda.enums.EnumTipoTelefone;
-import com.app.appvenda.modelos.MCliente;
+import com.app.appvenda.modelos._MCliente;
 import com.app.bdframework.conversor.Conversor;
 
-public class ConversorCliente extends Conversor<MCliente, Cliente> {
+public class ConversorCliente extends Conversor<_MCliente, Cliente> {
 
     @Override
-    public Cliente converterDePara(MCliente mCliente) {
+    public Cliente converterDePara(_MCliente mCliente) {
         Cliente cliente = new Cliente(null);
         Telefone telefone = new Telefone(null);
         telefone.setId_tipo_telefone(EnumTipoTelefone.FIXO.getNumVal());
@@ -36,8 +36,8 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
     }
 
     @Override
-    public MCliente converterParaDe(Cliente cliente) {
-        MCliente mCliente = new MCliente();
+    public _MCliente converterParaDe(Cliente cliente) {
+        _MCliente mCliente = new _MCliente();
         mCliente.setAtivo(cliente.getAtivo());
         mCliente.setCelular(cliente.getCelular().getTelefone());
         mCliente.setTelefone(cliente.getCelular().getTelefone());

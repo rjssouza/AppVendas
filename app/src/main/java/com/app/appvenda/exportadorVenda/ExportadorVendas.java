@@ -7,9 +7,8 @@ import com.app.appvenda.DAO.ConfiguracaoDAO;
 import com.app.appvenda.DAO.ProdutoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
-import com.app.appvenda.modelos.MCliente;
+import com.app.appvenda.modelos._MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
-import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVenda;
 import com.app.bdframework.enums.EnumTipoMensagem;
@@ -89,11 +88,11 @@ public class ExportadorVendas {
 
     private synchronized void importarClientes() throws RegraNegocioException {
 
-        iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
+        iExportadorVendas.obterClientes(new EventoVoid<ArrayList<_MCliente>>() {
             @Override
-            public void executarEvento(ArrayList<MCliente> item) throws Exception {
+            public void executarEvento(ArrayList<_MCliente> item) throws Exception {
                 qtdRequest++;
-                for (MCliente mCliente : item) {
+                for (_MCliente mCliente : item) {
                     clienteDAO.salvar(mCliente, null);
                 }
             }

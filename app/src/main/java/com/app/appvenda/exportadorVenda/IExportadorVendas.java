@@ -1,7 +1,6 @@
 package com.app.appvenda.exportadorVenda;
 
-import com.app.appvenda.modelos.MCliente;
-import com.app.appvenda.modelos.MEstoque;
+import com.app.appvenda.modelos._MCliente;
 import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVendedor;
@@ -16,7 +15,7 @@ import java.util.ArrayList;
 
 public interface IExportadorVendas {
 
-    void obterClientes(EventoVoid<ArrayList<MCliente>> posPosExecucao) throws RegraNegocioException;
+    void obterClientes(EventoVoid<ArrayList<_MCliente>> posPosExecucao) throws RegraNegocioException;
 
     void obterProdutos(EventoVoid<ArrayList<MProduto>> posPosExecucao) throws RegraNegocioException;
 
