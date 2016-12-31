@@ -6,6 +6,7 @@ import android.widget.Switch;
 import com.app.appvenda.DAO.ConfiguracaoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
+import com.app.appvenda.fragment.base.BaseFragmentRN;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.TratamentoExcecao;
@@ -23,7 +24,7 @@ import java.net.URI;
  * Created by Robson on 03/12/2016.
  */
 @EFragment(R.layout.fragment_configurar)
-public class FragmentConfigurar extends com.app.appvenda.fragment.base._BaseFragmentRN {
+public class FragmentConfigurar extends BaseFragmentRN {
 
     @ViewById
     Switch swtTipoConfig;
