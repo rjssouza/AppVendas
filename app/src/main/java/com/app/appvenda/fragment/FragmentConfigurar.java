@@ -3,7 +3,7 @@ package com.app.appvenda.fragment;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import com.app.appvenda.dao.NConfiguracaoDAO;
+import com.app.appvenda.dao.ConfiguracaoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.fragment.base.BaseFragmentRN;
@@ -46,11 +46,11 @@ public class FragmentConfigurar extends BaseFragmentRN {
     EditText txtPastaFormaPagto;
 
     private MConfiguracao mConfiguracao;
-    private NConfiguracaoDAO configuracaoDAO;
+    private ConfiguracaoDAO configuracaoDAO;
 
     @AfterViews
     void Init() {
-        configuracaoDAO = new NConfiguracaoDAO(this.getContext());
+        configuracaoDAO = new ConfiguracaoDAO(this.getContext());
         configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {

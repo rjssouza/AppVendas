@@ -17,7 +17,7 @@ import java.util.concurrent.Executors;
  * Created by Robson on 27/11/2016.
  */
 
-abstract class NBaseDAO<TModelo, TEntidade extends Entidade> {
+abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
 
     protected Context context;
     private int qtdThreads = 0;
@@ -27,7 +27,7 @@ abstract class NBaseDAO<TModelo, TEntidade extends Entidade> {
     private Class<TEntidade> pEntidade;
     private boolean sucesso = true;
 
-    NBaseDAO(Context context, Class<TEntidade> pEntidade) {
+    BaseDAO(Context context, Class<TEntidade> pEntidade) {
         this.context = context;
         this.repositorio = obterRepositorio(context);
         this.pEntidade = pEntidade;

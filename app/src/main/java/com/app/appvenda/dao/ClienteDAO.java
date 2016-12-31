@@ -12,11 +12,11 @@ import com.app.bdframework.excecoes.RegraNegocioException;
 
 import java.util.List;
 
-public class NClienteDAO extends NBaseDAO<MCliente, Cliente> {
+public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
 
     private RPTelefone rpTelefone;
 
-    public NClienteDAO(Context context) {
+    public ClienteDAO(Context context) {
         super(context, Cliente.class);
         this.rpTelefone = new RPTelefone(context);
     }

@@ -13,9 +13,9 @@ import com.app.bdframework.conversor.ConversorHelper;
  * Created by Robson on 03/12/2016.
  */
 
-public class NConfiguracaoDAO extends NBaseDAO<MConfiguracao, Configuracao> {
+public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
 
-    public NConfiguracaoDAO(Context context) {
+    public ConfiguracaoDAO(Context context) {
         super(context, Configuracao.class);
     }
 

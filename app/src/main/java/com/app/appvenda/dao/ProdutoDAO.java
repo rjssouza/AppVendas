@@ -13,11 +13,11 @@ import com.app.bdframework.excecoes.RegraNegocioException;
  * Created by Robson on 20/12/2016.
  */
 
-public class NProdutoDAO extends NBaseDAO<MProduto, Produto> {
+public class ProdutoDAO extends BaseDAO<MProduto, Produto> {
 
     private RPEstoque rpEstoque;
 
-    public NProdutoDAO(Context context) {
+    public ProdutoDAO(Context context) {
         super(context, Produto.class);
         this.rpEstoque = new RPEstoque(context);
     }

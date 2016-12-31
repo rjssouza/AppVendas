@@ -11,9 +11,9 @@ import com.app.bdframework.baseEntidade.Repositorio;
  * Created by Robson on 20/12/2016.
  */
 
-public class NEstoqueDAO extends NBaseDAO<MEstoque, Estoque> {
+public class EstoqueDAO extends BaseDAO<MEstoque, Estoque> {
 
-    NEstoqueDAO(Context context) {
+    EstoqueDAO(Context context) {
         super(context, Estoque.class);
     }
 
