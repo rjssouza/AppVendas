@@ -2,9 +2,9 @@ package com.app.appvenda.exportadorVenda;
 
 import android.content.Context;
 
-import com.app.appvenda.dao.ClienteDAO;
-import com.app.appvenda.dao.ConfiguracaoDAO;
-import com.app.appvenda.dao.ProdutoDAO;
+import com.app.appvenda.dao.NClienteDAO;
+import com.app.appvenda.dao.NConfiguracaoDAO;
+import com.app.appvenda.dao.NProdutoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
@@ -24,9 +24,9 @@ import java.util.ArrayList;
 
 public class ExportadorVendas {
 
-    private ClienteDAO clienteDAO;
-    private ConfiguracaoDAO configuracaoDAO;
-    private ProdutoDAO produtoDAO;
+    private NClienteDAO clienteDAO;
+    private NConfiguracaoDAO configuracaoDAO;
+    private NProdutoDAO produtoDAO;
 
     private Context context;
     private IExportadorVendas iExportadorVendas;
@@ -35,9 +35,9 @@ public class ExportadorVendas {
 
     public ExportadorVendas(Context context) {
         this.context = context;
-        clienteDAO = new ClienteDAO(context);
-        produtoDAO = new ProdutoDAO(context);
-        configuracaoDAO = new ConfiguracaoDAO(context);
+        clienteDAO = new NClienteDAO(context);
+        produtoDAO = new NProdutoDAO(context);
+        configuracaoDAO = new NConfiguracaoDAO(context);
 
         clienteDAO.setEventoPosExecucao(eventoPosProcessamento());
         produtoDAO.setEventoPosExecucao(eventoPosProcessamento());
