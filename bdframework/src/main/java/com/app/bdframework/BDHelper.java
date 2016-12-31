@@ -121,6 +121,10 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
         return null;
     }
 
+    public void salvarBDLocal() {
+        GeradorArquivo.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", GeradorArquivo.getPastaExternaAplicacao());
+    }
+
     public synchronized void createTransaction() {
         if (!getWritableDatabase().isDbLockedByOtherThreads() && !getWritableDatabase().isDbLockedByCurrentThread()) {
             getWritableDatabase().beginTransaction();
@@ -137,10 +141,6 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
 
         if (getWritableDatabase().isOpen())
             getWritableDatabase().close();
-    }
-
-    public void salvarBDLocal() {
-        GeradorArquivo.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", GeradorArquivo.getPastaExternaAplicacao());
     }
 
     protected abstract TEntidade obterEntidade(Cursor cursor);

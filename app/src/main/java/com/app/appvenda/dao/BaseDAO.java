@@ -39,7 +39,6 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                synchronized (this) {
                     try {
                         //repositorio.createTransaction();
                         TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
@@ -57,7 +56,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
                         eventoFinal();
                         TratamentoExcecao.invocarEvento();
                     }
-                }
+
             }
         });
     }
@@ -67,7 +66,6 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                synchronized (this) {
                     try {
                         //repositorio.createTransaction();
                         TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
@@ -85,7 +83,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
                         eventoFinal();
                         TratamentoExcecao.invocarEvento();
                     }
-                }
+
             }
         });
     }

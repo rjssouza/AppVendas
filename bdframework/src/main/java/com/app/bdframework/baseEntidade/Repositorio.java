@@ -93,5 +93,4 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
         }
     }
 
-
 }
