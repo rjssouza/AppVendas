@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.app.appvenda.entidade.Cliente;
 import com.app.appvenda.entidade.Telefone;
-import com.app.appvenda.modelos._MCliente;
+import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.repositorio.RPCliente;
 import com.app.appvenda.repositorio.RPTelefone;
 import com.app.bdframework.baseEntidade.Repositorio;
@@ -12,7 +12,7 @@ import com.app.bdframework.excecoes.RegraNegocioException;
 
 import java.util.List;
 
-public class ClienteDAO extends BaseDAO<_MCliente, Cliente> {
+public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
 
     private RPTelefone rpTelefone;
 

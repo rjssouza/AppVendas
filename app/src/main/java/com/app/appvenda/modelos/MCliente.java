@@ -1,8 +1,8 @@
 package com.app.appvenda.modelos;
 
-public class _MCliente {
+public class MCliente {
 
-    public _MCliente(){
+    public MCliente(){
     }
 
     private  int id;

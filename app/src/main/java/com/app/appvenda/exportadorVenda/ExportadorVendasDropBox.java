@@ -2,7 +2,7 @@ package com.app.appvenda.exportadorVenda;
 
 import android.content.Context;
 
-import com.app.appvenda.modelos._MCliente;
+import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MEstoque;
 import com.app.appvenda.modelos.MFormaPagamento;
@@ -47,12 +47,12 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
     }
 
     @Override
-    public void obterClientes(EventoVoid<ArrayList<_MCliente>> posPosExecucao) throws RegraNegocioException {
+    public void obterClientes(EventoVoid<ArrayList<MCliente>> posPosExecucao) throws RegraNegocioException {
         URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaCliente(), F_CLIENTE);
-        obterTexto(uri, posPosExecucao, new EventoRetorno<String[], _MCliente>() {
+        obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MCliente>() {
             @Override
-            public _MCliente executarEvento(String[] strings) {
-                _MCliente mCliente = new _MCliente();
+            public MCliente executarEvento(String[] strings) {
+                MCliente mCliente = new MCliente();
                 mCliente.setId(Integer.parseInt(strings[8]));
                 mCliente.setNome(strings[13]);
                 mCliente.setNomeFantasia(strings[14]);
