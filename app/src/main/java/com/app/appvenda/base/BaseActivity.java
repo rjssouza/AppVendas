@@ -20,7 +20,7 @@ import org.androidannotations.annotations.EActivity;
  * Classe base para activities
  */
 @EActivity
-public abstract class _BaseActivity extends AppCompatActivity implements IBaseViews {
+public abstract class BaseActivity extends AppCompatActivity implements IBaseViews {
 
     ProgressDialog progressDialog;
     boolean activityActiva;

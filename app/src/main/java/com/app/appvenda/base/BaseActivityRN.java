@@ -13,9 +13,9 @@ import org.androidannotations.annotations.UiThread;
  * Created by Robson on 03/12/2016.
  */
 @EActivity
-public abstract class _BaseActivityRN extends _BaseActivity implements EventoVoid<RegraNegocioMensagem> {
+public abstract class BaseActivityRN extends BaseActivity implements EventoVoid<RegraNegocioMensagem> {
 
-    public _BaseActivityRN() {
+    public BaseActivityRN() {
         TratamentoExcecao.registrarEventoRegraNegocio(this);
     }
 
