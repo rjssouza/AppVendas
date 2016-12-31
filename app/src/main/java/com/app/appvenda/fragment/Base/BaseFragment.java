@@ -5,7 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
-import com.app.appvenda.base.BaseActivity;
+import com.app.appvenda.base._BaseActivity;
 import com.app.appvenda.interfaces.IBaseViews;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 
@@ -19,7 +19,7 @@ import org.androidannotations.annotations.UiThread;
 @EFragment
 public class BaseFragment extends Fragment implements IBaseViews {
 
-    private BaseActivity baseActivity;
+    private _BaseActivity baseActivity;
 
     @AfterViews
     public void init() {
@@ -28,7 +28,7 @@ public class BaseFragment extends Fragment implements IBaseViews {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.baseActivity = (BaseActivity) this.getActivity();
+        this.baseActivity = (_BaseActivity) this.getActivity();
     }
 
     @Override

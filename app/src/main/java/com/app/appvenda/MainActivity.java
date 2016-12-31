@@ -13,16 +13,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.app.appvenda.base.BaseActivityRN;
+import com.app.appvenda.base._BaseActivityRN;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
-import com.app.appvenda.exportadorVenda.ExportadorVendasDropBox;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -30,7 +28,7 @@ import org.androidannotations.annotations.ViewById;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivityRN implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends _BaseActivityRN implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String FRAGM_VENDAS = "FragmentVendas";
     private static final String FRAGM_CONFIG = "FragmentConfigurar";
