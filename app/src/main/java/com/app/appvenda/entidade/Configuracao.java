@@ -5,12 +5,14 @@ import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
+import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 /**
  * Created by Robson on 30/11/2016.
  */
 
+@NomeTabela(nomeTabela = "tb_configuracao")
 public class Configuracao extends Entidade<Integer> {
 
     public final static String ID_CONFIGURACAO = "id_configuracao";

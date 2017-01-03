@@ -12,16 +12,6 @@ import java.util.List;
 public class RPVendedor extends Repositorio<Vendedor> {
 
     public RPVendedor(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected Vendedor obterEntidade(Cursor cursor) {
-        return new Vendedor(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_vendedor";
+        super(context, Vendedor.class);
     }
 }

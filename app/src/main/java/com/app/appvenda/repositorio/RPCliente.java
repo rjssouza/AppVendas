@@ -15,17 +15,7 @@ import java.util.List;
 public class RPCliente extends Repositorio<Cliente> {
 
     public RPCliente(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected Cliente obterEntidade(Cursor cursor) {
-        return new Cliente(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_cliente";
+        super(context, Cliente.class);
     }
 
 }

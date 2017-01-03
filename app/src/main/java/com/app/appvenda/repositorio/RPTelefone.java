@@ -12,16 +12,6 @@ import java.util.List;
 public class RPTelefone extends Repositorio<Telefone> {
 
     public RPTelefone(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected Telefone obterEntidade(Cursor cursor) {
-        return new Telefone(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_telefone";
+        super(context, Telefone.class);
     }
 }

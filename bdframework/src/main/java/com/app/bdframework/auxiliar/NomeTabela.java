@@ -4,9 +4,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- * ColunaTabela campo.
+ * Created by Robson on 03/01/2017.
  */
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ColunaTabela {
-    public String nomeColuna() default "";
+public @interface NomeTabela {
+    public String nomeTabela();
 }

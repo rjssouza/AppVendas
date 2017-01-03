@@ -1,62 +1,90 @@
 package com.app.bdframework.baseEntidade;
 
 import android.content.Context;
-import android.os.AsyncTask;
+import android.database.Cursor;
 
 import com.app.bdframework.BDHelper;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
+import com.app.bdframework.utils.GeradorArquivo;
 import com.app.bdframework.utils.ListaUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * Classe base para repositorios, esta possui métodos básicos de consulta e CRUD, trabalha em conjunto com a base de entidades
  */
-public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<TEntidade> {
+public abstract class Repositorio<TEntidade extends Entidade> implements IExecutorQuery {
 
+    private Context context;
+    private BDHelper<TEntidade> bdHelper;
+    private Class<TEntidade> tEntidadeClass;
     private List<RegraNegocio<TEntidade>> regraNegociosSalvar;
     private List<RegraNegocio<TEntidade>> regraNegociosDeletar;
 
-    protected Repositorio(Context context) {
-        super(context);
-        this.regraNegociosDeletar = new ArrayList<>();
+    protected Repositorio(Context context, Class<TEntidade> tEntidadeClass) {
+        this.context = context;
+        this.tEntidadeClass = tEntidadeClass;
         this.regraNegociosSalvar = new ArrayList<>();
+        this.regraNegociosDeletar = new ArrayList<>();
+        this.bdHelper = BDHelper.getBDHelper(context, tEntidadeClass);
     }
 
-    private boolean salvarEntidade(TEntidade entidade) {
-        boolean sucesso = false;
-        ParCampoValor parCampoValor = entidade.getChavePrimaria();
-        boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
-                new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
-        if (existe)
-            sucesso = this.getReadableDatabase().update(getNomeTabela(), entidade.getContentValue(),
-                    parCampoValor.getNomeCampo() + " = ?",
-                    new String[]{parCampoValor.getValor().toString()}) > 0;
-        else
-            sucesso = this.getWritableDatabase().insert(getNomeTabela(), null, entidade.getContentValue()) > 0;
-        return sucesso;
+    @Override
+    public synchronized int executarScalar(String whereClause, String[] argumentos) {
+        return bdHelper.executarScalar(whereClause, argumentos);
     }
 
-    private boolean deletarEntidade(TEntidade entidade) {
-        boolean sucesso = false;
-        ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
-        sucesso = this.getWritableDatabase().delete(getNomeTabela(),
-                "where " + parCampoValor.getNomeCampo() + " = ?",
-                new String[]{parCampoValor.getValor().toString()}) > 0;
-        return sucesso;
+    @Override
+    public synchronized List<TEntidade> executarQuery(String[] colunas, String whereClause, String[] argumentos) {
+        try {
+            List<TEntidade> tEntidades = new ArrayList<>();
+            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            if (cursor.moveToFirst()) {
+                do {
+                    TEntidade entidade = tEntidadeClass.getConstructor(Cursor.class).newInstance(cursor);
+                    entidade.complementarEntidade(context);
+                    tEntidades.add(entidade);
+                } while (cursor.moveToNext());
+                return tEntidades;
+            }
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
+        }
+        return null;
+    }
+
+    @Override
+    public synchronized TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
+        try {
+            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            if (cursor.moveToFirst()) {
+                TEntidade _entidade;
+                do {
+                    _entidade = tEntidadeClass.getConstructor(Cursor.class).newInstance(cursor);
+                    _entidade.complementarEntidade(context);
+                } while (cursor.moveToNext());
+                return _entidade;
+            }
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
+        }
+        return null;
     }
 
     public synchronized boolean salvar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (entidade != null) {
             executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
-            return salvarEntidade(entidade);
+            return this.bdHelper.salvarEntidade(entidade);
         }
         return false;
     }
@@ -64,16 +92,38 @@ public abstract class Repositorio<TEntidade extends Entidade> extends BDHelper<T
     public synchronized boolean deletar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (entidade != null) {
             executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
-            return deletarEntidade(entidade);
+            return this.bdHelper.deletarEntidade(entidade);
         }
         return false;
     }
 
-    private void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
+    public synchronized void createTransaction() {
+        if (!this.bdHelper.getDatabase().isDbLockedByCurrentThread()) {
+            this.bdHelper.getDatabase().beginTransaction();
+        }
+    }
+
+    public synchronized void endTransaction() {
+        if (this.bdHelper.getDatabase().inTransaction()) {
+            if (!TratamentoExcecao.existeExcecao() && Thread.currentThread().getUncaughtExceptionHandler() == null) {
+                this.bdHelper.getDatabase().setTransactionSuccessful();
+            }
+            this.bdHelper.getDatabase().endTransaction();
+        }
+
+        if (this.bdHelper.getDatabase().isOpen())
+            this.bdHelper.getDatabase().close();
+    }
+
+    public synchronized void salvarBDLocal() {
+        this.bdHelper.salvarBDLocal();
+    }
+
+    protected void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosSalvar.add(regraNegocio);
     }
 
-    private void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
+    protected void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosDeletar.add(regraNegocio);
     }
 

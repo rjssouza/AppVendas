@@ -12,16 +12,7 @@ import java.util.List;
 public class RPProduto extends Repositorio<Produto> {
 
     public RPProduto(Context context) {
-        super(context);
+        super(context, Produto.class);
     }
 
-    @Override
-    protected Produto obterEntidade(Cursor cursor) {
-        return new Produto(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_produto";
-    }
-}
+ }

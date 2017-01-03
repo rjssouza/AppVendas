@@ -5,8 +5,10 @@ import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
+import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
+@NomeTabela(nomeTabela = "tb_cliente")
 public class Cliente extends Entidade<Integer> {
 
     public final static String ATIVO = "ativo";
@@ -31,7 +33,7 @@ public class Cliente extends Entidade<Integer> {
 
     @ChavePrimaria
     private int id_cliente;
-    @ColunaTabela
+    @ColunaTabela()
     private Integer cod_cliente;
     @ColunaTabela
     private String nome;

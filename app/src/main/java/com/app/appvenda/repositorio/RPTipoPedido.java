@@ -12,16 +12,7 @@ import java.util.List;
 public class RPTipoPedido extends Repositorio<TipoPedido> {
 
     public RPTipoPedido(Context context) {
-        super(context);
+        super(context, TipoPedido.class);
     }
 
-    @Override
-    protected TipoPedido obterEntidade(Cursor cursor) {
-        return new TipoPedido(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_tipo_pedido";
-    }
 }

@@ -18,17 +18,7 @@ import java.util.List;
 public class RPConfiguracao extends Repositorio<Configuracao> {
 
     public RPConfiguracao(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected Configuracao obterEntidade(Cursor cursor) {
-        return new Configuracao(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_configuracao";
+        super(context, Configuracao.class);
     }
 
 }

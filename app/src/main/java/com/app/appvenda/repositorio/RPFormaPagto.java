@@ -12,17 +12,7 @@ import java.util.List;
 public class RPFormaPagto extends Repositorio<FormaPagto> {
 
     public RPFormaPagto(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected FormaPagto obterEntidade(Cursor cursor) {
-        return new FormaPagto(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_forma_pagto";
+        super(context, FormaPagto.class);
     }
 
 }

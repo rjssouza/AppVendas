@@ -36,23 +36,23 @@ public abstract class Entidade<TChavePrimaria> {
                         if (cursor.getColumnIndex(field.getName()) > -1) {
                             switch (field.getType().getSimpleName().toUpperCase()) {
                                 case "STRING":
-                                    field.set(this, cursor.getString(cursor.getColumnIndex(field.getName())));
+                                    field.set(this, cursor.getString(cursor.getColumnIndex(obtenerNomeColuna(field))));
                                     break;
                                 case "BOOLEAN":
-                                    field.set(this, (cursor.getShort(cursor.getColumnIndex(field.getName())) > 0));
+                                    field.set(this, (cursor.getShort(cursor.getColumnIndex(obtenerNomeColuna(field))) > 0));
                                     break;
                                 case "INT":
                                 case "INTEGER":
-                                    field.set(this, cursor.getInt(cursor.getColumnIndex(field.getName())));
+                                    field.set(this, cursor.getInt(cursor.getColumnIndex(obtenerNomeColuna(field))));
                                     break;
                                 case "LONG":
-                                    field.set(this, cursor.getLong(cursor.getColumnIndex(field.getName())));
+                                    field.set(this, cursor.getLong(cursor.getColumnIndex(obtenerNomeColuna(field))));
                                     break;
                                 case "SHORT":
-                                    field.set(this, cursor.getShort(cursor.getColumnIndex(field.getName())));
+                                    field.set(this, cursor.getShort(cursor.getColumnIndex(obtenerNomeColuna(field))));
                                     break;
                                 case "DOUBLE":
-                                    field.set(this, cursor.getDouble(cursor.getColumnIndex(field.getName())));
+                                    field.set(this, cursor.getDouble(cursor.getColumnIndex(obtenerNomeColuna(field))));
                                     break;
                                 default:
                                     break;
@@ -66,11 +66,13 @@ public abstract class Entidade<TChavePrimaria> {
         }
     }
 
-    ParCampoValor<TChavePrimaria> getChavePrimaria() {
+    public ParCampoValor<TChavePrimaria> getChavePrimaria() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ChavePrimaria.class)) {
                 field.setAccessible(true);
                 ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
+                ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
+
                 if (chavePrimaria != null) {
                     try {
                         return new ParCampoValor<>((TChavePrimaria) field.get(this), field.getName());
@@ -83,34 +85,35 @@ public abstract class Entidade<TChavePrimaria> {
         return null;
     }
 
-    ContentValues getContentValue() {
+    public ContentValues getContentValue() {
         ContentValues contentValues = new ContentValues();
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
+                ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
                 field.setAccessible(true);
                 try {
                     if (field.get(this) != null) {
                         switch (field.getType().getSimpleName().toUpperCase()) {
                             case "STRING":
-                                contentValues.put(field.getName(), field.get(this).toString());
+                                contentValues.put(obtenerNomeColuna(field), field.get(this).toString());
                                 break;
                             case "BOOLEAN":
-                                contentValues.put(field.getName(), (Boolean) field.get(this));
+                                contentValues.put(obtenerNomeColuna(field), (Boolean) field.get(this));
                                 break;
                             case "INT":
-                                contentValues.put(field.getName(), field.getInt(this));
+                                contentValues.put(obtenerNomeColuna(field), field.getInt(this));
                                 break;
                             case "INTEGER":
-                                contentValues.put(field.getName(), (Integer) field.get(this));
+                                contentValues.put(obtenerNomeColuna(field), (Integer) field.get(this));
                                 break;
                             case "LONG":
-                                contentValues.put(field.getName(), (Long) field.get(this));
+                                contentValues.put(obtenerNomeColuna(field), (Long) field.get(this));
                                 break;
                             case "SHORT":
-                                contentValues.put(field.getName(), (Short) field.get(this));
+                                contentValues.put(obtenerNomeColuna(field), (Short) field.get(this));
                                 break;
                             case "DOUBLE":
-                                contentValues.put(field.getName(), (Double) field.get(this));
+                                contentValues.put(obtenerNomeColuna(field), (Double) field.get(this));
                                 break;
                             default:
                                 break;
@@ -125,5 +128,11 @@ public abstract class Entidade<TChavePrimaria> {
     }
 
     public abstract void complementarEntidade(Context context);
+
+    private String obtenerNomeColuna(Field field) {
+        ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
+        String strColunaTabela = colunaTabela.nomeColuna() != "" ? colunaTabela.nomeColuna() : field.getName();
+        return strColunaTabela;
+    }
 
 }

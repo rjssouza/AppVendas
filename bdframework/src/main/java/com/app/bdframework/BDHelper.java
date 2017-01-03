@@ -5,7 +5,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
+import com.app.bdframework.baseEntidade.ParCampoValor;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.Constantes;
 import com.app.bdframework.utils.GeradorArquivo;
@@ -13,20 +15,23 @@ import com.app.bdframework.utils.GeradorArquivo;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe qie representa o acesso a instancia do BD local, possui metodos para conversao e query de entidaes
  */
-public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper implements IExecutorQuery {
+public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
 
-    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "VendasApp";
-    private static String _dataBasePath;
-    protected final Context _context;
+    private static final int DATABASE_VERSION = 1;
 
-    protected BDHelper(Context context) {
+    private Context _context;
+    private String _dataBasePath;
+    private SQLiteDatabase database;
+    private Class<TEntidade> tEntidadeClass;
+
+    private static BDHelper helper;
+
+    BDHelper(Context context, Class<TEntidade> tEntidadeClass) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _context = context;
         _dataBasePath = getWritableDatabase().getPath();
@@ -58,8 +63,23 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
 
     }
 
-    @Override
-    public int executarScalar(String whereClause, String[] argumentos) {
+    public static <T extends Entidade> BDHelper<T> getBDHelper(Context context, Class<T> tEntidadeClass) {
+        if (helper == null)
+            helper = new BDHelper<T>(context, tEntidadeClass);
+        return helper;
+    }
+
+    public synchronized void salvarBDLocal() {
+        GeradorArquivo.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", GeradorArquivo.getPastaExternaAplicacao());
+    }
+
+    public synchronized SQLiteDatabase getDatabase() {
+        if (database == null)
+            database = SQLiteDatabase.openDatabase(_dataBasePath, null, 0);
+        return database;
+    }
+
+    public synchronized int executarScalar(String whereClause, String[] argumentos) {
         try {
             Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
                     " where " + whereClause, argumentos);
@@ -80,71 +100,34 @@ public abstract class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHel
         return 0;
     }
 
-    @Override
-    public List<TEntidade> executarQuery(String[] colunas, String whereClause, String[] argumentos) {
-        try {
-            List<TEntidade> tEntidades = new ArrayList<>();
-            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-            if (cursor.moveToFirst()) {
-                do {
-                    TEntidade entidade = obterEntidade(cursor);
-                    entidade.complementarEntidade(_context);
-                    tEntidades.add(entidade);
-                } while (cursor.moveToNext());
-                return tEntidades;
-            }
-        } catch (Exception e) {
-            TratamentoExcecao.registrarExcecao(e);
-        } finally {
-            TratamentoExcecao.invocarEvento();
-        }
-        return null;
+    public synchronized boolean salvarEntidade(TEntidade entidade) {
+        boolean sucesso = false;
+        ParCampoValor parCampoValor = entidade.getChavePrimaria();
+        boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
+                new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
+        if (existe)
+            sucesso = getDatabase().update(getNomeTabela(), entidade.getContentValue(),
+                    parCampoValor.getNomeCampo() + " = ?",
+                    new String[]{parCampoValor.getValor().toString()}) > 0;
+        else
+            sucesso = getDatabase().insert(getNomeTabela(), null, entidade.getContentValue()) > 0;
+        return sucesso;
     }
 
-    @Override
-    public TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
-        try {
-            Cursor cursor = this.getReadableDatabase().query(getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
-            if (cursor.moveToFirst()) {
-                TEntidade _entidade;
-                do {
-                    _entidade = obterEntidade(cursor);
-                    _entidade.complementarEntidade(_context);
-                } while (cursor.moveToNext());
-                return _entidade;
-            }
-        } catch (Exception e) {
-            TratamentoExcecao.registrarExcecao(e);
-        } finally {
-            TratamentoExcecao.invocarEvento();
-        }
-        return null;
+    public synchronized boolean deletarEntidade(TEntidade entidade) {
+        boolean sucesso = false;
+        ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
+        sucesso = getDatabase().delete(getNomeTabela(),
+                "where " + parCampoValor.getNomeCampo() + " = ?",
+                new String[]{parCampoValor.getValor().toString()}) > 0;
+        return sucesso;
     }
 
-    public void salvarBDLocal() {
-        GeradorArquivo.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", GeradorArquivo.getPastaExternaAplicacao());
+    public String getNomeTabela() {
+        NomeTabela nomeTabela = tEntidadeClass.getAnnotation(NomeTabela.class);
+        if (nomeTabela != null)
+            return nomeTabela.nomeTabela();
+        return "";
     }
-
-    public synchronized void createTransaction() {
-        if (!getWritableDatabase().isDbLockedByOtherThreads() && !getWritableDatabase().isDbLockedByCurrentThread()) {
-            getWritableDatabase().beginTransaction();
-        }
-    }
-
-    public synchronized void endTransaction() {
-        if (getWritableDatabase().inTransaction()) {
-            if (!TratamentoExcecao.existeExcecao() && Thread.currentThread().getUncaughtExceptionHandler() == null) {
-                getWritableDatabase().setTransactionSuccessful();
-            }
-            getWritableDatabase().endTransaction();
-        }
-
-        if (getWritableDatabase().isOpen())
-            getWritableDatabase().close();
-    }
-
-    protected abstract TEntidade obterEntidade(Cursor cursor);
-
-    protected abstract String getNomeTabela();
 
 }

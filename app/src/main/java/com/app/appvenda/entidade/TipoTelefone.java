@@ -5,8 +5,10 @@ import android.database.Cursor;
 
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
+import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
+@NomeTabela(nomeTabela = "tb_tipo_telefone")
 public class TipoTelefone extends Entidade<Integer> {
 
     public final static String DESCR_TIPO_TELEFONE = "descr_tipo_telefone";

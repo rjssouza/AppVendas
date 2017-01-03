@@ -12,17 +12,7 @@ import java.util.List;
 public class RPVenda extends Repositorio<Venda> {
 
     public RPVenda(Context context) {
-        super(context);
-    }
-
-    @Override
-    protected Venda obterEntidade(Cursor cursor) {
-        return new Venda(cursor);
-    }
-
-    @Override
-    protected String getNomeTabela() {
-        return "tb_venda";
+        super(context, Venda.class);
     }
 
 }
