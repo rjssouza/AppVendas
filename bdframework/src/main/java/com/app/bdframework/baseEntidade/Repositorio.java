@@ -8,7 +8,6 @@ import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
-import com.app.bdframework.utils.GeradorArquivo;
 import com.app.bdframework.utils.ListaUtils;
 
 import java.util.ArrayList;
@@ -37,14 +36,14 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
 
     @Override
     public synchronized int executarScalar(String whereClause, String[] argumentos) {
-        return bdHelper.executarScalar(whereClause, argumentos);
+        return bdHelper.executarScalar(whereClause, argumentos, this.tEntidadeClass);
     }
 
     @Override
     public synchronized List<TEntidade> executarQuery(String[] colunas, String whereClause, String[] argumentos) {
         try {
             List<TEntidade> tEntidades = new ArrayList<>();
-            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(this.tEntidadeClass), colunas, whereClause, argumentos, null, null, null);
             if (cursor.moveToFirst()) {
                 do {
                     TEntidade entidade = tEntidadeClass.getConstructor(Cursor.class).newInstance(cursor);
@@ -64,7 +63,7 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
     @Override
     public synchronized TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
         try {
-            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(), colunas, whereClause, argumentos, null, null, null);
+            Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(this.tEntidadeClass), colunas, whereClause, argumentos, null, null, null);
             if (cursor.moveToFirst()) {
                 TEntidade _entidade;
                 do {

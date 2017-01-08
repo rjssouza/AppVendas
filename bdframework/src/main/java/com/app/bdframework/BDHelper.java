@@ -27,7 +27,6 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
     private Context _context;
     private String _dataBasePath;
     private SQLiteDatabase database;
-    private Class<TEntidade> _tEntidadeClass;
 
     private static BDHelper helper;
 
@@ -35,7 +34,6 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _context = context;
         _dataBasePath = getWritableDatabase().getPath();
-        _tEntidadeClass = tEntidadeClass;
     }
 
     @Override
@@ -65,8 +63,9 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
     }
 
     public static <T extends Entidade> BDHelper<T> getBDHelper(Context context, Class<T> tEntidadeClass) {
-        if (helper == null)
+        if (helper == null) {
             helper = new BDHelper<T>(context, tEntidadeClass);
+        }
         return helper;
     }
 
@@ -80,9 +79,9 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
         return database;
     }
 
-    public synchronized int executarScalar(String whereClause, String[] argumentos) {
+    public synchronized int executarScalar(String whereClause, String[] argumentos, Class<TEntidade> tEntidadeClass) {
         try {
-            Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela() +
+            Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela(tEntidadeClass) +
                     " where " + whereClause, argumentos);
             int count = -1;
             if (mCount.moveToFirst()) {
@@ -105,27 +104,27 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
         boolean sucesso = false;
         ParCampoValor parCampoValor = entidade.getChavePrimaria();
         boolean existe = this.executarScalar(parCampoValor.getNomeCampo() + " = ?",
-                new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}) > 0;
+                new String[]{parCampoValor.getValor() == null ? "" : parCampoValor.getValor().toString()}, (Class<TEntidade>) entidade.getClass()) > 0;
         if (existe)
-            sucesso = getDatabase().update(getNomeTabela(), entidade.getContentValue(),
+            sucesso = getDatabase().update(getNomeTabela((Class<TEntidade>) entidade.getClass()), entidade.getContentValue(),
                     parCampoValor.getNomeCampo() + " = ?",
                     new String[]{parCampoValor.getValor().toString()}) > 0;
         else
-            sucesso = getDatabase().insert(getNomeTabela(), null, entidade.getContentValue()) > 0;
+            sucesso = getDatabase().insert(getNomeTabela((Class<TEntidade>) entidade.getClass()), null, entidade.getContentValue()) > 0;
         return sucesso;
     }
 
     public synchronized boolean deletarEntidade(TEntidade entidade) {
         boolean sucesso = false;
         ParCampoValor<Integer> parCampoValor = entidade.getChavePrimaria();
-        sucesso = getDatabase().delete(getNomeTabela(),
+        sucesso = getDatabase().delete(getNomeTabela((Class<TEntidade>) entidade.getClass()),
                 "where " + parCampoValor.getNomeCampo() + " = ?",
                 new String[]{parCampoValor.getValor().toString()}) > 0;
         return sucesso;
     }
 
-    public String getNomeTabela() {
-        NomeTabela nomeTabela = _tEntidadeClass.getAnnotation(NomeTabela.class);
+    public String getNomeTabela(Class<TEntidade> tEntidadeClass) {
+        NomeTabela nomeTabela = tEntidadeClass.getAnnotation(NomeTabela.class);
         if (nomeTabela != null)
             return nomeTabela.nomeTabela();
         return "";
