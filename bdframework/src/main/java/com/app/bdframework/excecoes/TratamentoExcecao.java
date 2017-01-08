@@ -53,6 +53,7 @@ public class TratamentoExcecao {
                             RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
                             try {
                                 eventoVoid.executarEvento(regraNegocioMensagem);
+                                exception.printStackTrace();
                                 exception = null;
                             } catch (Exception e) {
                                 e.printStackTrace();

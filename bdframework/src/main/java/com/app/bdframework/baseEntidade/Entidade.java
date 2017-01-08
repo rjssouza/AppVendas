@@ -33,7 +33,7 @@ public abstract class Entidade<TChavePrimaria> {
                 if (field.isAnnotationPresent(ColunaTabela.class) || field.isAnnotationPresent(ChavePrimaria.class)) {
                     field.setAccessible(true);
                     try {
-                        if (cursor.getColumnIndex(field.getName()) > -1) {
+                        if (cursor.getColumnIndex(obtenerNomeColuna(field)) > -1) {
                             switch (field.getType().getSimpleName().toUpperCase()) {
                                 case "STRING":
                                     field.set(this, cursor.getString(cursor.getColumnIndex(obtenerNomeColuna(field))));
@@ -131,8 +131,20 @@ public abstract class Entidade<TChavePrimaria> {
 
     private String obtenerNomeColuna(Field field) {
         ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
-        String strColunaTabela = colunaTabela.nomeColuna() != "" ? colunaTabela.nomeColuna() : field.getName();
-        return strColunaTabela;
+        ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
+
+        String strColunaTabela = "";
+
+        if (colunaTabela != null) {
+            strColunaTabela = colunaTabela.nomeColuna() != "" ? colunaTabela.nomeColuna() : field.getName();
+            return strColunaTabela;
+        }
+
+        if (chavePrimaria != null) {
+            strColunaTabela = chavePrimaria.nomeColuna() != "" ? chavePrimaria.nomeColuna() : field.getName();
+            return strColunaTabela;
+        }
+        return "";
     }
 
 }

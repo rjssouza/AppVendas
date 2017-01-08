@@ -27,7 +27,7 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
     private Context _context;
     private String _dataBasePath;
     private SQLiteDatabase database;
-    private Class<TEntidade> tEntidadeClass;
+    private Class<TEntidade> _tEntidadeClass;
 
     private static BDHelper helper;
 
@@ -35,6 +35,7 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         _context = context;
         _dataBasePath = getWritableDatabase().getPath();
+        _tEntidadeClass = tEntidadeClass;
     }
 
     @Override
@@ -124,7 +125,7 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
     }
 
     public String getNomeTabela() {
-        NomeTabela nomeTabela = tEntidadeClass.getAnnotation(NomeTabela.class);
+        NomeTabela nomeTabela = _tEntidadeClass.getAnnotation(NomeTabela.class);
         if (nomeTabela != null)
             return nomeTabela.nomeTabela();
         return "";

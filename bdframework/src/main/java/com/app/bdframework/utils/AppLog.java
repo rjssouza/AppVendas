@@ -7,9 +7,11 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
  */
 
 public class AppLog {
+
     public static void CriarLog(RegraNegocioMensagem regraNegocioMensagem) {
         String diretorio = GeradorArquivo.getPastaExternaAplicacao() + "/Logs";
         String mensagem = TradutorMensagemException.obterMensagem(regraNegocioMensagem.getException(), true);
         GeradorArquivo.criarArquivoTexto(mensagem, diretorio, "ErroGeral");
     }
+
 }
