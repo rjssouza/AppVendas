@@ -136,7 +136,6 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                 return null;
             }
         });
-
     }
 
     @Override

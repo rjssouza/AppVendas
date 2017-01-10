@@ -20,7 +20,7 @@ public class ConversorProduto extends Conversor<MProduto, Produto> {
         produto.setFoto(mProduto.getFoto());
         produto.setAtivo(mProduto.getAtivo());
         produto.setCod_produto(mProduto.getCodProduto());
-        Estoque estoque = ConversorHelper.converterDePara(mProduto.getmEstoque());
+        Estoque estoque = ConversorHelper.converterDePara(mProduto.getmEstoque(), Estoque.class);
         produto.setEstoque(estoque);
         produto.setId_produto(mProduto.getIdProduto());
         produto.setQtd_limite(mProduto.getQtdLimite());
@@ -34,7 +34,7 @@ public class ConversorProduto extends Conversor<MProduto, Produto> {
         mProduto.setFoto(produto.getFoto());
         mProduto.setAtivo(produto.getAtivo());
         mProduto.setCodProduto(produto.getCod_produto());
-        MEstoque mEstoque = ConversorHelper.converterDePara(produto.getEstoque());
+        MEstoque mEstoque = ConversorHelper.converterDePara(produto.getEstoque(), MEstoque.class);
         mProduto.setmEstoque(mEstoque);
         mProduto.setIdProduto(produto.getId_produto());
         mProduto.setQtdLimite(produto.getQtd_limite());

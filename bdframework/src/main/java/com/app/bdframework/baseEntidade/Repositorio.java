@@ -126,7 +126,8 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
         this.regraNegociosDeletar.add(regraNegocio);
     }
 
-    private void executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
+    private boolean executarRegraNegocio(List<RegraNegocio<TEntidade>> regraNegocios, TEntidade tEntidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
+        boolean sucesso = true;
         if (regraNegocios != null) {
             Collections.sort(regraNegocios, new Comparator<RegraNegocio>() {
                 @Override
@@ -137,9 +138,12 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
 
             for (RegraNegocio<TEntidade> regraNegocio : regraNegocios) {
                 if (!ListaUtils.contem(regrasIgnorar, regraNegocio.getClass().getSimpleName()))
-                    regraNegocio.validarRegra(tEntidade, this);
+                    if (!regraNegocio.validarRegra(tEntidade, this)) {
+                        sucesso = false;
+                    }
             }
         }
+        return sucesso;
     }
 
 }

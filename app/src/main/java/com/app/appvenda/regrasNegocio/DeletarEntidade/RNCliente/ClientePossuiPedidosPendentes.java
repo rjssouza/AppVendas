@@ -31,11 +31,12 @@ public class ClientePossuiPedidosPendentes extends RegraNegocioResource implemen
     }
 
     @Override
-    public void validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
+    public boolean validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
         int qtdVenda = this.rpVenda.executarScalar(Venda.ID_STATUS_VENDA + " = ? AND " + Venda.ID_CLIENTE + " = ?",
                 new String[]{EnumStatusVenda.NAO_PAGO.getNumVal().toString(), entidade.getId_cliente().toString()});
         if (qtdVenda == 0) {
             throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.ERRO);
         }
+        return true;
     }
 }

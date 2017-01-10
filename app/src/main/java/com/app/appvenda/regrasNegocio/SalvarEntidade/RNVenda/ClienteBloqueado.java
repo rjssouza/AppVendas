@@ -25,10 +25,11 @@ public class ClienteBloqueado extends RegraNegocioResource implements RegraNegoc
     }
 
     @Override
-    public void validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
+    public boolean validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
         if (!entidade.getAtivo()) {
             throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.PERGUNTA);
         }
+        return true;
     }
 
 }

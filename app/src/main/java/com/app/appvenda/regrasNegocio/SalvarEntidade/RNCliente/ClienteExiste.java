@@ -25,13 +25,14 @@ public class ClienteExiste extends RegraNegocioResource implements RegraNegocio<
     }
 
     @Override
-    public void validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
+    public boolean validarRegra(Cliente entidade, IExecutorQuery<Cliente> queryHelper) throws RegraNegocioException {
         int quantidadeCliente = queryHelper.executarScalar(Cliente.CNPJ + " = ? OR " + Cliente.CPF + " = ? ",
                 new String[]{entidade.getCnpj().toString(), entidade.getCpf().toString()});
 
         if (quantidadeCliente > 0) {
             throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.ERRO);
         }
+        return true;
     }
 
 }

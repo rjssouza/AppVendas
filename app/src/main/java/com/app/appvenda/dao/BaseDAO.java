@@ -41,7 +41,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             public void run() {
                     try {
                         //repositorio.createTransaction();
-                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
                         repositorio.salvar(tEntidade, regrasIgnorar);
                         if (tEntidade != null)
                             posSalvar(tEntidade, regrasIgnorar);
@@ -68,7 +68,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
             public void run() {
                     try {
                         //repositorio.createTransaction();
-                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo);
+                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
                         if (tEntidade != null)
                             preDeletar(tEntidade, regrasIgnorar);
                         repositorio.deletar(tEntidade, regrasIgnorar);
