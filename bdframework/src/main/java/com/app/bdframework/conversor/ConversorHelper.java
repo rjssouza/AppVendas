@@ -15,8 +15,10 @@ public class ConversorHelper {
         for (@SuppressWarnings("unchecked") Conversor<TDe, TPara> conversor : listaConversor)
             try {
                 if (de != null) {
-                    if (tParaClass.isInstance(de.getClass()))
-                        return conversor.converterDePara(de);
+                    TPara tPara = conversor.converterDePara(de);
+                    if (tParaClass.isInstance(tPara))
+                        return tPara;
+                    throw new ClassCastException();
                 }
                 return null;
             } catch (ClassCastException e) {
@@ -29,8 +31,10 @@ public class ConversorHelper {
         for (@SuppressWarnings("unchecked") Conversor<TDe, TPara> conversor : listaConversor) {
             try {
                 if (para != null) {
-                    if (tDeClass.isInstance(para.getClass()))
-                        return conversor.converterParaDe(para);
+                    TDe tDe = conversor.converterParaDe(para);
+                    if (tDeClass.isInstance(tDe))
+                        return tDe;
+                    throw new ClassCastException();
                 }
                 return null;
             } catch (ClassCastException e) {

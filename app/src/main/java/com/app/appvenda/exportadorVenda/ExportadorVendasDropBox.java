@@ -118,7 +118,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
     @Override
     public void obterVendedores(EventoVoid<ArrayList<MVendedor>> posPosExecucao) throws RegraNegocioException {
-        URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_VENDEDORES);
+        URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaVendedor(), F_VENDEDORES);
         obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MVendedor>() {
             @Override
             public MVendedor executarEvento(String[] strings) {
@@ -129,11 +129,16 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
 
     @Override
     public void obterFormaPagto(EventoVoid<ArrayList<MFormaPagamento>> posPosExecucao) throws RegraNegocioException {
-        URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaEstoque(), F_FORMA_PAGTO);
+        URI uri = mConfiguracao.getEnderecoCompleto(mConfiguracao.getPastaFormaPagto(), F_FORMA_PAGTO);
         obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MFormaPagamento>() {
             @Override
             public MFormaPagamento executarEvento(String[] strings) {
-                return null;
+                MFormaPagamento mFormaPagamento = new MFormaPagamento();
+                mFormaPagamento.setCodFormaPagto(Integer.parseInt(strings[0]));
+                mFormaPagamento.setDescrFormaPagto(strings[1]);
+                mFormaPagamento.setIdFormaPagto(Integer.parseInt(strings[0]));
+                mFormaPagamento.setValPerc(ConversorUtils.stringDouble(strings[2]));
+                return mFormaPagamento;
             }
         });
     }

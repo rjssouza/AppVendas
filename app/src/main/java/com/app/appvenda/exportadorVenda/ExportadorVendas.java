@@ -4,11 +4,14 @@ import android.content.Context;
 
 import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.dao.ConfiguracaoDAO;
+import com.app.appvenda.dao.FormaPagamentoDAO;
 import com.app.appvenda.dao.ProdutoDAO;
 import com.app.appvenda.R;
+import com.app.appvenda.dao.VendedorDAO;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MConfiguracao;
+import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVenda;
 import com.app.bdframework.enums.EnumTipoMensagem;
@@ -27,6 +30,8 @@ public class ExportadorVendas {
     private ClienteDAO clienteDAO;
     private ConfiguracaoDAO configuracaoDAO;
     private ProdutoDAO produtoDAO;
+    private FormaPagamentoDAO formaPagamentoDAO;
+    private VendedorDAO vendedorDAO;
 
     private Context context;
     private IExportadorVendas iExportadorVendas;
@@ -37,10 +42,14 @@ public class ExportadorVendas {
         this.context = context;
         clienteDAO = new ClienteDAO(context);
         produtoDAO = new ProdutoDAO(context);
+        vendedorDAO = new VendedorDAO(context);
         configuracaoDAO = new ConfiguracaoDAO(context);
+        formaPagamentoDAO = new FormaPagamentoDAO(context);
 
         clienteDAO.setEventoPosExecucao(eventoPosProcessamento());
         produtoDAO.setEventoPosExecucao(eventoPosProcessamento());
+        vendedorDAO.setEventoPosExecucao(eventoPosProcessamento());
+        formaPagamentoDAO.setEventoPosExecucao(eventoPosProcessamento());
     }
 
     public void evetuarSincronizacao() {
@@ -76,6 +85,7 @@ public class ExportadorVendas {
     private void importarBaseDados() throws RegraNegocioException {
         importarClientes();
         importarProdutos();
+        importarFormaPagamento();
     }
 
     private void exportarVendas() {
@@ -87,7 +97,6 @@ public class ExportadorVendas {
     }
 
     private synchronized void importarClientes() throws RegraNegocioException {
-
         iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
             @Override
             public void executarEvento(ArrayList<MCliente> item) throws Exception {
@@ -106,6 +115,18 @@ public class ExportadorVendas {
                 qtdRequest++;
                 for (MProduto mProduto : item) {
                     produtoDAO.salvar(mProduto, null);
+                }
+            }
+        });
+    }
+
+    private synchronized void importarFormaPagamento() throws RegraNegocioException {
+        iExportadorVendas.obterFormaPagto(new EventoVoid<ArrayList<MFormaPagamento>>() {
+            @Override
+            public void executarEvento(ArrayList<MFormaPagamento> item) throws Exception {
+                qtdRequest++;
+                for (MFormaPagamento mFormaPagamento : item) {
+                    formaPagamentoDAO.salvar(mFormaPagamento, null);
                 }
             }
         });

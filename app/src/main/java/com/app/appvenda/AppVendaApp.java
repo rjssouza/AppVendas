@@ -8,7 +8,10 @@ import android.widget.Toast;
 import com.app.appvenda.conversores.ConversorCliente;
 import com.app.appvenda.conversores.ConversorConfiguracao;
 import com.app.appvenda.conversores.ConversorEstoque;
+import com.app.appvenda.conversores.ConversorFormaPagto;
 import com.app.appvenda.conversores.ConversorProduto;
+import com.app.appvenda.conversores.ConversorVenda;
+import com.app.appvenda.conversores.ConversorVendedor;
 import com.app.appvenda.repositorio.RPConfiguracao;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
@@ -49,6 +52,9 @@ public class AppVendaApp extends Application implements EventoVoid<RegraNegocioM
         ConversorHelper.registrarConversor(new ConversorCliente());
         ConversorHelper.registrarConversor(new ConversorEstoque());
         ConversorHelper.registrarConversor(new ConversorProduto());
+        ConversorHelper.registrarConversor(new ConversorFormaPagto());
+        ConversorHelper.registrarConversor(new ConversorVendedor());
+        ConversorHelper.registrarConversor(new ConversorVenda());
     }
 
     @Override

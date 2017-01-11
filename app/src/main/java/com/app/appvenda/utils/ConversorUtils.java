@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 public class ConversorUtils {
     public static Double stringDouble(String valor) {
         if (valor != null) {
-            Pattern defimalPatt = Pattern.compile("(?:\\d*\\,)?\\d+");
+            Pattern defimalPatt = Pattern.compile("(?:\\d*\\-|,)?\\d+");
             Matcher matcher = defimalPatt.matcher(valor);
             if (matcher.find()) {
                 String teste = matcher.group(0);

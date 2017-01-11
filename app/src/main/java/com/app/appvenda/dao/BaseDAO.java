@@ -20,70 +20,68 @@ import java.util.concurrent.Executors;
 abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
 
     protected Context context;
+    protected Repositorio<TEntidade> repositorio;
     private int qtdThreads = 0;
     private ExecutorService executor;
-    protected Repositorio<TEntidade> repositorio;
     private EventoVoid<Boolean> eventoPosExecucao;
     private Class<TEntidade> pEntidade;
     private boolean sucesso = true;
 
     BaseDAO(Context context, Class<TEntidade> pEntidade) {
         this.context = context;
-        this.repositorio = obterRepositorio(context);
         this.pEntidade = pEntidade;
+        this.repositorio = obterRepositorio(context);
         this.executor = Executors.newFixedThreadPool(5);
     }
 
-    public void salvar(final TModelo tModelo, final String[] regrasIgnorar) {
+    public void salvar(final TModelo tModelo, final String... regrasIgnorar) {
         qtdThreads++;
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                    try {
-                        //repositorio.createTransaction();
-                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
-                        repositorio.salvar(tEntidade, regrasIgnorar);
-                        if (tEntidade != null)
-                            posSalvar(tEntidade, regrasIgnorar);
-                    } catch (RegraNegocioException e) {
-                        sucesso = false;
-                        TratamentoExcecao.registrarRegraNegocioExcecao(e);
-                    } catch (Exception e) {
-                        sucesso = false;
-                        TratamentoExcecao.registrarExcecao(e);
-                    } finally {
-                        //repositorio.endTransaction();
-                        eventoFinal();
-                        TratamentoExcecao.invocarEvento();
-                    }
-
+                try {
+                    //repositorio.createTransaction();
+                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
+                    repositorio.salvar(tEntidade, regrasIgnorar);
+                    if (tEntidade != null)
+                        posSalvar(tEntidade, regrasIgnorar);
+                } catch (RegraNegocioException e) {
+                    sucesso = false;
+                    TratamentoExcecao.registrarRegraNegocioExcecao(e);
+                } catch (Exception e) {
+                    sucesso = false;
+                    TratamentoExcecao.registrarExcecao(e);
+                } finally {
+                    //repositorio.endTransaction();
+                    eventoFinal();
+                    TratamentoExcecao.invocarEvento();
+                }
             }
         });
     }
 
-    public void deletar(final TModelo tModelo, final String[] regrasIgnorar) {
+    public void deletar(final TModelo tModelo, final String... regrasIgnorar) {
         qtdThreads++;
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
-                    try {
-                        //repositorio.createTransaction();
-                        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
-                        if (tEntidade != null)
-                            preDeletar(tEntidade, regrasIgnorar);
-                        repositorio.deletar(tEntidade, regrasIgnorar);
-                    } catch (RegraNegocioException e) {
-                        sucesso = false;
-                        TratamentoExcecao.registrarRegraNegocioExcecao(e);
-                    } catch (Exception e) {
-                        sucesso = false;
-                        TratamentoExcecao.registrarExcecao(e);
-                    } finally {
-                        //repositorio.endTransaction();
-                        eventoFinal();
-                        TratamentoExcecao.invocarEvento();
-                    }
-
+                try {
+                    //repositorio.createTransaction();
+                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
+                    if (tEntidade != null)
+                        preDeletar(tEntidade, regrasIgnorar);
+                    repositorio.deletar(tEntidade, regrasIgnorar);
+                } catch (RegraNegocioException e) {
+                    sucesso = false;
+                    TratamentoExcecao.registrarRegraNegocioExcecao(e);
+                } catch (Exception e) {
+                    sucesso = false;
+                    TratamentoExcecao.registrarExcecao(e);
+                } finally {
+                    //repositorio.endTransaction();
+                    eventoFinal();
+                    TratamentoExcecao.invocarEvento();
+                }
             }
         });
     }

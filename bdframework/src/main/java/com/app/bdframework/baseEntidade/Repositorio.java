@@ -26,7 +26,7 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
     private List<RegraNegocio<TEntidade>> regraNegociosSalvar;
     private List<RegraNegocio<TEntidade>> regraNegociosDeletar;
 
-    protected Repositorio(Context context, Class<TEntidade> tEntidadeClass) {
+    public Repositorio(Context context, Class<TEntidade> tEntidadeClass) {
         this.context = context;
         this.tEntidadeClass = tEntidadeClass;
         this.regraNegociosSalvar = new ArrayList<>();
@@ -82,16 +82,18 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
 
     public synchronized boolean salvar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (entidade != null) {
-            executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar);
-            return this.bdHelper.salvarEntidade(entidade);
+            if (executarRegraNegocio(regraNegociosSalvar, entidade, regrasIgnorar)) {
+                return this.bdHelper.salvarEntidade(entidade);
+            }
         }
         return false;
     }
 
     public synchronized boolean deletar(final TEntidade entidade, final String[] regrasIgnorar) throws RegraNegocioException, Exception {
         if (entidade != null) {
-            executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar);
-            return this.bdHelper.deletarEntidade(entidade);
+            if (executarRegraNegocio(regraNegociosDeletar, entidade, regrasIgnorar)) {
+                return this.bdHelper.deletarEntidade(entidade);
+            }
         }
         return false;
     }
@@ -104,7 +106,7 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
 
     public synchronized void endTransaction() {
         if (this.bdHelper.getDatabase().inTransaction()) {
-            if (!TratamentoExcecao.existeExcecao() && Thread.currentThread().getUncaughtExceptionHandler() == null) {
+            if (!TratamentoExcecao.existeExcecao()) {
                 this.bdHelper.getDatabase().setTransactionSuccessful();
             }
             this.bdHelper.getDatabase().endTransaction();
