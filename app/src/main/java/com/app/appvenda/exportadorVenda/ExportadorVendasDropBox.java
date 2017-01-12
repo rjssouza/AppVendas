@@ -126,7 +126,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                 mVendedor.setIdVendedor(Integer.parseInt(strings[3]));
                 mVendedor.setNome(strings[11]);
                 mVendedor.setPercVenda(ConversorUtils.stringDouble(strings[15]));
-                return null;
+                return mVendedor;
             }
         });
     }
