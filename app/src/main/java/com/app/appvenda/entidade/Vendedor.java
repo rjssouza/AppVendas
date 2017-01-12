@@ -13,6 +13,7 @@ public class Vendedor extends Entidade<Integer> {
 
     public final static String ID_VENDEDOR = "id_vendedor";
     public final static String NOME = "nome";
+    public final static String PERC_VENDA = "perc_venda";
 
     public Vendedor(Cursor cursor) {
         super(cursor);
@@ -27,6 +28,16 @@ public class Vendedor extends Entidade<Integer> {
     private int id_vendedor;
     @ColunaTabela
     private String nome;
+    @ColunaTabela
+    private Double perc_venda;
+
+    public Double getPerc_venda() {
+        return perc_venda;
+    }
+
+    public void setPerc_venda(Double perc_venda) {
+        this.perc_venda = perc_venda;
+    }
 
     public int getId_vendedor() {
         return id_vendedor;

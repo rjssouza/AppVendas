@@ -8,6 +8,15 @@ public class MVendedor {
 
     private int idVendedor;
     private String nome;
+    private Double percVenda;
+
+    public Double getPercVenda() {
+        return percVenda;
+    }
+
+    public void setPercVenda(Double percVenda) {
+        this.percVenda = percVenda;
+    }
 
     public int getIdVendedor() {
         return idVendedor;

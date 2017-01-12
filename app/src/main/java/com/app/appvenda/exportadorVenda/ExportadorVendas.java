@@ -14,6 +14,7 @@ import com.app.appvenda.modelos.MConfiguracao;
 import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MProduto;
 import com.app.appvenda.modelos.MVenda;
+import com.app.appvenda.modelos.MVendedor;
 import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
@@ -83,9 +84,12 @@ public class ExportadorVendas {
     }
 
     private void importarBaseDados() throws RegraNegocioException {
+        qtdRequest = 4;
+
         importarClientes();
         importarProdutos();
         importarFormaPagamento();
+        importarVendedores();
     }
 
     private void exportarVendas() {
@@ -100,7 +104,6 @@ public class ExportadorVendas {
         iExportadorVendas.obterClientes(new EventoVoid<ArrayList<MCliente>>() {
             @Override
             public void executarEvento(ArrayList<MCliente> item) throws Exception {
-                qtdRequest++;
                 for (MCliente mCliente : item) {
                     clienteDAO.salvar(mCliente, null);
                 }
@@ -112,7 +115,6 @@ public class ExportadorVendas {
         iExportadorVendas.obterProdutos(new EventoVoid<ArrayList<MProduto>>() {
             @Override
             public void executarEvento(ArrayList<MProduto> item) throws Exception {
-                qtdRequest++;
                 for (MProduto mProduto : item) {
                     produtoDAO.salvar(mProduto, null);
                 }
@@ -124,9 +126,19 @@ public class ExportadorVendas {
         iExportadorVendas.obterFormaPagto(new EventoVoid<ArrayList<MFormaPagamento>>() {
             @Override
             public void executarEvento(ArrayList<MFormaPagamento> item) throws Exception {
-                qtdRequest++;
                 for (MFormaPagamento mFormaPagamento : item) {
                     formaPagamentoDAO.salvar(mFormaPagamento, null);
+                }
+            }
+        });
+    }
+
+    private synchronized void importarVendedores() throws RegraNegocioException {
+        iExportadorVendas.obterVendedores(new EventoVoid<ArrayList<MVendedor>>() {
+            @Override
+            public void executarEvento(ArrayList<MVendedor> item) throws Exception {
+                for (MVendedor mVendedor : item) {
+                    vendedorDAO.salvar(mVendedor, null);
                 }
             }
         });

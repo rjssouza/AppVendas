@@ -15,6 +15,7 @@ public class ConversorVendedor extends Conversor<MVendedor, Vendedor> {
         Vendedor vendedor = new Vendedor(null);
         vendedor.setId_vendedor(mVendedor.getIdVendedor());
         vendedor.setNome(mVendedor.getNome());
+        vendedor.setPerc_venda(mVendedor.getPercVenda());
         return vendedor;
     }
 
@@ -23,6 +24,7 @@ public class ConversorVendedor extends Conversor<MVendedor, Vendedor> {
         MVendedor mVendedor = new MVendedor();
         mVendedor.setNome(vendedor.getNome());
         mVendedor.setIdVendedor(vendedor.getId_vendedor());
+        mVendedor.setPercVenda(vendedor.getPerc_venda());
         return mVendedor;
     }
 }

@@ -122,6 +122,10 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
         obterTexto(uri, posPosExecucao, new EventoRetorno<String[], MVendedor>() {
             @Override
             public MVendedor executarEvento(String[] strings) {
+                MVendedor mVendedor = new MVendedor();
+                mVendedor.setIdVendedor(Integer.parseInt(strings[3]));
+                mVendedor.setNome(strings[11]);
+                mVendedor.setPercVenda(ConversorUtils.stringDouble(strings[15]));
                 return null;
             }
         });

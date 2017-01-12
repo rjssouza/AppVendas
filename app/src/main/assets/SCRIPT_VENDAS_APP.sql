@@ -2,7 +2,7 @@ CREATE TABLE [tb_cliente]( [id_cliente] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL
 CREATE TABLE [tb_produto]( [id_produto] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [nome] VARCHAR(50) NOT NULL ON CONFLICT FAIL, [foto] VARCHAR(300) NOT NULL, [ativo] NUMBER(1) NOT NULL, [qtd_limite] INTEGER NOT NULL DEFAULT 0, [cod_produto] INTEGER NOT NULL DEFAULT 0);
 CREATE TABLE [tb_forma_pagto]( [id_forma_pagto] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [cod_forma_pagto] INTEGER NOT NULL, [descr_forma_pagto] VARCHAR(200) NOT NULL, [val_perc] DECIMAL NOT NULL);
 CREATE TABLE [tb_status_venda]( [id_status_venda] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [cod_status] INTEGER NOT NULL, [descr_status] VARCHAR(30) NOT NULL);
-CREATE TABLE [tb_vendedor]( [id_vendedor] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [nome] VARCHAR(50) NOT NULL);
+CREATE TABLE [tb_vendedor]( [id_vendedor] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [nome] VARCHAR(50) NOT NULL, [perc_venda] DECIMAL NOT NULL );
 CREATE TABLE [tb_tipo_telefone]( [id_tipo_telefone] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [descr_tipo_telefone] VARCHAR(30) NOT NULL);
 CREATE TABLE [tb_tipo_pedido]( [id_tipo_pedido] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [cod_tipo_pedido] INTEGER NOT NULL, [descr_tipo_pedido] VARCHAR(30) NOT NULL);
 CREATE TABLE [tb_estoque]( [id_estoque] INTEGER PRIMARY KEY ASC ON CONFLICT FAIL AUTOINCREMENT NOT NULL, [id_produto] INTEGER NOT NULL ON CONFLICT FAIL, [valor_produto] DECIMAL NOT NULL, [valor_final] DECIMAL NOT NULL, [alerta_falta] INTEGER NOT NULL REFERENCES tb_produto([id_produto]) ON DELETE CASCADE, [quantidade] INTEGER NOT NULL DEFAULT 0);
@@ -20,4 +20,4 @@ INSERT INTO [tb_tipo_pedido] (cod_tipo_pedido, descr_tipo_pedido) VALUES (3, 'DE
 INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (1, 'PAGO');
 INSERT INTO [tb_status_venda] (cod_status, descr_status) VALUES (2, 'NAO_PAGO');
 INSERT INTO [tb_configuracao] (endereco_servico, pasta_forma_pagto, pasta_fotos, tipo_config, pasta_cliente, pasta_estoque, pasta_produto, pasta_venda, pasta_vendedor, principal ) values ('https://dl.dropboxusercontent.com/s/', 'iks2sqzhtylaen3', 'vxpn8dlp9l8y4ck', '1', 'dh9utttcgq7qa95', 'jnkkvykemi6681b', 'sm9z6xlj7m2lkeb', '56wf3el68whhf6w', 'unmgecnxg4s9ri1', '1');
-INSERT INTO [tb_vendedor] (nome) VALUES ('TESTE');
+INSERT INTO [tb_vendedor] (nome, perc_venda) VALUES ('TESTE', 1.00);
