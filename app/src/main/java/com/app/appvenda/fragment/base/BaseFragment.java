@@ -8,6 +8,7 @@ import android.widget.EditText;
 import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.interfaces.IBaseViews;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
+import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -17,13 +18,16 @@ import org.androidannotations.annotations.UiThread;
  * Created by Robson on 29/11/2016.
  */
 @EFragment
-public class BaseFragment extends Fragment implements IBaseViews {
+public abstract class BaseFragment extends Fragment implements IBaseViews {
 
     private BaseActivity baseActivity;
 
     @AfterViews
     public void init() {
+        afterViews();
     }
+
+    protected abstract void afterViews();
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {

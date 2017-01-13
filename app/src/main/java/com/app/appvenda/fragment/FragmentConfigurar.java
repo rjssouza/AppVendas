@@ -6,7 +6,7 @@ import android.widget.Switch;
 import com.app.appvenda.dao.ConfiguracaoDAO;
 import com.app.appvenda.R;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
-import com.app.appvenda.fragment.base.BaseFragmentRN;
+import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.TratamentoExcecao;
@@ -24,7 +24,7 @@ import java.net.URI;
  * Created by Robson on 03/12/2016.
  */
 @EFragment(R.layout.fragment_configurar)
-public class FragmentConfigurar extends BaseFragmentRN {
+public class FragmentConfigurar extends BaseFragment {
 
     @ViewById
     Switch swtTipoConfig;
@@ -48,8 +48,8 @@ public class FragmentConfigurar extends BaseFragmentRN {
     private MConfiguracao mConfiguracao;
     private ConfiguracaoDAO configuracaoDAO;
 
-    @AfterViews
-    void Init() {
+    @Override
+    protected void afterViews() {
         configuracaoDAO = new ConfiguracaoDAO(this.getContext());
         configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override

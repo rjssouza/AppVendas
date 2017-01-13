@@ -13,4 +13,6 @@
     <string name="msg_url_indisponivel">Url indisponivel favor verificar configuracao</string>
     <string name="msg_sem_conversor">Sem conversor registrado</string>
     <string name="msg_sem_config">Configurações não encontradas</string>
+    <string name="confirma_acao">Confirma Ação?</string>
+    <string name="msg_sair">Deseja sair do sistema?</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.app.bdframework.excecoes;
 
+import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 
@@ -15,8 +16,7 @@ public class TratamentoExcecao {
 
     private static RegraNegocioException regraNegocioException;
     private static Exception exception;
-    private static EventoVoid<RegraNegocioMensagem> eventoRegraNegocioException = null;
-    private static final List<EventoVoid<RegraNegocioMensagem>> eventoException = new ArrayList<>();
+    private static IRegraNegocio eventoRegraNegocioException = null;
 
     public static boolean existeExcecao() {
         return (exception != null || regraNegocioException != null);
@@ -45,16 +45,13 @@ public class TratamentoExcecao {
                             e.printStackTrace();
                         }
                     }
-                }
 
-                if (exception != null) {
-                    if (eventoException.size() > 0) {
-                        for (EventoVoid<RegraNegocioMensagem> eventoVoid : eventoException) {
-                            RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception, true);
+                    if (exception != null) {
+                        if (eventoRegraNegocioException != null) {
+                            RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
                             try {
-                                eventoVoid.executarEvento(regraNegocioMensagem);
-                                exception.printStackTrace();
-                                exception = null;
+                                eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                                regraNegocioException = null;
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -66,12 +63,13 @@ public class TratamentoExcecao {
 
     }
 
-    public static void registrarEvento(EventoVoid<RegraNegocioMensagem> _eventoException) {
-        eventoException.add(_eventoException);
+    public static void registrarEventoRegraNegocio(IRegraNegocio _eventoRegraNegocioException) {
+        eventoRegraNegocioException = _eventoRegraNegocioException;
     }
 
-    public static void registrarEventoRegraNegocio(EventoVoid<RegraNegocioMensagem> _eventoRegraNegocioException) {
-        eventoRegraNegocioException = _eventoRegraNegocioException;
+    public static void chamarOnPrimeiroAcesso() {
+        if (eventoRegraNegocioException != null)
+            eventoRegraNegocioException.onPrimeiroAcesso();
     }
 
 }

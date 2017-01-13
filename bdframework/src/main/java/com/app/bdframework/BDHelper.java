@@ -10,7 +10,7 @@ import com.app.bdframework.baseEntidade.Entidade;
 import com.app.bdframework.baseEntidade.ParCampoValor;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.Constantes;
-import com.app.bdframework.utils.GeradorArquivo;
+import com.app.bdframework.utils.ArquivosUtils;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -21,7 +21,7 @@ import java.io.InputStreamReader;
  */
 public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "VendasApp";
+    public static final String DATABASE_NAME = "VendasApp";
     private static final int DATABASE_VERSION = 1;
 
     private Context _context;
@@ -45,11 +45,12 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
                     new InputStreamReader(stream));
             String line = br.readLine();
             while (line != null) {
-                if (line.length() > 0 && !line.contains("--")) {
+                    if (line.length() > 0 && !line.contains("--")) {
                     db.execSQL(line);
                 }
                 line = br.readLine();
             }
+            TratamentoExcecao.chamarOnPrimeiroAcesso();
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
@@ -70,7 +71,7 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
     }
 
     public synchronized void salvarBDLocal() {
-        GeradorArquivo.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", GeradorArquivo.getPastaExternaAplicacao());
+        ArquivosUtils.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", ArquivosUtils.getPastaExternaAplicacao());
     }
 
     public synchronized SQLiteDatabase getDatabase() {

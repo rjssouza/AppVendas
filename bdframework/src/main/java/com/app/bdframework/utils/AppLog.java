@@ -8,10 +8,17 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 public class AppLog {
 
-    public static void CriarLog(RegraNegocioMensagem regraNegocioMensagem) {
-        String diretorio = GeradorArquivo.getPastaExternaAplicacao() + "/Logs";
-        String mensagem = TradutorMensagemException.obterMensagem(regraNegocioMensagem.getException(), true);
-        GeradorArquivo.criarArquivoTexto(mensagem, diretorio, "ErroGeral");
+    public static void criarLog(RegraNegocioMensagem regraNegocioMensagem) {
+        if (regraNegocioMensagem.getRegraNegocioException() != null) {
+            criarLog(regraNegocioMensagem.getRegraNegocioException());
+        } else {
+            criarLog(regraNegocioMensagem.getException());
+        }
     }
 
+    public static void criarLog(Throwable e) {
+        String diretorio = ArquivosUtils.getPastaExternaAplicacao() + "/Logs";
+        String mensagem = TradutorMensagemException.obterMensagem(e, true);
+        ArquivosUtils.criarArquivoTexto(mensagem, diretorio, "ErroGeral");
+    }
 }

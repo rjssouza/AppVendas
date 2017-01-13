@@ -38,6 +38,7 @@ public class ExportadorVendas {
     private IExportadorVendas iExportadorVendas;
     private EventoVoid<Boolean> eventoProcessamento;
     private int qtdRequest = 0;
+    private boolean sucesso = true;
 
     public ExportadorVendas(Context context) {
         this.context = context;
@@ -68,7 +69,7 @@ public class ExportadorVendas {
         }
     }
 
-    public void setEventoProcessamento(EventoVoid<Boolean> eventoProcessamento) {
+    public void setEventoPosProcessamento(EventoVoid<Boolean> eventoProcessamento) {
         this.eventoProcessamento = eventoProcessamento;
     }
 
@@ -149,9 +150,11 @@ public class ExportadorVendas {
             @Override
             public synchronized void executarEvento(Boolean item) throws Exception {
                 qtdRequest--;
+                if (item != true)
+                    sucesso = false;
                 if (qtdRequest <= 0) {
                     if (eventoProcessamento != null) {
-                        eventoProcessamento.executarEvento(item);
+                        eventoProcessamento.executarEvento(sucesso);
                         produtoDAO.salvarBD();
                     }
                 }

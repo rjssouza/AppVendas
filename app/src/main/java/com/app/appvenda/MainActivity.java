@@ -1,6 +1,7 @@
 package com.app.appvenda;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -13,12 +14,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
-import com.app.appvenda.base.BaseActivityRN;
+import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
+import com.app.bdframework.utils.ArquivosUtils;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
@@ -28,7 +31,7 @@ import org.androidannotations.annotations.ViewById;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivityRN implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private static final String FRAGM_VENDAS = "FragmentVendas";
     private static final String FRAGM_CONFIG = "FragmentConfigurar";
@@ -43,8 +46,8 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     ActionBarDrawerToggle mDrawerToggle;
     ExportadorVendas exportadorVendas;
 
-    @AfterViews
-    void Init() {
+    @Override
+    protected void afterViews() {
         configurarDrawerLayout();
         configurarFragmentPrincipal();
         this.exportadorVendas = new ExportadorVendas(this);
@@ -92,13 +95,13 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     @UiThread
     void sincronizar() {
         exibirProgress(R.string.aguarde, false);
-        this.exportadorVendas.setEventoProcessamento(new EventoVoid<Boolean>() {
+        this.exportadorVendas.setEventoPosProcessamento(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
                 esconderProgress();
             }
         });
-        
+
         this.exportadorVendas.evetuarSincronizacao();
     }
 
@@ -135,7 +138,17 @@ public class MainActivity extends BaseActivityRN implements NavigationView.OnNav
     }
 
     @Override
-    protected void executarErro(RegraNegocioMensagem item) {
-        this.exibirMensagemToast(item.getMensagem());
+    public void onBackPressed() {
+        exibirDialogoAlerta(R.string.confirma_acao, R.string.msg_sair, new EventosCaixaDialogo() {
+            @Override
+            public void onClickPositivo() {
+                finish();
+            }
+
+            @Override
+            public void onClickNegativo() {
+
+            }
+        });
     }
 }

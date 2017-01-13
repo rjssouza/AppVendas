@@ -12,8 +12,8 @@ import org.androidannotations.annotations.EFragment;
 @EFragment(R.layout.fragment_venda)
 public class FragmentVendas extends BaseFragment {
 
-    @AfterViews
-    void Init(){
-    }
+    @Override
+    protected void afterViews() {
 
+    }
 }

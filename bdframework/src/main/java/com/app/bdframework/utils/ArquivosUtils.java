@@ -1,7 +1,10 @@
 package com.app.bdframework.utils;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Environment;
 
+import com.app.bdframework.BDHelper;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import java.io.BufferedWriter;
@@ -19,7 +22,7 @@ import java.nio.charset.StandardCharsets;
 /**
  * Classe para gerar arquivos de qualquer extensao
  */
-public class GeradorArquivo {
+public class ArquivosUtils {
 
     public static String getPastaExternaAplicacao() {
         File diretorio = new File(Environment.getExternalStorageDirectory(), Constantes.APP_VENDAS_PATH);
@@ -83,6 +86,34 @@ public class GeradorArquivo {
         File arquivo = new File(diretorioArquivo);
         arquivo.mkdirs();
         return true;
+    }
+
+    public static void deleteCache(Context context) {
+        try {
+            SharedPreferences settings = context.getSharedPreferences("cda-preferences", Context.MODE_PRIVATE);
+            settings.edit().clear().commit();
+            File dir = context.getCacheDir();
+            deleteDir(dir);
+            context.deleteDatabase(BDHelper.DATABASE_NAME);
+        } catch (Exception e) {
+        }
+    }
+
+    public static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+            return dir.delete();
+        } else if (dir != null && dir.isFile()) {
+            return dir.delete();
+        } else {
+            return false;
+        }
     }
 
 }

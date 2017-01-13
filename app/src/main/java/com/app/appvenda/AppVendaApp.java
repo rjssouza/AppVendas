@@ -1,6 +1,7 @@
 package com.app.appvenda;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
@@ -15,24 +16,21 @@ import com.app.appvenda.conversores.ConversorVendedor;
 import com.app.appvenda.repositorio.RPConfiguracao;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
-import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.IRegraNegocio;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.AppLog;
 import com.app.bdframework.utils.TradutorMensagemException;
 
 
-public class AppVendaApp extends Application implements EventoVoid<RegraNegocioMensagem> {
+public class AppVendaApp extends Application implements IRegraNegocio {
 
     @Override
     public void onCreate() {
         super.onCreate();
 
-        TratamentoExcecao.registrarEvento(this);
+        TratamentoExcecao.registrarEventoRegraNegocio(this);
         registrarConversores();
-
-        Repositorio repositorio = new RPConfiguracao(getApplicationContext());
-        repositorio.salvarBDLocal();
     }
 
     private void addUnhandledEventGlobal() {
@@ -41,7 +39,7 @@ public class AppVendaApp extends Application implements EventoVoid<RegraNegocioM
         Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
             @Override
             public void uncaughtException(Thread paramThread, Throwable paramThrowable) {
-                Log.e("Erro", TradutorMensagemException.obterMensagem(paramThrowable, true));
+                AppLog.criarLog(paramThrowable);
                 handler.uncaughtException(paramThread, paramThrowable);
             }
         });
@@ -64,10 +62,15 @@ public class AppVendaApp extends Application implements EventoVoid<RegraNegocioM
 
             @Override
             protected Object doInBackground(Object[] params) {
-                AppLog.CriarLog(item);
+                AppLog.criarLog(item);
                 return null;
             }
         };
         task.execute();
+    }
+
+    @Override
+    public void onPrimeiroAcesso() {
+
     }
 }

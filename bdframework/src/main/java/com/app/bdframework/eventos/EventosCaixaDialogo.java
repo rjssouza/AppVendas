@@ -8,8 +8,8 @@ import android.content.DialogInterface;
 
 public interface EventosCaixaDialogo {
 
-    DialogInterface.OnClickListener onClickPositivo();
+    void onClickPositivo();
 
-    DialogInterface.OnClickListener onClickNegativo();
+    void onClickNegativo();
 
 }
