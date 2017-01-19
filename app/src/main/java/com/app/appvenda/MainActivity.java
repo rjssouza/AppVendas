@@ -1,13 +1,11 @@
 package com.app.appvenda;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,9 +19,7 @@ import com.app.appvenda.fragment.FragmentVendas_;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
-import com.app.bdframework.utils.ArquivosUtils;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
@@ -107,20 +103,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private <T extends Fragment> boolean chamarFragment(Class fragmentClass, MenuItem item, EventoVoid<T> sucessoChamadaFragment) {
         try {
-            T fragment = (T) fragmentClass.newInstance();
-
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flConteudo, fragment).commit();
-            if (sucessoChamadaFragment != null)
-                sucessoChamadaFragment.executarEvento(fragment);
+            chamarFragment(fragmentClass, R.id.flConteudo, sucessoChamadaFragment);
             item.setChecked(true);
             setTitle(item.getTitle());
             drawerLayout.closeDrawers();
             return true;
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException ex) {
-            ex.printStackTrace();
         } catch (Exception e) {
             e.printStackTrace();
         }

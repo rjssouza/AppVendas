@@ -1,18 +1,22 @@
 package com.app.appvenda;
 
-import android.app.ActivityManager;
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.widget.Button;
 
 import com.app.appvenda.base.BaseActivity;
-import com.app.appvenda.exportadorVenda.ExportadorVendas;
+import com.app.appvenda.dao.ConfiguracaoDAO;
+import com.app.appvenda.fragment.FragmentConfigurar;
+import com.app.appvenda.fragment.FragmentConfigurar_;
+import com.app.appvenda.fragment.FragmentSelecionarVendedor;
+import com.app.appvenda.fragment.FragmentVendas_;
+import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.utils.ArquivosUtils;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -23,24 +27,49 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_configurar_usuario)
 public class ActivityConfigurar extends BaseActivity {
 
-    ExportadorVendas exportadorVendas;
-
-    @ViewById
-    Button btnConfirma;
+    private MConfiguracao mConfiguracao;
+    private ConfiguracaoDAO configuracaoDAO;
+    private FragmentConfigurar_ fragmentConfigurar_;
+    private Context context;
 
     @Override
     protected void afterViews() {
-        // exibirProgress(R.string.aguarde, false);
-        this.exportadorVendas = new ExportadorVendas(this);
-        this.exportadorVendas.setEventoPosProcessamento(new EventoVoid<Boolean>() {
+        this.context = this;
+        mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva();
+        if (mConfiguracao != null) {
+            chamarFragmentVendedor();
+        } else {
+            chamarFragmentConfiguracao();
+        }
+    }
+
+    private void chamarFragmentConfiguracao() {
+        chamarFragment(FragmentConfigurar_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
             @Override
-            public void executarEvento(Boolean item) throws Exception {
-                if (item) {
-                    esconderProgress();
-                }
+            public void executarEvento(Fragment item) throws Exception {
+                ((FragmentConfigurar) item).setPosSalvar(new EventoVoid<MConfiguracao>() {
+                    @Override
+                    public void executarEvento(MConfiguracao item) throws Exception {
+                        chamarFragmentVendedor();
+                    }
+                });
             }
         });
-        // this.exportadorVendas.evetuarSincronizacao();
+    }
+
+    private void chamarFragmentVendedor() {
+        chamarFragment(FragmentVendas_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
+            @Override
+            public void executarEvento(Fragment item) throws Exception {
+                ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<MConfiguracao>() {
+                    @Override
+                    public void executarEvento(MConfiguracao item) throws Exception {
+                        Intent intent = new Intent(context, MainActivity_.class);
+                        startActivity(intent);
+                    }
+                });
+            }
+        });
     }
 
     @Override
@@ -76,12 +105,6 @@ public class ActivityConfigurar extends BaseActivity {
 
             }
         });
-    }
-
-    @Click(R.id.btnConfirma)
-    void confirmaDados() {
-        Intent intent = new Intent(this, MainActivity_.class);
-        startActivity(intent);
     }
 
 }

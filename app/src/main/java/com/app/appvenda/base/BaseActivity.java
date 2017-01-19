@@ -2,10 +2,12 @@ package com.app.appvenda.base;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.annotation.IdRes;
 import android.support.annotation.UiThread;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -14,6 +16,7 @@ import com.app.appvenda.ActivityConfigurar_;
 import com.app.appvenda.R;
 import com.app.appvenda.interfaces.IBaseViews;
 import com.app.bdframework.enums.EnumTipoMensagem;
+import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.IRegraNegocio;
 import com.app.bdframework.excecoes.RegraNegocioException;
@@ -24,6 +27,9 @@ import com.app.bdframework.utils.AppLog;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Classe base para activities
  */
@@ -32,8 +38,10 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     ProgressDialog progressDialog;
     boolean activityActiva;
+    private List<Fragment> fragmentList;
 
     public BaseActivity() {
+        this.fragmentList = new ArrayList<>();
         TratamentoExcecao.registrarEventoRegraNegocio(this);
     }
 
@@ -161,10 +169,38 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
 
     protected abstract void executarPergunta(RegraNegocioMensagem item);
 
+    protected <T extends Fragment> boolean chamarFragment(Class fragmentClass, @IdRes int containerViewId, EventoVoid<T> sucessoChamadaFragment) {
+        try {
+            T fragment = obterFragment(fragmentClass);
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flConteudo, fragment).commit();
+            if (sucessoChamadaFragment != null)
+                sucessoChamadaFragment.executarEvento(fragment);
+            return true;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException ex) {
+            ex.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     @Override
     public void onPrimeiroAcesso() {
         Intent intent = new Intent(this, ActivityConfigurar_.class);
         startActivity(intent);
+    }
+
+    private <T extends Fragment> T obterFragment(Class fragmentClass) throws IllegalAccessException, InstantiationException {
+        for (Fragment fragment : fragmentList) {
+            if (fragment.getClass().getSimpleName().toUpperCase().toUpperCase().trim().equals(fragmentClass.getSimpleName().toUpperCase().trim())) {
+                return (T) fragment;
+            }
+        }
+        return (T) fragmentClass.newInstance();
     }
 
 }

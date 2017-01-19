@@ -3,15 +3,14 @@ package com.app.appvenda.fragment;
 import android.widget.EditText;
 import android.widget.Switch;
 
-import com.app.appvenda.dao.ConfiguracaoDAO;
 import com.app.appvenda.R;
+import com.app.appvenda.dao.ConfiguracaoDAO;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
-import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -47,6 +46,11 @@ public class FragmentConfigurar extends BaseFragment {
 
     private MConfiguracao mConfiguracao;
     private ConfiguracaoDAO configuracaoDAO;
+    private EventoVoid<MConfiguracao> posSalvar;
+
+    public void setPosSalvar(EventoVoid<MConfiguracao> posSalvar) {
+        this.posSalvar = posSalvar;
+    }
 
     @Override
     protected void afterViews() {
@@ -54,8 +58,11 @@ public class FragmentConfigurar extends BaseFragment {
         configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
-                if (item)
+                if (item) {
                     exibirMensagemToast(R.string.msg_config_salva_sucesso);
+                    if (posSalvar != null)
+                        posSalvar.executarEvento(mConfiguracao);
+                }
                 esconderProgress();
             }
         });
