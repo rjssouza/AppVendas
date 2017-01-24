@@ -3,6 +3,7 @@ package com.app.appvenda.dao;
 import android.content.Context;
 
 import com.app.appvenda.entidade.Vendedor;
+import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.modelos.MVendedor;
 import com.app.appvenda.repositorio.RPVendedor;
 import com.app.bdframework.baseEntidade.Repositorio;
@@ -26,6 +27,10 @@ public class VendedorDAO extends BaseDAO<MVendedor, Vendedor> {
     @Override
     protected void preDeletar(Vendedor vendedor, String[] regrasIgnorar) throws RegraNegocioException, Exception {
 
+    }
+
+    public void atualizarVendedor(MItemSeletor mItemSeletor){
+        Vendedor vendedor = getUnico(Vendedor.ID_VENDEDOR+"=?", new String[]{mItemSeletor.getId().toString()});
     }
 
     @Override

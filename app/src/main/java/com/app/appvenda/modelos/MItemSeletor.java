@@ -10,7 +10,7 @@ public class MItemSeletor {
     private String descricao;
     private String codigo;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
