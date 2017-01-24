@@ -38,6 +38,12 @@ public class FragmentSelecionarVendedor extends BaseFragment {
     @Override
     protected void afterViews() {
         vendedorDAO = new VendedorDAO(getContext());
+        vendedorDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
+            @Override
+            public void executarEvento(Boolean item) throws Exception {
+
+            }
+        });
         configurarAutoTxt();
     }
 
@@ -51,7 +57,7 @@ public class FragmentSelecionarVendedor extends BaseFragment {
 
     @ItemSelect(R.id.auto_txt_vendedor)
     void itemSelecionado(MItemSeletor mItemSeletor) {
-
+        vendedorDAO.atualizarVendedor(mItemSeletor);
     }
 
 }
