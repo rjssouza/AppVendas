@@ -9,11 +9,12 @@ import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 @NomeTabela(nomeTabela = "tb_vendedor")
-public class Vendedor extends Entidade<Integer> {
+public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
 
     public final static String ID_VENDEDOR = "id_vendedor";
     public final static String NOME = "nome";
     public final static String PERC_VENDA = "perc_venda";
+    public final static String ATIVO = "ativo";
 
     public Vendedor(Cursor cursor) {
         super(cursor);
@@ -25,11 +26,13 @@ public class Vendedor extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private int id_vendedor;
+    private Integer id_vendedor;
     @ColunaTabela
     private String nome;
     @ColunaTabela
     private Double perc_venda;
+    @ColunaTabela
+    private Boolean ativo;
 
     public Double getPerc_venda() {
         return perc_venda;
@@ -55,4 +58,18 @@ public class Vendedor extends Entidade<Integer> {
         this.nome = nome;
     }
 
+    @Override
+    public int getIdentificador() {
+        return id_vendedor;
+    }
+
+    @Override
+    public String getDescricao() {
+        return nome;
+    }
+
+    @Override
+    public String getCodigo() {
+        return id_vendedor.toString();
+    }
 }

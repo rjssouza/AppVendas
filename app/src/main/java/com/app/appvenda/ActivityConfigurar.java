@@ -3,10 +3,10 @@ package com.app.appvenda;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.widget.Button;
 
 import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.dao.ConfiguracaoDAO;
+import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.fragment.FragmentConfigurar;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentSelecionarVendedor;
@@ -17,9 +17,7 @@ import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.utils.ArquivosUtils;
 
-import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Robson on 12/01/2017.
@@ -27,7 +25,9 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.activity_configurar_usuario)
 public class ActivityConfigurar extends BaseActivity {
 
+
     private MConfiguracao mConfiguracao;
+    private ExportadorVendas exportadorVendas;
     private ConfiguracaoDAO configuracaoDAO;
     private FragmentConfigurar_ fragmentConfigurar_;
     private Context context;
@@ -35,6 +35,8 @@ public class ActivityConfigurar extends BaseActivity {
     @Override
     protected void afterViews() {
         this.context = this;
+        configurarSincronizacao();
+
         mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva();
         if (mConfiguracao != null) {
             chamarFragmentVendedor();
@@ -105,6 +107,23 @@ public class ActivityConfigurar extends BaseActivity {
 
             }
         });
+    }
+
+    private void configurarSincronizacao() {
+        this.exportadorVendas = new ExportadorVendas(this);
+        this.exportadorVendas.setEventoPosProcessamento(new EventoVoid<Boolean>() {
+            @Override
+            public void executarEvento(Boolean item) throws Exception {
+                if (item) {
+                    esconderProgress();
+                }
+            }
+        });
+    }
+
+    private void sincronizar() {
+        exibirProgress(R.string.aguarde, false);
+        this.exportadorVendas.evetuarSincronizacao();
     }
 
 }

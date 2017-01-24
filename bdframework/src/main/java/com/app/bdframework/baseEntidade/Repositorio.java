@@ -104,6 +104,10 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
         }
     }
 
+    public synchronized boolean autalizar(final TEntidade entidade, String queryString, String... parametros) {
+        return this.bdHelper.atualizarEntidade(entidade, queryString, parametros);
+    }
+
     public synchronized void endTransaction() {
         if (this.bdHelper.getDatabase().inTransaction()) {
             if (!TratamentoExcecao.existeExcecao()) {
@@ -112,8 +116,8 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
             this.bdHelper.getDatabase().endTransaction();
         }
 
-        if (this.bdHelper.getDatabase().isOpen())
-            this.bdHelper.getDatabase().close();
+        //     if (this.bdHelper.getDatabase().isOpen())
+        //         this.bdHelper.getDatabase().close();
     }
 
     public synchronized void salvarBDLocal() {

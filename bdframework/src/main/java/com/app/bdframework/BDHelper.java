@@ -9,8 +9,8 @@ import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 import com.app.bdframework.baseEntidade.ParCampoValor;
 import com.app.bdframework.excecoes.TratamentoExcecao;
-import com.app.bdframework.utils.Constantes;
 import com.app.bdframework.utils.ArquivosUtils;
+import com.app.bdframework.utils.Constantes;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -45,7 +45,7 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
                     new InputStreamReader(stream));
             String line = br.readLine();
             while (line != null) {
-                    if (line.length() > 0 && !line.contains("--")) {
+                if (line.length() > 0 && !line.contains("--")) {
                     db.execSQL(line);
                 }
                 line = br.readLine();
@@ -112,6 +112,15 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
                     new String[]{parCampoValor.getValor().toString()}) > 0;
         else
             sucesso = getDatabase().insert(getNomeTabela((Class<TEntidade>) entidade.getClass()), null, entidade.getContentValue()) > 0;
+        return sucesso;
+    }
+
+    public synchronized boolean atualizarEntidade(TEntidade entidade, String queryString, String... parametros) {
+        boolean sucesso = false;
+
+        sucesso = getDatabase().update(getNomeTabela((Class<TEntidade>) entidade.getClass()), entidade.getContentValue(),
+                queryString, parametros) > 0;
+
         return sucesso;
     }
 
