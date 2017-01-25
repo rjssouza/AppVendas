@@ -8,6 +8,7 @@ import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
+import com.app.bdframework.negocio.RegraNegocio;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -35,13 +36,17 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
     }
 
     public void salvar(final TModelo tModelo, final String... regrasIgnorar) {
+        final TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
+        salvar(tEntidade, regrasIgnorar);
+    }
+
+    public void salvar(final TEntidade tEntidade, final String... regrasIgnorar) {
         qtdThreads++;
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
                 try {
                     //repositorio.createTransaction();
-                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
                     repositorio.salvar(tEntidade, regrasIgnorar);
                     if (tEntidade != null)
                         posSalvar(tEntidade, regrasIgnorar);
@@ -61,13 +66,17 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
     }
 
     public void deletar(final TModelo tModelo, final String... regrasIgnorar) {
+        TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
+        deletar(tEntidade, regrasIgnorar);
+    }
+
+    public void deletar(final TEntidade tEntidade, final String... regrasIgnorar) {
         qtdThreads++;
         this.executor.submit(new Runnable() {
             @Override
             public void run() {
                 try {
                     //repositorio.createTransaction();
-                    TEntidade tEntidade = ConversorHelper.converterDePara(tModelo, pEntidade);
                     if (tEntidade != null)
                         preDeletar(tEntidade, regrasIgnorar);
                     repositorio.deletar(tEntidade, regrasIgnorar);
@@ -111,6 +120,14 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
     protected abstract void preDeletar(TEntidade tEntidade, String[] regrasIgnorar) throws RegraNegocioException, Exception;
 
     protected abstract Repositorio<TEntidade> obterRepositorio(Context context);
+
+    protected void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
+        this.repositorio.setRegraNegociosSalvar(regraNegocio);
+    }
+
+    protected void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
+        this.repositorio.setRegraNegociosDeletar(regraNegocio);
+    }
 
     private synchronized void eventoFinal() {
         qtdThreads--;

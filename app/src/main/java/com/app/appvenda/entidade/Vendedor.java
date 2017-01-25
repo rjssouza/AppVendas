@@ -34,6 +34,14 @@ public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
     @ColunaTabela
     private Boolean ativo;
 
+    public Boolean getAtivo() {
+        return ativo;
+    }
+
+    public void setAtivo(Boolean ativo) {
+        this.ativo = ativo;
+    }
+
     public Double getPerc_venda() {
         return perc_venda;
     }
@@ -42,7 +50,7 @@ public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
         this.perc_venda = perc_venda;
     }
 
-    public int getId_vendedor() {
+    public Integer getId_vendedor() {
         return id_vendedor;
     }
 

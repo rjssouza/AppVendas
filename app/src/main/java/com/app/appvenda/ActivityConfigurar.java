@@ -35,6 +35,7 @@ public class ActivityConfigurar extends BaseActivity {
     @Override
     protected void afterViews() {
         this.context = this;
+        this.configuracaoDAO = new ConfiguracaoDAO(context);
         configurarSincronizacao();
 
         mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva();
@@ -63,11 +64,10 @@ public class ActivityConfigurar extends BaseActivity {
         chamarFragment(FragmentVendas_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
             @Override
             public void executarEvento(Fragment item) throws Exception {
-                ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<MConfiguracao>() {
+                ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<Boolean>() {
                     @Override
-                    public void executarEvento(MConfiguracao item) throws Exception {
-                        Intent intent = new Intent(context, MainActivity_.class);
-                        startActivity(intent);
+                    public void executarEvento(Boolean item) throws Exception {
+                        sincronizar();
                     }
                 });
             }
@@ -116,6 +116,8 @@ public class ActivityConfigurar extends BaseActivity {
             public void executarEvento(Boolean item) throws Exception {
                 if (item) {
                     esconderProgress();
+                    Intent intent = new Intent(context, MainActivity_.class);
+                    startActivity(intent);
                 }
             }
         });

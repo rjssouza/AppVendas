@@ -21,7 +21,11 @@ public class VendedorDAO extends BaseDAO<MVendedor, Vendedor> {
 
     @Override
     protected void posSalvar(Vendedor vendedor, String[] regrasIgnorar) throws RegraNegocioException, Exception {
-
+        if (vendedor.getAtivo()) {
+            Vendedor vendedor1 = new Vendedor(null);
+            vendedor1.setAtivo(false);
+            this.repositorio.atualizarEntidade(vendedor1, Vendedor.ID_VENDEDOR + "!=", vendedor1.getId_vendedor().toString());
+        }
     }
 
     @Override
@@ -29,8 +33,10 @@ public class VendedorDAO extends BaseDAO<MVendedor, Vendedor> {
 
     }
 
-    public void atualizarVendedor(MItemSeletor mItemSeletor){
-        Vendedor vendedor = getUnico(Vendedor.ID_VENDEDOR+"=?", new String[]{mItemSeletor.getId().toString()});
+    public void atualizarVendedor(MItemSeletor mItemSeletor) {
+        Vendedor vendedor = getUnico(Vendedor.ID_VENDEDOR + "=?", new String[]{mItemSeletor.getId().toString()});
+        vendedor.setAtivo(true);
+        salvar(vendedor);
     }
 
     @Override

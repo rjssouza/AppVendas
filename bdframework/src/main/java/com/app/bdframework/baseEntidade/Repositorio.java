@@ -120,11 +120,15 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
         this.bdHelper.salvarBDLocal();
     }
 
-    protected void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
+    public synchronized boolean atualizarEntidade(TEntidade entidade, String queryString, String... parametros) {
+        return this.bdHelper.atualizarEntidade(entidade, queryString, parametros);
+    }
+
+    public void setRegraNegociosSalvar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosSalvar.add(regraNegocio);
     }
 
-    protected void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
+    public void setRegraNegociosDeletar(RegraNegocio<TEntidade> regraNegocio) {
         this.regraNegociosDeletar.add(regraNegocio);
     }
 
