@@ -10,6 +10,7 @@ import com.app.appvenda.conversores.ConversorCliente;
 import com.app.appvenda.conversores.ConversorConfiguracao;
 import com.app.appvenda.conversores.ConversorEstoque;
 import com.app.appvenda.conversores.ConversorFormaPagto;
+import com.app.appvenda.conversores.ConversorItemSeletor;
 import com.app.appvenda.conversores.ConversorProduto;
 import com.app.appvenda.conversores.ConversorVenda;
 import com.app.appvenda.conversores.ConversorVendedor;
@@ -53,6 +54,7 @@ public class AppVendaApp extends Application implements IRegraNegocio {
         ConversorHelper.registrarConversor(new ConversorFormaPagto());
         ConversorHelper.registrarConversor(new ConversorVendedor());
         ConversorHelper.registrarConversor(new ConversorVenda());
+        ConversorHelper.registrarConversor(new ConversorItemSeletor());
     }
 
     @Override

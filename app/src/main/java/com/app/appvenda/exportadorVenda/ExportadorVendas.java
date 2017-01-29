@@ -150,8 +150,6 @@ public class ExportadorVendas {
             @Override
             public synchronized void executarEvento(Boolean item) throws Exception {
                 qtdRequest--;
-                if (item != true)
-                    sucesso = false;
                 if (qtdRequest <= 0) {
                     if (eventoProcessamento != null) {
                         eventoProcessamento.executarEvento(sucesso);

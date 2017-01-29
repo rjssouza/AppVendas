@@ -1,5 +1,7 @@
 package com.app.appvenda.fragment;
 
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
@@ -12,8 +14,7 @@ import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
 
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ItemClick;
-import org.androidannotations.annotations.ItemSelect;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ public class FragmentSelecionarVendedor extends BaseFragment {
 
     private EventoVoid<Boolean> posSalvar;
     private VendedorDAO vendedorDAO;
+    private ArrayAdapter<MItemSeletor> valoresAutoTxt;
 
     public void setPosSalvar(EventoVoid<Boolean> posSalvar) {
         this.posSalvar = posSalvar;
@@ -41,6 +43,9 @@ public class FragmentSelecionarVendedor extends BaseFragment {
         vendedorDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
+                if (item)
+                    exibirMensagemToast(R.string.msg_config_salva_sucesso);
+                vendedorDAO.salvarBD();
                 posSalvar.executarEvento(item);
             }
         });
@@ -51,13 +56,27 @@ public class FragmentSelecionarVendedor extends BaseFragment {
         List<Vendedor> vendedorList = vendedorDAO.getLista(null, null);
         List<MItemSeletor> mItemSeletors = ConversorHelper.converterDePara(vendedorList, new ArrayList<MItemSeletor>().getClass());
 
-        ArrayAdapter<MItemSeletor> valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletors);
+        valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletors);
         auto_txt_vendedor.setAdapter(valoresAutoTxt);
+        auto_txt_vendedor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                auto_txt_vendedor.showDropDown();
+            }
+        });
+
+        auto_txt_vendedor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MItemSeletor mItemSeletor = valoresAutoTxt.getItem(position);
+                atualizarVendedor(mItemSeletor);
+            }
+        });
     }
 
-    //@ItemClick(R.id.auto_txt_vendedor)
-    //void itemSelecionado(MItemSeletor mItemSeletor) {
-      //  vendedorDAO.atualizarVendedor(mItemSeletor);
-    //}
-
+    @UiThread
+    void atualizarVendedor(MItemSeletor mItemSeletor) {
+        exibirProgress(R.string.aguarde, false);
+        vendedorDAO.atualizarVendedor(mItemSeletor);
+    }
 }

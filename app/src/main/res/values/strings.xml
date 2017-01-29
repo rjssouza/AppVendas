@@ -15,4 +15,5 @@
     <string name="msg_sem_config">Configurações não encontradas</string>
     <string name="confirma_acao">Confirma Ação?</string>
     <string name="msg_sair">Deseja sair do sistema?</string>
+    <string name="selecionar_vendedor">Selecionar <Vendedor></Vendedor></string>
 </resources>

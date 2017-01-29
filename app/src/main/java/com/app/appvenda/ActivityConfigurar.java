@@ -10,7 +10,7 @@ import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.fragment.FragmentConfigurar;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentSelecionarVendedor;
-import com.app.appvenda.fragment.FragmentVendas_;
+import com.app.appvenda.fragment.FragmentSelecionarVendedor_;
 import com.app.appvenda.modelos.MConfiguracao;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
@@ -18,6 +18,7 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.utils.ArquivosUtils;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.UiThread;
 
 /**
  * Created by Robson on 12/01/2017.
@@ -29,7 +30,6 @@ public class ActivityConfigurar extends BaseActivity {
     private MConfiguracao mConfiguracao;
     private ExportadorVendas exportadorVendas;
     private ConfiguracaoDAO configuracaoDAO;
-    private FragmentConfigurar_ fragmentConfigurar_;
     private Context context;
 
     @Override
@@ -40,7 +40,7 @@ public class ActivityConfigurar extends BaseActivity {
 
         mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva();
         if (mConfiguracao != null) {
-            chamarFragmentVendedor();
+            sincronizar();
         } else {
             chamarFragmentConfiguracao();
         }
@@ -50,10 +50,12 @@ public class ActivityConfigurar extends BaseActivity {
         chamarFragment(FragmentConfigurar_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
             @Override
             public void executarEvento(Fragment item) throws Exception {
-                ((FragmentConfigurar) item).setPosSalvar(new EventoVoid<MConfiguracao>() {
+                final FragmentConfigurar fragmentConfigurar = ((FragmentConfigurar) item);
+                fragmentConfigurar.setPosSalvar(new EventoVoid<MConfiguracao>() {
                     @Override
                     public void executarEvento(MConfiguracao item) throws Exception {
-                        chamarFragmentVendedor();
+                        fragmentConfigurar.exibirProgress(R.string.aguarde, false);
+                        sincronizar();
                     }
                 });
             }
@@ -61,13 +63,15 @@ public class ActivityConfigurar extends BaseActivity {
     }
 
     private void chamarFragmentVendedor() {
-        chamarFragment(FragmentVendas_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
+        chamarFragment(FragmentSelecionarVendedor_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
             @Override
             public void executarEvento(Fragment item) throws Exception {
                 ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<Boolean>() {
                     @Override
                     public void executarEvento(Boolean item) throws Exception {
-                        sincronizar();
+                        esconderProgress();
+                        Intent intent = new Intent(context, MainActivity_.class);
+                        startActivity(intent);
                     }
                 });
             }
@@ -116,16 +120,16 @@ public class ActivityConfigurar extends BaseActivity {
             public void executarEvento(Boolean item) throws Exception {
                 if (item) {
                     esconderProgress();
-                    Intent intent = new Intent(context, MainActivity_.class);
-                    startActivity(intent);
+                    chamarFragmentVendedor();
                 }
             }
         });
     }
 
-    private void sincronizar() {
-        exibirProgress(R.string.aguarde, false);
-        this.exportadorVendas.evetuarSincronizacao();
+    @UiThread
+    void sincronizar() {
+        //exibirProgress(R.string.aguarde, true);
+        exportadorVendas.evetuarSincronizacao();
     }
 
 }

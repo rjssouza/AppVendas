@@ -4,12 +4,21 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <AutoCompleteTextView
-        android:id="@+id/auto_txt_vendedor"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/usernameWrapper"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
         android:layout_centerInParent="true"
-        android:layout_gravity="center" />
+        android:layout_gravity="center">
+
+        <AutoCompleteTextView
+            android:id="@+id/auto_txt_vendedor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:completionThreshold="1"
+            android:gravity="center"
+            android:hint="@string/selecionar_vendedor" />
+
+    </android.support.design.widget.TextInputLayout>
 
 </RelativeLayout>
