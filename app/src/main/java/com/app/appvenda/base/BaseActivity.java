@@ -67,16 +67,20 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     @UiThread
     public void exibirProgress(int messageId, boolean cancelavel) {
-        //if (progressDialog == null) {
         synchronized (this) {
-            progressDialog = new ProgressDialog(this);
+            if (progressDialog == null) {
+                progressDialog = new ProgressDialog(this);
+            } else {
+                progressDialog.dismiss();
+            }
+
             progressDialog.setMessage(getResources().getString(messageId));
             progressDialog.setCancelable(cancelavel);
-            progressDialog.show();
+
+            if (!progressDialog.isShowing()) {
+                progressDialog.show();
+            }
         }
-        ///  }
-        //if (!progressDialog.isShowing())
-        //    progressDialog.show();
 
     }
 

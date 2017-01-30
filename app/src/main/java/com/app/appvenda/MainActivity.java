@@ -94,11 +94,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         this.exportadorVendas.setEventoPosProcessamento(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
+                exibirMensagemToast(R.string.sucesso_updt);
                 esconderProgress();
             }
         });
 
-        this.exportadorVendas.evetuarSincronizacao();
+        this.exportadorVendas.exportarVendas();
     }
 
     private <T extends Fragment> boolean chamarFragment(Class fragmentClass, MenuItem item, EventoVoid<T> sucessoChamadaFragment) {

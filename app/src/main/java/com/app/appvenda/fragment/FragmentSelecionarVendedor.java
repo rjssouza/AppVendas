@@ -43,8 +43,7 @@ public class FragmentSelecionarVendedor extends BaseFragment {
         vendedorDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
-                if (item)
-                    exibirMensagemToast(R.string.msg_config_salva_sucesso);
+                exibirMensagemToast(R.string.vendedor_selecionado);
                 vendedorDAO.salvarBD();
                 posSalvar.executarEvento(item);
             }

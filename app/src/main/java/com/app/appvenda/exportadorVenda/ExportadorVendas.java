@@ -2,11 +2,11 @@ package com.app.appvenda.exportadorVenda;
 
 import android.content.Context;
 
+import com.app.appvenda.R;
 import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.dao.ConfiguracaoDAO;
 import com.app.appvenda.dao.FormaPagamentoDAO;
 import com.app.appvenda.dao.ProdutoDAO;
-import com.app.appvenda.R;
 import com.app.appvenda.dao.VendedorDAO;
 import com.app.appvenda.enums.EnumTipoConfiguracao;
 import com.app.appvenda.modelos.MCliente;
@@ -73,6 +73,19 @@ public class ExportadorVendas {
         this.eventoProcessamento = eventoProcessamento;
     }
 
+    public void exportarVendas() {
+        qtdRequest = 1;
+        ArrayList<MVenda> mVenda = obterVendasEfetuadas();
+        EventoVoid<Boolean> finalEvento = eventoPosProcessamento();
+        try {
+            finalEvento.executarEvento(true);
+        } catch (Exception e) {
+            TratamentoExcecao.registrarExcecao(e);
+        } finally {
+            TratamentoExcecao.invocarEvento();
+        }
+    }
+
     private MConfiguracao getmConfiguracao() throws RegraNegocioException {
         MConfiguracao mConfiguracao = null;
         if (mConfiguracao == null) {
@@ -91,10 +104,6 @@ public class ExportadorVendas {
         importarProdutos();
         importarFormaPagamento();
         importarVendedores();
-    }
-
-    private void exportarVendas() {
-        ArrayList<MVenda> mVenda = obterVendasEfetuadas();
     }
 
     private ArrayList<MVenda> obterVendasEfetuadas() {

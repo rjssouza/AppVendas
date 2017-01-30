@@ -118,9 +118,10 @@ public class ActivityConfigurar extends BaseActivity {
         this.exportadorVendas.setEventoPosProcessamento(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
+                esconderProgress();
+                chamarFragmentVendedor();
                 if (item) {
-                    esconderProgress();
-                    chamarFragmentVendedor();
+                    exibirMensagemToast(R.string.sucesso_sinc);
                 }
             }
         });
@@ -128,7 +129,7 @@ public class ActivityConfigurar extends BaseActivity {
 
     @UiThread
     void sincronizar() {
-        //exibirProgress(R.string.aguarde, true);
+        exibirProgress(R.string.aguarde, false);
         exportadorVendas.evetuarSincronizacao();
     }
 

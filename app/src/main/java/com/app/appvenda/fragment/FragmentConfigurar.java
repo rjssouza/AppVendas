@@ -58,12 +58,13 @@ public class FragmentConfigurar extends BaseFragment {
         configuracaoDAO.setEventoPosExecucao(new EventoVoid<Boolean>() {
             @Override
             public void executarEvento(Boolean item) throws Exception {
+                esconderProgress();
                 if (item) {
                     exibirMensagemToast(R.string.msg_config_salva_sucesso);
-                    if (posSalvar != null)
+                    if (posSalvar != null) {
                         posSalvar.executarEvento(mConfiguracao);
+                    }
                 }
-                esconderProgress();
             }
         });
         mConfiguracao = configuracaoDAO.obterConfiguracaoAtiva() == null ? new MConfiguracao() : configuracaoDAO.obterConfiguracaoAtiva();
