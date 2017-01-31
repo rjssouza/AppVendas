@@ -35,7 +35,7 @@ public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
     @Override
     protected void preDeletar(Cliente cliente, String[] regrasIgnorar) throws RegraNegocioException, Exception {
         List<Telefone> telefones = this.rpTelefone.executarQuery(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + " = ?",
-                new String[]{cliente.getId_cliente().toString()});
+                false, new String[]{cliente.getId_cliente().toString()});
         for (Telefone telefone : telefones) {
             this.rpTelefone.deletar(telefone, regrasIgnorar);
         }

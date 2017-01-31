@@ -12,6 +12,8 @@ import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentSelecionarVendedor;
 import com.app.appvenda.fragment.FragmentSelecionarVendedor_;
 import com.app.appvenda.modelos.MConfiguracao;
+import com.app.appvenda.modelos.MVendedor;
+import com.app.appvenda.utils.InformacoesVendedor;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
@@ -66,10 +68,11 @@ public class ActivityConfigurar extends BaseActivity {
         chamarFragment(FragmentSelecionarVendedor_.class, R.id.flConteudo, new EventoVoid<Fragment>() {
             @Override
             public void executarEvento(Fragment item) throws Exception {
-                ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<Boolean>() {
+                ((FragmentSelecionarVendedor) item).setPosSalvar(new EventoVoid<MVendedor>() {
                     @Override
-                    public void executarEvento(Boolean item) throws Exception {
+                    public void executarEvento(MVendedor item) throws Exception {
                         esconderProgress();
+                        InformacoesVendedor.setmVendedor(item);
                         Intent intent = new Intent(context, MainActivity_.class);
                         startActivity(intent);
                     }

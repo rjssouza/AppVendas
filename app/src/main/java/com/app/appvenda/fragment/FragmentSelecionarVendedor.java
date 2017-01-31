@@ -7,17 +7,15 @@ import android.widget.AutoCompleteTextView;
 
 import com.app.appvenda.R;
 import com.app.appvenda.dao.VendedorDAO;
-import com.app.appvenda.entidade.Vendedor;
 import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MItemSeletor;
-import com.app.bdframework.conversor.ConversorHelper;
+import com.app.appvenda.modelos.MVendedor;
 import com.app.bdframework.eventos.EventoVoid;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,11 +27,12 @@ public class FragmentSelecionarVendedor extends BaseFragment {
     @ViewById
     AutoCompleteTextView auto_txt_vendedor;
 
-    private EventoVoid<Boolean> posSalvar;
+    private EventoVoid<MVendedor> posSalvar;
     private VendedorDAO vendedorDAO;
     private ArrayAdapter<MItemSeletor> valoresAutoTxt;
+    private MItemSeletor mItemSeletor;
 
-    public void setPosSalvar(EventoVoid<Boolean> posSalvar) {
+    public void setPosSalvar(EventoVoid<MVendedor> posSalvar) {
         this.posSalvar = posSalvar;
     }
 
@@ -45,15 +44,15 @@ public class FragmentSelecionarVendedor extends BaseFragment {
             public void executarEvento(Boolean item) throws Exception {
                 exibirMensagemToast(R.string.vendedor_selecionado);
                 vendedorDAO.salvarBD();
-                posSalvar.executarEvento(item);
+                MVendedor mVendedor = vendedorDAO.getUnico(mItemSeletor.getId().toString());
+                posSalvar.executarEvento(mVendedor);
             }
         });
         configurarAutoTxt();
     }
 
     private void configurarAutoTxt() {
-        List<Vendedor> vendedorList = vendedorDAO.getLista(null, null);
-        List<MItemSeletor> mItemSeletors = ConversorHelper.converterDePara(vendedorList, new ArrayList<MItemSeletor>().getClass());
+        List<MItemSeletor> mItemSeletors = vendedorDAO.getTodosVendedoresSelecionar();
 
         valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletors);
         auto_txt_vendedor.setAdapter(valoresAutoTxt);
@@ -67,7 +66,7 @@ public class FragmentSelecionarVendedor extends BaseFragment {
         auto_txt_vendedor.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MItemSeletor mItemSeletor = valoresAutoTxt.getItem(position);
+                mItemSeletor = valoresAutoTxt.getItem(position);
                 atualizarVendedor(mItemSeletor);
             }
         });

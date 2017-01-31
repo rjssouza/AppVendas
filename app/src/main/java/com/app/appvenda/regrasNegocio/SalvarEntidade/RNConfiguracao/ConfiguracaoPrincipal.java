@@ -27,7 +27,7 @@ public class ConfiguracaoPrincipal implements RegraNegocio<Configuracao> {
 
     @Override
     public boolean validarRegra(Configuracao entidade, IExecutorQuery<Configuracao> queryHelper) throws RegraNegocioException, Exception {
-        Configuracao configuracao = queryHelper.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
+        Configuracao configuracao = queryHelper.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", false, new String[]{
                 "1"
         });
         if (configuracao != null) {

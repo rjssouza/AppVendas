@@ -95,15 +95,15 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         });
     }
 
-    public List<TEntidade> getLista(String queryString, String[] queryArg) {
-        return this.repositorio.executarQuery(TEntidade.getTodasColunas(pEntidade), queryString, queryArg);
+    protected List<TEntidade> getLista(String queryString, boolean complementaEntidade, String... queryArg) {
+        return this.repositorio.executarQuery(TEntidade.getTodasColunas(pEntidade), queryString, complementaEntidade, queryArg);
     }
 
-    public TEntidade getUnico(String queryString, String[] queryArg) {
-        return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, queryArg);
+    protected TEntidade getUnico(String queryString, boolean complementaEntidade, String... queryArg) {
+        return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, complementaEntidade, queryArg);
     }
 
-    public int getScalar(String queryString, String[] queryArg) {
+    public int getScalar(String queryString, String... queryArg) {
         return this.repositorio.executarScalar(queryString, queryArg);
     }
 

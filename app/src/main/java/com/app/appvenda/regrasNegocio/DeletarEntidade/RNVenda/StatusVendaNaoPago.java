@@ -38,7 +38,7 @@ public class StatusVendaNaoPago extends RegraNegocioResource implements RegraNeg
     @Override
     public boolean validarRegra(Venda entidade, IExecutorQuery<Venda> queryHelper) throws RegraNegocioException {
         StatusVenda statusVenda = rpStatusVenda.executarUnico(StatusVenda.getTodasColunas(StatusVenda.class), StatusVenda.ID_STATUS_VENDA + " = ?",
-                new String[]{entidade.getId_status_venda().toString()});
+                false, new String[]{entidade.getId_status_venda().toString()});
 
         if (statusVenda.getCod_status().equals(EnumStatusVenda.NAO_PAGO.getNumVal())) {
             throw new RegraNegocioException(getMsgRegraNegocio(), EnumTipoMensagem.ERRO);

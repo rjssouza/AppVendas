@@ -12,6 +12,7 @@ public class MProduto {
     private int qtdLimite;
     private String foto;
     private int codProduto;
+    private MEstoque mEstoque;
 
     public Double getPercentualVendas() {
         return percentualVendas;
@@ -30,8 +31,6 @@ public class MProduto {
     public void setCodProduto(int codProduto) {
         this.codProduto = codProduto;
     }
-
-    private MEstoque mEstoque;
 
     public MEstoque getmEstoque() {
         return mEstoque;

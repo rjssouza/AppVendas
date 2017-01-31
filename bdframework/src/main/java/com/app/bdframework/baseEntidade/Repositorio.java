@@ -40,14 +40,15 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
     }
 
     @Override
-    public synchronized List<TEntidade> executarQuery(String[] colunas, String whereClause, String[] argumentos) {
+    public synchronized List<TEntidade> executarQuery(String[] colunas, String whereClause, boolean complementaEntidade, String... argumentos) {
         try {
             List<TEntidade> tEntidades = new ArrayList<>();
             Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(this.tEntidadeClass), colunas, whereClause, argumentos, null, null, null);
             if (cursor.moveToFirst()) {
                 do {
                     TEntidade entidade = tEntidadeClass.getConstructor(Cursor.class).newInstance(cursor);
-                    entidade.complementarEntidade(context);
+                    if (complementaEntidade)
+                        entidade.complementarEntidade(context);
                     tEntidades.add(entidade);
                 } while (cursor.moveToNext());
                 return tEntidades;
@@ -61,14 +62,15 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
     }
 
     @Override
-    public synchronized TEntidade executarUnico(String[] colunas, String whereClause, String[] argumentos) {
+    public synchronized TEntidade executarUnico(String[] colunas, String whereClause, boolean complementaEntidade, String... argumentos) {
         try {
             Cursor cursor = this.bdHelper.getDatabase().query(this.bdHelper.getNomeTabela(this.tEntidadeClass), colunas, whereClause, argumentos, null, null, null);
             if (cursor.moveToFirst()) {
                 TEntidade _entidade;
                 do {
                     _entidade = tEntidadeClass.getConstructor(Cursor.class).newInstance(cursor);
-                    _entidade.complementarEntidade(context);
+                    if (complementaEntidade)
+                        _entidade.complementarEntidade(context);
                 } while (cursor.moveToNext());
                 return _entidade;
             }

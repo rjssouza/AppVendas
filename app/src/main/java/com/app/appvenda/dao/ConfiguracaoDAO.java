@@ -36,21 +36,21 @@ public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
     }
 
     public MConfiguracao obterConfiguracao(EnumTipoConfiguracao tipoConfiguracao) {
-        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.TIPO_CONFIG + " = ?", new String[]{
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.TIPO_CONFIG + " = ?", false, new String[]{
                 tipoConfiguracao.getNumVal().toString()
         });
         return ConversorHelper.converterParaDe(configuracao, MConfiguracao.class);
     }
 
     public MConfiguracao obterConfiguracaoAtiva() {
-        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", false, new String[]{
                 "1"
         });
         return ConversorHelper.converterParaDe(configuracao, MConfiguracao.class);
     }
 
     public MConfiguracao obterConfiguracaoSecundaria() {
-        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", new String[]{
+        Configuracao configuracao = this.repositorio.executarUnico(Configuracao.getTodasColunas(Configuracao.class), Configuracao.PRINCIPAL + " = ?", false, new String[]{
                 "0"
         });
         return ConversorHelper.converterParaDe(configuracao, MConfiguracao.class);
