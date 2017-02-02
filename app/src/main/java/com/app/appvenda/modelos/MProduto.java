@@ -40,7 +40,7 @@ public class MProduto {
         this.mEstoque = mEstoque;
     }
 
-    public int getIdProduto() {
+    public Integer getIdProduto() {
         return idProduto;
     }
 

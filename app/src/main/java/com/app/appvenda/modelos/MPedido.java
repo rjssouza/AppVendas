@@ -27,7 +27,7 @@ public class MPedido {
         this.mEndereco = mEndereco;
     }
 
-    public int getIdPedido() {
+    public Integer getIdPedido() {
         return idPedido;
     }
 

@@ -13,6 +13,9 @@ import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.conversor.Conversor;
 import com.app.bdframework.conversor.ConversorHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Robson on 01/02/2017.
  */
@@ -41,9 +44,16 @@ public class ConversorPedido extends Conversor<MPedido, Pedido> {
             pedido.setFormaPagto(ConversorHelper.converterDePara(mPedido.getmFormaPagamento(), FormaPagto.class));
         }
 
+
+        List<PedidoProduto> pedidoProdutoList = new ArrayList<>();
         if (mPedido.getmProdutoList() != null && mPedido.getmProdutoList().size() > 0) {
             for (MProduto mProduto : mPedido.getmProdutoList()) {
+                PedidoProduto pedidoProduto = pedidoProdutoIExecutorQuery.executarUnico(PedidoProduto.getTodasColunas(PedidoProduto.class), PedidoProduto.ID_PEDIDO + "=? AND " + PedidoProduto.ID_PRODUTO + "=?", mPedido.getIdPedido().toString(), mProduto.getIdProduto().toString());
+                if (pedidoProduto == null) {
 
+                } else {
+
+                }
             }
         }
 
