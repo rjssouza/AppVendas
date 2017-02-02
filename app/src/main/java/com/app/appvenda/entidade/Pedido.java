@@ -3,10 +3,16 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.repositorio.RPFormaPagto;
+import com.app.appvenda.repositorio.RPPedidoProduto;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NomeTabela(nomeTabela = "tb_pedido")
 public class Pedido extends Entidade<Integer> {
@@ -18,12 +24,13 @@ public class Pedido extends Entidade<Integer> {
     public final static String ID_PEDIDO = "id_pedido";
     public final static String VALOR_TOTAL = "valor_total";
 
-    public Pedido(Cursor cursor){
+    public Pedido(Cursor cursor) {
         super(cursor);
+        this.pedidoProdutos = new ArrayList<>();
     }
 
     @ChavePrimaria
-    private int id_pedido;
+    private Integer id_pedido;
     @ColunaTabela
     private Double valor_total;
     @ColunaTabela
@@ -33,13 +40,34 @@ public class Pedido extends Entidade<Integer> {
     @ColunaTabela
     private Long coord_y;
     @ColunaTabela
-    private int id_forma_pagto;
+    private Integer id_forma_pagto;
 
     private FormaPagto formaPagto;
+    private List<PedidoProduto> pedidoProdutos;
 
     @Override
     public void complementarEntidade(Context context) {
+        IExecutorQuery<PedidoProduto> iExecutorQueryPedidoProduto = new RPPedidoProduto(context);
+        IExecutorQuery<FormaPagto> iExecutorQueryFormaPagto = new RPFormaPagto(context);
 
+        pedidoProdutos = iExecutorQueryPedidoProduto.executarQuery(PedidoProduto.getTodasColunas(PedidoProduto.class), PedidoProduto.ID_PEDIDO + "=?", true, id_pedido.toString());
+        formaPagto = iExecutorQueryFormaPagto.executarUnico(FormaPagto.getTodasColunas(FormaPagto.class), FormaPagto.ID_FORMA_PAGTO + "=?", false, id_forma_pagto.toString());
+    }
+
+    public FormaPagto getFormaPagto() {
+        return formaPagto;
+    }
+
+    public void setFormaPagto(FormaPagto formaPagto) {
+        this.formaPagto = formaPagto;
+    }
+
+    public List<PedidoProduto> getPedidoProdutos() {
+        return pedidoProdutos;
+    }
+
+    public void setPedidoProdutos(List<PedidoProduto> pedidoProdutos) {
+        this.pedidoProdutos = pedidoProdutos;
     }
 
     public Integer getId_pedido() {

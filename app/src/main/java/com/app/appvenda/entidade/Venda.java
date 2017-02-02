@@ -3,6 +3,11 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.repositorio.RPCliente;
+import com.app.appvenda.repositorio.RPPedido;
+import com.app.appvenda.repositorio.RPStatusVenda;
+import com.app.appvenda.repositorio.RPVendedor;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.auxiliar.NomeTabela;
@@ -24,25 +29,66 @@ public class Venda extends Entidade<Integer> {
 
     @Override
     public void complementarEntidade(Context context) {
+        IExecutorQuery<Pedido> pedidoIExecutorQuery = new RPPedido(context);
+        IExecutorQuery<Vendedor> vendedorIExecutorQuery = new RPVendedor(context);
+        IExecutorQuery<StatusVenda> statusVendaIExecutorQuery = new RPStatusVenda(context);
+        IExecutorQuery<Cliente> clienteIExecutorQuery = new RPCliente(context);
 
+        pedido = pedidoIExecutorQuery.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_PEDIDO + "=?", true, id_pedido.toString());
+        statusVenda = statusVendaIExecutorQuery.executarUnico(StatusVenda.getTodasColunas(StatusVenda.class), StatusVenda.ID_STATUS_VENDA + "=?", true, id_status_venda.toString());
+        vendedor = vendedorIExecutorQuery.executarUnico(Vendedor.getTodasColunas(Vendedor.class), Vendedor.ID_VENDEDOR + "=?", true, id_vendedor.toString());
+        cliente = clienteIExecutorQuery.executarUnico(Cliente.getTodasColunas(Cliente.class), Cliente.ID_CLIENTE + "=?", true, id_cliente.toString());
     }
 
     @ChavePrimaria
-    private int id_venda;
+    private Integer id_venda;
     @ColunaTabela
-    private int id_cliente;
+    private Integer id_cliente;
     @ColunaTabela
-    private int id_vendedor;
+    private Integer id_vendedor;
     @ColunaTabela
-    private int id_pedido;
+    private Integer id_pedido;
     @ColunaTabela
-    private int id_status_venda;
+    private Integer id_status_venda;
     @ColunaTabela
     private boolean sincronizado;
 
     private Pedido pedido;
     private StatusVenda statusVenda;
     private Vendedor vendedor;
+    private Cliente cliente;
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
+
+    public StatusVenda getStatusVenda() {
+        return statusVenda;
+    }
+
+    public void setStatusVenda(StatusVenda statusVenda) {
+        this.statusVenda = statusVenda;
+    }
+
+    public Vendedor getVendedor() {
+        return vendedor;
+    }
+
+    public void setVendedor(Vendedor vendedor) {
+        this.vendedor = vendedor;
+    }
 
     public Integer getId_venda() {
         return id_venda;

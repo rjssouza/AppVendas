@@ -11,7 +11,15 @@ public class MEndereco {
     private Long coordX;
 
     public Long getCoordY() {
+        if (coordY != null)
+            calcularCoord();
         return coordY;
+    }
+
+    public Long getCoordX() {
+        if (coordX != null)
+            calcularCoord();
+        return coordX;
     }
 
     public String getEndereco() {
@@ -22,12 +30,10 @@ public class MEndereco {
         this.endereco = endereco;
     }
 
-    public Long getCoordX() {
-        return coordX;
-    }
+    private void calcularCoord() {
+        if (endereco != null) {
 
-    private void calcularCoord(){
-
+        }
     }
 
 }

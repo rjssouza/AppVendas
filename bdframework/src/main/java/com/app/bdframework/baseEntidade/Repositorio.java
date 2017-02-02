@@ -40,6 +40,11 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
     }
 
     @Override
+    public List executarQuery(String[] colunas, String whereClause, String... argumentos) {
+        return executarQuery(colunas, whereClause, false, argumentos);
+    }
+
+    @Override
     public synchronized List<TEntidade> executarQuery(String[] colunas, String whereClause, boolean complementaEntidade, String... argumentos) {
         try {
             List<TEntidade> tEntidades = new ArrayList<>();
@@ -59,6 +64,11 @@ public abstract class Repositorio<TEntidade extends Entidade> implements IExecut
             TratamentoExcecao.invocarEvento();
         }
         return null;
+    }
+
+    @Override
+    public Entidade executarUnico(String[] colunas, String whereClause, String... argumentos) {
+        return executarUnico(colunas, whereClause, false, argumentos);
     }
 
     @Override

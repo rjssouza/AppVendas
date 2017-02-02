@@ -3,6 +3,9 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.repositorio.RPPedido;
+import com.app.appvenda.repositorio.RPProduto;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.auxiliar.NomeTabela;
@@ -16,26 +19,49 @@ public class PedidoProduto extends Entidade<Integer> {
     public final static String ID_PRODUTO = "id_produto";
     public final static String ID_TIPO_PEDIDO = "id_tipo_pedido";
     public final static String QUANTIDADE = "quantidade";
-    
-    public PedidoProduto(Cursor cursor){
+
+    public PedidoProduto(Cursor cursor) {
         super(cursor);
     }
 
     @Override
     public void complementarEntidade(Context context) {
+        IExecutorQuery<Pedido> iExecutorQueryPedido = new RPPedido(context);
+        IExecutorQuery<Produto> iExecutorQueryProduto = new RPProduto(context);
 
+        pedido = iExecutorQueryPedido.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_PEDIDO + "=?", false, id_pedido.toString());
+        produto = iExecutorQueryProduto.executarUnico(Produto.getTodasColunas(Produto.class), Produto.ID_PRODUTO + "=?", true, id_produto.toString());
     }
 
     @ChavePrimaria
     private int id_pedido_produto;
     @ColunaTabela
-    private int id_pedido;
+    private Integer id_pedido;
     @ColunaTabela
-    private int id_produto;
+    private Integer id_produto;
     @ColunaTabela
     private int quantidade;
     @ColunaTabela
     private int id_tipo_pedido;
+
+    private Produto produto;
+    private Pedido pedido;
+
+    public Produto getProduto() {
+        return produto;
+    }
+
+    public void setProduto(Produto produto) {
+        this.produto = produto;
+    }
+
+    public Pedido getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(Pedido pedido) {
+        this.pedido = pedido;
+    }
 
     public int getId_pedido_produto() {
         return id_pedido_produto;

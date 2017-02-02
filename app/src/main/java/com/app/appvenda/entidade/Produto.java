@@ -3,6 +3,8 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.repositorio.RPEstoque;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.auxiliar.NomeTabela;
@@ -22,7 +24,7 @@ public class Produto extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private int id_produto;
+    private Integer id_produto;
     @ColunaTabela
     private String nome;
     @ColunaTabela
@@ -32,13 +34,14 @@ public class Produto extends Entidade<Integer> {
     @ColunaTabela
     private int qtd_limite;
     @ColunaTabela
-    private int cod_produto;
+    private Integer cod_produto;
 
     private Estoque estoque;
 
     @Override
     public void complementarEntidade(Context context) {
-
+        IExecutorQuery<Estoque> iExecutorQueryEstoque = new RPEstoque(context);
+        estoque = iExecutorQueryEstoque.executarUnico(Estoque.getTodasColunas(Estoque.class), Estoque.ID_PRODUTO + "=?", false, id_produto.toString());
     }
 
     public Estoque getEstoque() {

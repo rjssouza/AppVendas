@@ -22,6 +22,7 @@ public class ConversorVenda extends Conversor<MVenda, Venda> {
             venda.setId_pedido(mVenda.getmPedido().getIdPedido());
         if (mVenda.getEnumStatusVenda() != null)
             venda.setId_status_venda(mVenda.getEnumStatusVenda().getNumVal());
+
         venda.setSincronizado(mVenda.isSincronizado());
         venda.setId_venda(mVenda.getIdVenda());
         return venda;

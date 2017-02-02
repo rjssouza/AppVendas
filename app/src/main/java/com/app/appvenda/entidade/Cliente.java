@@ -3,6 +3,8 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.repositorio.RPTelefone;
+import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
 import com.app.bdframework.auxiliar.NomeTabela;
@@ -28,11 +30,14 @@ public class Cliente extends Entidade<Integer> {
 
     @Override
     public void complementarEntidade(Context context) {
+        IExecutorQuery<Telefone> telefoneIExecutorQuery = new RPTelefone(context);
 
+        fixo = telefoneIExecutorQuery.executarUnico(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + "=? AND " + Telefone.ID_TIPO_TELEFONE + "=?", id_cliente.toString(), "1");
+        celular = telefoneIExecutorQuery.executarUnico(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + "=? AND " + Telefone.ID_TIPO_TELEFONE + "=?", id_cliente.toString(), "2");
     }
 
     @ChavePrimaria
-    private int id_cliente;
+    private Integer id_cliente;
     @ColunaTabela()
     private Integer cod_cliente;
     @ColunaTabela
@@ -51,6 +56,7 @@ public class Cliente extends Entidade<Integer> {
     private Long coord_y;
     @ColunaTabela
     private Boolean ativo;
+
     private Telefone fixo;
     private Telefone celular;
 

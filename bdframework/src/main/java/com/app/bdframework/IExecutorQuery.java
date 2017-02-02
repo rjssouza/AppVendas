@@ -11,7 +11,11 @@ public interface IExecutorQuery<TEntidade extends Entidade> {
 
     int executarScalar(String whereClause, String... argumentos);
 
+    List<TEntidade> executarQuery(String[] colunas, String whereClause, String... argumentos);
+
     List<TEntidade> executarQuery(String[] colunas, String whereClause, boolean complementaEntidade, String... argumentos);
+
+    TEntidade executarUnico(String[] colunas, String whereClause, String... argumentos);
 
     TEntidade executarUnico(String[] colunas, String whereClause, boolean complementaEntidade, String... argumentos);
 
