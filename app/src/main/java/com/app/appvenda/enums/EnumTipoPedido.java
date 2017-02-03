@@ -1,19 +1,19 @@
 package com.app.appvenda.enums;
 
 /**
- * Created by Robson on 24/11/2016.
+ * Created by Robson on 02/02/2017.
  */
 
-public enum EnumStatusVenda {
+public enum EnumTipoPedido {
 
-    PAGO(1, "PAGO"), NAO_PAGO(2, "NAO_PAGO");
+    VENDA(1, "VENDA"), TROCA(2, "TROCA"), DEVOLUCAO(3, "DEVOLUCAO");
 
     private int numVal;
     private String descr;
 
-    EnumStatusVenda(int numVal, String desr) {
+    EnumTipoPedido(int numVal, String strEnum) {
         this.numVal = numVal;
-        this.descr = desr;
+        this.descr = strEnum;
     }
 
     public Integer getNumVal() {

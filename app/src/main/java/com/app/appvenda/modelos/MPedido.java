@@ -1,5 +1,7 @@
 package com.app.appvenda.modelos;
 
+import com.app.appvenda.enums.EnumTipoPedido;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,7 +11,7 @@ import java.util.List;
 
 public class MPedido {
 
-    private int idPedido;
+    private Integer idPedido;
     private Double valorTotal;
     private MEndereco mEndereco;
     private MFormaPagamento mFormaPagamento;

@@ -1,9 +1,7 @@
 package com.app.appvenda;
 
 import android.app.Application;
-import android.content.Context;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.app.appvenda.conversores.ConversorCliente;
@@ -11,17 +9,17 @@ import com.app.appvenda.conversores.ConversorConfiguracao;
 import com.app.appvenda.conversores.ConversorEstoque;
 import com.app.appvenda.conversores.ConversorFormaPagto;
 import com.app.appvenda.conversores.ConversorItemSeletor;
+import com.app.appvenda.conversores.ConversorPedido;
 import com.app.appvenda.conversores.ConversorProduto;
+import com.app.appvenda.conversores.ConversorStatusVenda;
+import com.app.appvenda.conversores.ConversorTipoPedido;
 import com.app.appvenda.conversores.ConversorVenda;
 import com.app.appvenda.conversores.ConversorVendedor;
-import com.app.appvenda.repositorio.RPConfiguracao;
-import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.excecoes.IRegraNegocio;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.utils.AppLog;
-import com.app.bdframework.utils.TradutorMensagemException;
 
 
 public class AppVendaApp extends Application implements IRegraNegocio {
@@ -55,6 +53,9 @@ public class AppVendaApp extends Application implements IRegraNegocio {
         ConversorHelper.registrarConversor(new ConversorVendedor());
         ConversorHelper.registrarConversor(new ConversorVenda());
         ConversorHelper.registrarConversor(new ConversorItemSeletor());
+        ConversorHelper.registrarConversor(new ConversorPedido(getApplicationContext()));
+        ConversorHelper.registrarConversor(new ConversorTipoPedido());
+        ConversorHelper.registrarConversor(new ConversorStatusVenda());
     }
 
     @Override

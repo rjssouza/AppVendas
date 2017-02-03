@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.app.appvenda.repositorio.RPPedido;
 import com.app.appvenda.repositorio.RPProduto;
+import com.app.appvenda.repositorio.RPTipoPedido;
 import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
@@ -28,13 +29,15 @@ public class PedidoProduto extends Entidade<Integer> {
     public void complementarEntidade(Context context) {
         IExecutorQuery<Pedido> iExecutorQueryPedido = new RPPedido(context);
         IExecutorQuery<Produto> iExecutorQueryProduto = new RPProduto(context);
+        IExecutorQuery<TipoPedido> tipoPedidoIExecutorQuery = new RPTipoPedido(context);
 
         pedido = iExecutorQueryPedido.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_PEDIDO + "=?", false, id_pedido.toString());
         produto = iExecutorQueryProduto.executarUnico(Produto.getTodasColunas(Produto.class), Produto.ID_PRODUTO + "=?", true, id_produto.toString());
+        tipoPedido = tipoPedidoIExecutorQuery.executarUnico(TipoPedido.getTodasColunas(TipoPedido.class), TipoPedido.ID_TIPO_PEDIDO + "=?", false,  id_tipo_pedido.toString());
     }
 
     @ChavePrimaria
-    private int id_pedido_produto;
+    private Integer id_pedido_produto;
     @ColunaTabela
     private Integer id_pedido;
     @ColunaTabela
@@ -42,10 +45,19 @@ public class PedidoProduto extends Entidade<Integer> {
     @ColunaTabela
     private int quantidade;
     @ColunaTabela
-    private int id_tipo_pedido;
+    private Integer id_tipo_pedido;
 
     private Produto produto;
     private Pedido pedido;
+    private TipoPedido tipoPedido;
+
+    public TipoPedido getTipoPedido() {
+        return tipoPedido;
+    }
+
+    public void setTipoPedido(TipoPedido tipoPedido) {
+        this.tipoPedido = tipoPedido;
+    }
 
     public Produto getProduto() {
         return produto;
@@ -95,7 +107,7 @@ public class PedidoProduto extends Entidade<Integer> {
         this.quantidade = quantidade;
     }
 
-    public int getId_tipo_pedido() {
+    public Integer getId_tipo_pedido() {
         return id_tipo_pedido;
     }
 
