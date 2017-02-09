@@ -129,6 +129,24 @@ public abstract class Entidade<TChavePrimaria> {
 
     public abstract void complementarEntidade(Context context);
 
+    public void setChavePrimaria(TChavePrimaria tChavePrimaria) {
+        for (Field field : this.getClass().getDeclaredFields()) {
+            if (field.isAnnotationPresent(ChavePrimaria.class)) {
+                field.setAccessible(true);
+                ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
+                ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
+
+                if (chavePrimaria != null) {
+                    try {
+                        field.set(this, tChavePrimaria);
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }
+    }
+
     private String obtenerNomeColuna(Field field) {
         ColunaTabela colunaTabela = field.getAnnotation(ColunaTabela.class);
         ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);

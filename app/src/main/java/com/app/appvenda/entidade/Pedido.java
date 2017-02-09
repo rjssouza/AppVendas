@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.app.appvenda.repositorio.RPFormaPagto;
 import com.app.appvenda.repositorio.RPPedidoProduto;
+import com.app.appvenda.repositorio.RPTipoPedido;
 import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.auxiliar.ColunaTabela;
@@ -23,6 +24,7 @@ public class Pedido extends Entidade<Integer> {
     public final static String ID_FORMA_PAGTO = "id_forma_pagto";
     public final static String ID_PEDIDO = "id_pedido";
     public final static String VALOR_TOTAL = "valor_total";
+    public final static String ID_VENDA = "id_venda";
 
     public Pedido(Cursor cursor) {
         super(cursor);
@@ -41,17 +43,32 @@ public class Pedido extends Entidade<Integer> {
     private Long coord_y;
     @ColunaTabela
     private Integer id_forma_pagto;
+    @ColunaTabela
+    private Integer id_venda;
+    @ColunaTabela
+    private Integer id_tipo_pedido;
 
     private FormaPagto formaPagto;
     private List<PedidoProduto> pedidoProdutos;
+    private TipoPedido tipoPedido;
 
     @Override
     public void complementarEntidade(Context context) {
         IExecutorQuery<PedidoProduto> iExecutorQueryPedidoProduto = new RPPedidoProduto(context);
         IExecutorQuery<FormaPagto> iExecutorQueryFormaPagto = new RPFormaPagto(context);
+        IExecutorQuery<TipoPedido> tipoPedidoIExecutorQuery = new RPTipoPedido(context);
 
         pedidoProdutos = iExecutorQueryPedidoProduto.executarQuery(PedidoProduto.getTodasColunas(PedidoProduto.class), PedidoProduto.ID_PEDIDO + "=?", true, id_pedido.toString());
         formaPagto = iExecutorQueryFormaPagto.executarUnico(FormaPagto.getTodasColunas(FormaPagto.class), FormaPagto.ID_FORMA_PAGTO + "=?", false, id_forma_pagto.toString());
+        tipoPedido = tipoPedidoIExecutorQuery.executarUnico(TipoPedido.getTodasColunas(TipoPedido.class), TipoPedido.ID_TIPO_PEDIDO + "=?", false,  id_tipo_pedido.toString());
+    }
+
+    public Integer getId_venda() {
+        return id_venda;
+    }
+
+    public void setId_venda(Integer id_venda) {
+        this.id_venda = id_venda;
     }
 
     public FormaPagto getFormaPagto() {
@@ -116,6 +133,14 @@ public class Pedido extends Entidade<Integer> {
 
     public void setId_forma_pagto(Integer id_forma_pagto) {
         this.id_forma_pagto = id_forma_pagto;
+    }
+
+    public Integer getId_tipo_pedido() {
+        return id_tipo_pedido;
+    }
+
+    public void setId_tipo_pedido(int id_tipo_pedido) {
+        this.id_tipo_pedido = id_tipo_pedido;
     }
 
 }

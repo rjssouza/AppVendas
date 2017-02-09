@@ -110,8 +110,11 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
             sucesso = getDatabase().update(getNomeTabela((Class<TEntidade>) entidade.getClass()), entidade.getContentValue(),
                     parCampoValor.getNomeCampo() + " = ?",
                     new String[]{parCampoValor.getValor().toString()}) > 0;
-        else
-            sucesso = getDatabase().insert(getNomeTabela((Class<TEntidade>) entidade.getClass()), null, entidade.getContentValue()) > 0;
+        else {
+            Long id = getDatabase().insert(getNomeTabela((Class<TEntidade>) entidade.getClass()), null, entidade.getContentValue());
+            entidade.setChavePrimaria(id);
+            sucesso = id > 0;
+        }
         return sucesso;
     }
 

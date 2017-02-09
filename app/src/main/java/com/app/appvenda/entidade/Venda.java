@@ -34,7 +34,7 @@ public class Venda extends Entidade<Integer> {
         IExecutorQuery<StatusVenda> statusVendaIExecutorQuery = new RPStatusVenda(context);
         IExecutorQuery<Cliente> clienteIExecutorQuery = new RPCliente(context);
 
-        pedido = pedidoIExecutorQuery.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_PEDIDO + "=?", true, id_pedido.toString());
+        pedido = pedidoIExecutorQuery.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_VENDA + "=?", true, id_venda.toString());
         statusVenda = statusVendaIExecutorQuery.executarUnico(StatusVenda.getTodasColunas(StatusVenda.class), StatusVenda.ID_STATUS_VENDA + "=?", true, id_status_venda.toString());
         vendedor = vendedorIExecutorQuery.executarUnico(Vendedor.getTodasColunas(Vendedor.class), Vendedor.ID_VENDEDOR + "=?", true, id_vendedor.toString());
         cliente = clienteIExecutorQuery.executarUnico(Cliente.getTodasColunas(Cliente.class), Cliente.ID_CLIENTE + "=?", true, id_cliente.toString());

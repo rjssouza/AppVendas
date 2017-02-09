@@ -14,7 +14,6 @@ public class MProduto {
     private int qtdLimite;
     private String foto;
     private int codProduto;
-    private EnumTipoPedido enumTipoPedido;
     private MEstoque mEstoque;
 
     public Double getPercentualVendas() {
@@ -23,14 +22,6 @@ public class MProduto {
 
     public void setPercentualVendas(Double percentualVendas) {
         this.percentualVendas = percentualVendas;
-    }
-
-    public EnumTipoPedido getEnumTipoPedido() {
-        return enumTipoPedido;
-    }
-
-    public void setEnumTipoPedido(EnumTipoPedido enumTipoPedido) {
-        this.enumTipoPedido = enumTipoPedido;
     }
 
     private Double percentualVendas;

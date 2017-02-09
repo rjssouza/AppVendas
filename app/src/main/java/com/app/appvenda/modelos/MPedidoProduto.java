@@ -6,9 +6,18 @@ package com.app.appvenda.modelos;
 
 public class MPedidoProduto  {
 
-    private int IDPedidoProduto;
+    private Integer IDPedidoProduto;
+    private Integer quantidade;
     private MPedido mPedido;
     private MProduto mProduto;
+
+    public Integer getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Integer quantidade) {
+        this.quantidade = quantidade;
+    }
 
     public int getIDPedidoProduto() {
         return IDPedidoProduto;

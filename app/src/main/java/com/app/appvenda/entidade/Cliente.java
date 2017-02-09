@@ -11,7 +11,7 @@ import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 @NomeTabela(nomeTabela = "tb_cliente")
-public class Cliente extends Entidade<Integer> {
+public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
 
     public final static String ATIVO = "ativo";
     public final static String CNPJ = "cnpj";
@@ -50,6 +50,8 @@ public class Cliente extends Entidade<Integer> {
     private Long cpf;
     @ColunaTabela
     private String endereco;
+    @ColunaTabela
+    private String email;
     @ColunaTabela
     private Long coord_x;
     @ColunaTabela
@@ -156,4 +158,26 @@ public class Cliente extends Entidade<Integer> {
         this.coord_y = coord_y;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    @Override
+    public int getIdentificador() {
+        return 0;
+    }
+
+    @Override
+    public String getDescricao() {
+        return nome;
+    }
+
+    @Override
+    public String getCodigo() {
+        return cod_cliente.toString();
+    }
 }

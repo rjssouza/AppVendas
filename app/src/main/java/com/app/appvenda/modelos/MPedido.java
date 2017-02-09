@@ -14,11 +14,12 @@ public class MPedido {
     private Integer idPedido;
     private Double valorTotal;
     private MEndereco mEndereco;
+    private EnumTipoPedido enumTipoPedido;
     private MFormaPagamento mFormaPagamento;
-    private List<MProduto> mProdutoList;
+    private List<MPedidoProduto> mPedidoProdutos;
 
     public MPedido() {
-        this.mProdutoList = new ArrayList<>();
+        this.mPedidoProdutos = new ArrayList<>();
     }
 
     public MEndereco getmEndereco() {
@@ -53,12 +54,20 @@ public class MPedido {
         this.mFormaPagamento = mFormaPagamento;
     }
 
-    public List<MProduto> getmProdutoList() {
-        return mProdutoList;
+    public List<MPedidoProduto> getMPedidoProdutos() {
+        return mPedidoProdutos;
     }
 
-    public void setmProdutoList(List<MProduto> mProdutoList) {
-        this.mProdutoList = mProdutoList;
+    public void setmPedidoProdutos(List<MPedidoProduto> mPedidoProdutos) {
+        this.mPedidoProdutos = mPedidoProdutos;
+    }
+
+    public EnumTipoPedido getEnumTipoPedido() {
+        return enumTipoPedido;
+    }
+
+    public void setEnumTipoPedido(EnumTipoPedido enumTipoPedido) {
+        this.enumTipoPedido = enumTipoPedido;
     }
 
 }

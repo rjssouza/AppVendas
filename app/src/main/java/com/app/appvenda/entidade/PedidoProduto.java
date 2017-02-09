@@ -29,11 +29,9 @@ public class PedidoProduto extends Entidade<Integer> {
     public void complementarEntidade(Context context) {
         IExecutorQuery<Pedido> iExecutorQueryPedido = new RPPedido(context);
         IExecutorQuery<Produto> iExecutorQueryProduto = new RPProduto(context);
-        IExecutorQuery<TipoPedido> tipoPedidoIExecutorQuery = new RPTipoPedido(context);
 
         pedido = iExecutorQueryPedido.executarUnico(Pedido.getTodasColunas(Pedido.class), Pedido.ID_PEDIDO + "=?", false, id_pedido.toString());
         produto = iExecutorQueryProduto.executarUnico(Produto.getTodasColunas(Produto.class), Produto.ID_PRODUTO + "=?", true, id_produto.toString());
-        tipoPedido = tipoPedidoIExecutorQuery.executarUnico(TipoPedido.getTodasColunas(TipoPedido.class), TipoPedido.ID_TIPO_PEDIDO + "=?", false,  id_tipo_pedido.toString());
     }
 
     @ChavePrimaria
@@ -44,20 +42,9 @@ public class PedidoProduto extends Entidade<Integer> {
     private Integer id_produto;
     @ColunaTabela
     private int quantidade;
-    @ColunaTabela
-    private Integer id_tipo_pedido;
 
     private Produto produto;
     private Pedido pedido;
-    private TipoPedido tipoPedido;
-
-    public TipoPedido getTipoPedido() {
-        return tipoPedido;
-    }
-
-    public void setTipoPedido(TipoPedido tipoPedido) {
-        this.tipoPedido = tipoPedido;
-    }
 
     public Produto getProduto() {
         return produto;
@@ -105,14 +92,6 @@ public class PedidoProduto extends Entidade<Integer> {
 
     public void setQuantidade(int quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public Integer getId_tipo_pedido() {
-        return id_tipo_pedido;
-    }
-
-    public void setId_tipo_pedido(int id_tipo_pedido) {
-        this.id_tipo_pedido = id_tipo_pedido;
     }
 
 }
