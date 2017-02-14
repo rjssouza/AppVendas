@@ -32,6 +32,7 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
         cliente.setCoord_y(mCliente.getCoord_y());
         cliente.setNome(mCliente.getNome());
         cliente.setRazao_social(mCliente.getNomeFantasia());
+        cliente.setEmail(mCliente.getEmail());
         return cliente;
     }
 
@@ -40,13 +41,14 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
         MCliente mCliente = new MCliente();
         mCliente.setAtivo(cliente.getAtivo());
         mCliente.setCelular(cliente.getCelular().getTelefone());
-        mCliente.setTelefone(cliente.getCelular().getTelefone());
+        mCliente.setTelefone(cliente.getFixo().getTelefone());
         mCliente.setCnpj(cliente.getCnpj());
         mCliente.setCoord_x(cliente.getCoord_x());
         mCliente.setCoord_y(cliente.getCoord_y());
         mCliente.setCpf(cliente.getCpf());
         mCliente.setNome(cliente.getNome());
         mCliente.setNomeFantasia(cliente.getRazao_social());
+        mCliente.setEmail(cliente.getEmail());
         return mCliente;
     }
 }

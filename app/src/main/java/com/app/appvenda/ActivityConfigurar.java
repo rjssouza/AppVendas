@@ -72,7 +72,7 @@ public class ActivityConfigurar extends BaseActivity {
                     @Override
                     public void executarEvento(MVendedor item) throws Exception {
                         esconderProgress();
-                        InformacoesVendedor.setmVendedor(item);
+                        InformacoesVendedor.getInstance(getBaseContext());
                         Intent intent = new Intent(context, MainActivity_.class);
                         startActivity(intent);
                     }

@@ -1,5 +1,8 @@
 package com.app.appvenda.utils;
 
+import android.content.Context;
+
+import com.app.appvenda.dao.VendedorDAO;
 import com.app.appvenda.modelos.MVendedor;
 
 /**
@@ -8,13 +11,27 @@ import com.app.appvenda.modelos.MVendedor;
 
 public class InformacoesVendedor {
 
-    private static MVendedor mVendedor;
+    private MVendedor mVendedor;
 
-    public static MVendedor getmVendedor() {
-        return mVendedor;
+    private VendedorDAO vendedorDAO;
+
+    private static InformacoesVendedor informacoesVendedor;
+
+    public static InformacoesVendedor getInstance(Context context) {
+        if (informacoesVendedor == null) {
+            informacoesVendedor = new InformacoesVendedor(context);
+        }
+        return informacoesVendedor;
     }
 
-    public static void setmVendedor(MVendedor _mVendedor) {
-        mVendedor = _mVendedor;
+    private InformacoesVendedor(Context context) {
+        vendedorDAO = new VendedorDAO(context);
+        mVendedor = vendedorDAO.obterVendedorAtivo();
     }
+
+    public static MVendedor getmVendedor(Context context) {
+        InformacoesVendedor informacoesVendedor = InformacoesVendedor.getInstance(context);
+        return informacoesVendedor.mVendedor;
+    }
+
 }

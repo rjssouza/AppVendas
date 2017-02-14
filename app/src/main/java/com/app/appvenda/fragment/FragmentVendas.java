@@ -5,18 +5,20 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.app.appvenda.R;
-import com.app.appvenda.dao.ClienteDAO;
+import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.dao.VendaDAO;
 import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.modelos.MVenda;
-import com.app.appvenda.modelos.MVendedor;
-import com.app.appvenda.utils.InformacoesVendedor;
+import com.app.appvenda.processos.ProcessoCargaVendas;
+import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
+import com.app.bdframework.eventos.EventoVoid;
+import com.app.bdframework.excecoes.RegraNegocioMensagem;
 
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -28,39 +30,57 @@ import java.util.List;
 public class FragmentVendas extends BaseFragment {
 
     @ViewById
-    TextView txtVendedor;
-    @ViewById
     AutoCompleteTextView auto_txt_cliente;
     @ViewById
     Button btnEscolherProduto;
 
     private MVenda mVenda;
-
-    private ClienteDAO clienteDAO;
     private VendaDAO vendaDAO;
+    private ProcessoCargaVendas processoCargaVendas;
 
-    private ArrayAdapter<MItemSeletor> valoresAutoTxt;
+    private ArrayAdapter<MItemSeletor> valoresAutoTxtCliente;
 
     @Override
     protected void afterViews() {
         this.mVenda = new MVenda();
-        this.clienteDAO = new ClienteDAO(getContext());
         this.vendaDAO = new VendaDAO(getContext());
+        configurarCargaVendas();
 
-        configurarVendedor();
-        configurarAutoTxtCliente();
+        iniciar();
     }
 
-    private void configurarVendedor() {
-        MVendedor mVendedor = InformacoesVendedor.getmVendedor();
-        if (mVendedor != null)
-            this.txtVendedor.setText(mVendedor.getNome());
+    @UiThread
+    void iniciar() {
+        this.processoCargaVendas.efetuarCargaVendas();
     }
 
-    private void configurarAutoTxtCliente() {
-        List<MItemSeletor> mItemSeletorList = clienteDAO.obterTodosClientes();
-        valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletorList);
-        auto_txt_cliente.setAdapter(valoresAutoTxt);
+    private void configurarCargaVendas() {
+        this.processoCargaVendas = new ProcessoCargaVendas(getActivity());
+        this.processoCargaVendas.setPreCarga(new EventoVoid() {
+            @Override
+            public void executarEvento(Object item) throws Exception {
+                exibirProgress(R.string.aguarde, false);
+            }
+        });
+        this.processoCargaVendas.setPosCarga(new EventoVoid<IRetornoCargaVendas>() {
+            @Override
+            public void executarEvento(IRetornoCargaVendas item) throws Exception {
+                esconderProgress();
+                configurarAutoTxtCliente(item.getListaClientes());
+            }
+        });
+        this.processoCargaVendas.setErroProcessamento(new EventoVoid<RegraNegocioMensagem>() {
+            @Override
+            public void executarEvento(RegraNegocioMensagem item) throws Exception {
+                ((BaseActivity) getActivity()).executarEvento(item);
+            }
+        });
+    }
+
+    private void configurarAutoTxtCliente(List<MItemSeletor> mItemSeletorList) {
+        valoresAutoTxtCliente = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletorList);
+
+        auto_txt_cliente.setAdapter(valoresAutoTxtCliente);
         auto_txt_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,7 +91,7 @@ public class FragmentVendas extends BaseFragment {
         auto_txt_cliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-               // mItemSeletor = valoresAutoTxt.getItem(position);
+
             }
         });
     }

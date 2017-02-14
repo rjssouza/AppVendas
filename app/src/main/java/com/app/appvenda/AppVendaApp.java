@@ -1,6 +1,7 @@
 package com.app.appvenda;
 
 import android.app.Application;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import com.app.appvenda.conversores.ConversorStatusVenda;
 import com.app.appvenda.conversores.ConversorTipoPedido;
 import com.app.appvenda.conversores.ConversorVenda;
 import com.app.appvenda.conversores.ConversorVendedor;
+import com.app.appvenda.utils.InformacoesVendedor;
 import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.excecoes.IRegraNegocio;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
@@ -24,6 +26,8 @@ import com.app.bdframework.utils.AppLog;
 
 
 public class AppVendaApp extends Application implements IRegraNegocio {
+
+    InformacoesVendedor informacoesVendedor;
 
     @Override
     public void onCreate() {
@@ -76,6 +80,7 @@ public class AppVendaApp extends Application implements IRegraNegocio {
 
     @Override
     public void onPrimeiroAcesso() {
-
+        Intent intent = new Intent(this, ActivityConfigurar_.class);
+        startActivity(intent);
     }
 }

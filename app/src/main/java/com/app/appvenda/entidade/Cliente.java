@@ -23,6 +23,7 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
     public final static String COD_CLIENTE = "cod_cliente";
     public final static String NOME = "nome";
     public final static String RAZAO_SOCIAL = "razao_social";
+    public final static String EMAIL = "email";
 
     public Cliente(Cursor cursor) {
         super(cursor);
@@ -173,7 +174,7 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
 
     @Override
     public String getDescricao() {
-        return nome;
+        return razao_social;
     }
 
     @Override

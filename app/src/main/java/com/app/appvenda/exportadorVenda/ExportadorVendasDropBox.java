@@ -62,6 +62,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                     mCliente.setCelular(Long.parseLong(strings[17].replaceAll("\\D+", "")));
                 if (!strings[18].toString().replaceAll("\\D+", "").equals(""))
                     mCliente.setCelular(Long.parseLong(strings[18].replaceAll("\\D+", "")));
+                mCliente.setEmail(strings[10]);
                 return mCliente;
             }
         });

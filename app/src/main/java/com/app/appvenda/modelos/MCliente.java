@@ -15,6 +15,15 @@ public class MCliente {
     private long telefone;
     private long celular;
     private boolean ativo;
+    private String email;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
 
     public boolean isAtivo() {
         return ativo;

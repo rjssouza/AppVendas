@@ -43,9 +43,7 @@ public class FragmentSelecionarVendedor extends BaseFragment {
             @Override
             public void executarEvento(Boolean item) throws Exception {
                 exibirMensagemToast(R.string.vendedor_selecionado);
-                vendedorDAO.salvarBD();
-                MVendedor mVendedor = vendedorDAO.getUnico(mItemSeletor.getId().toString());
-                posSalvar.executarEvento(mVendedor);
+                posSalvar.executarEvento(null);
             }
         });
         configurarAutoTxt();

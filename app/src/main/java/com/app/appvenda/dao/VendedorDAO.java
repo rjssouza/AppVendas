@@ -54,6 +54,12 @@ public class VendedorDAO extends BaseDAO<MVendedor, Vendedor> {
         return mItemSeletors;
     }
 
+    public MVendedor obterVendedorAtivo() {
+        Vendedor vendedor = this.getUnico(Vendedor.ATIVO + "=?", "1");
+        MVendedor mVendedor = ConversorHelper.converterParaDe(vendedor, MVendedor.class);
+        return mVendedor;
+    }
+
     @Override
     protected Repositorio<Vendedor> obterRepositorio(Context context) {
         return new RPVendedor(context);
