@@ -6,12 +6,15 @@ import android.content.Context;
 import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
+import com.app.appvenda.utils.ProcessoTratamento;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.IRegraNegocio;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * Created by Robson on 12/02/2017.
@@ -19,7 +22,9 @@ import java.util.List;
 
 public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
+    private Activity activity;
     private int qtdProcessos = 1;
+    private ExecutorService executor;
 
     private ClienteDAO clienteDAO;
 
@@ -27,7 +32,15 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
     private EventoVoid<RegraNegocioMensagem> erroProcessamento;
     private EventoVoid<IRetornoCargaVendas> posCarga;
 
-    private Activity activity;
+    private List<MItemSeletor> listaClientes;
+
+    public ProcessoCargaVendas(Activity activity) {
+        this.activity = activity;
+        this.executor = Executors.newFixedThreadPool(5);
+
+        TratamentoExcecao.registrarEventoRegraNegocio(this);
+        configurarDAOs(activity.getBaseContext());
+    }
 
     public void setPreCarga(EventoVoid preCarga) {
         this.preCarga = preCarga;
@@ -41,15 +54,6 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
         this.posCarga = posCarga;
     }
 
-    private List<MItemSeletor> listaClientes;
-
-    public ProcessoCargaVendas(Activity activity) {
-        this.activity = activity;
-        TratamentoExcecao.registrarEventoRegraNegocio(this);
-
-        configurarDAOs(activity.getBaseContext());
-    }
-
     private void configurarDAOs(Context context) {
         clienteDAO = new ClienteDAO(context);
     }
@@ -57,25 +61,16 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
     public void efetuarCargaVendas() {
         try {
             executarMetodo(null, preCarga);
-
-            carregarCliente();
+            this.executor.execute(new ProcessoTratamento() {
+                @Override
+                protected void executar() throws Exception {
+                    carregarCliente();
+                }
+            });
         } catch (Exception e) {
             TratamentoExcecao.registrarExcecao(e);
         } finally {
             TratamentoExcecao.invocarEvento();
-        }
-    }
-
-    private void carregarCliente() throws Exception {
-        listaClientes = clienteDAO.obterTodosClientes();
-        chamarProcesso();
-    }
-
-    private void chamarProcesso() throws Exception {
-        qtdProcessos--;
-        if (qtdProcessos <= 0) {
-            if (posCarga != null)
-                posCarga.executarEvento(this);
         }
     }
 
@@ -95,6 +90,18 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
             erroProcessamento.executarEvento(item);
     }
 
+    private void carregarCliente() throws Exception {
+        listaClientes = clienteDAO.obterTodosClientes();
+        chamarProcesso();
+    }
+
+    private void chamarProcesso() throws Exception {
+        qtdProcessos--;
+        if (qtdProcessos <= 0) {
+            executarMetodo(this, posCarga);
+        }
+    }
+
     private <T> void executarMetodo(final T item, final EventoVoid<T> metodo) throws Exception {
         if (metodo != null) {
             activity.runOnUiThread(new Runnable() {
@@ -112,4 +119,5 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
         }
     }
+
 }

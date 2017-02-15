@@ -16,8 +16,8 @@
     <string name="confirma_acao">Confirma Ação?</string>
     <string name="msg_sair">Deseja sair do sistema?</string>
     <string name="selecionar_vendedor">Selecionar Vendedor</string>
-    <string name="selecionar_cliente"></string>
-    <string name="forma_pagamento"></string>
+    <string name="selecionar_cliente">Selecionar Cliente</string>
+    <string name="forma_pagamento">Forma de Pagamento</string>
     <string name="selecionar_produto">Selecionar Produto</string>
     <string name="sucesso_sinc">Dados Atualizados com Sucesso</string>
     <string name="sucesso_updt">Sincronização efetuada com sucesso</string>
