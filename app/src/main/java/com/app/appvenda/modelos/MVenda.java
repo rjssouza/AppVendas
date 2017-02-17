@@ -1,6 +1,7 @@
 package com.app.appvenda.modelos;
 
 import com.app.appvenda.enums.EnumStatusVenda;
+import com.app.appvenda.utils.InformacoesVendedor;
 
 /**
  * Created by Robson on 30/11/2016.
@@ -16,6 +17,14 @@ public class MVenda {
     private MPedido mPedido;
     private EnumStatusVenda enumStatusVenda;
 
+    public MVenda(MVendedor mVendedor) {
+        mPedido = new MPedido();
+        enumStatusVenda = EnumStatusVenda.NAO_PAGO;
+        sincronizado = false;
+
+        this.mVendedor = mVendedor;
+    }
+
     public MCliente getmCliente() {
         return mCliente;
     }
@@ -28,10 +37,6 @@ public class MVenda {
         return mVendedor;
     }
 
-    public void setmVendedor(MVendedor mVendedor) {
-        this.mVendedor = mVendedor;
-    }
-
     public MPedido getmPedido() {
         return mPedido;
     }
@@ -42,10 +47,6 @@ public class MVenda {
 
     public EnumStatusVenda getEnumStatusVenda() {
         return enumStatusVenda;
-    }
-
-    public void setEnumStatusVenda(EnumStatusVenda enumStatusVenda) {
-        this.enumStatusVenda = enumStatusVenda;
     }
 
     public int getIdVenda() {

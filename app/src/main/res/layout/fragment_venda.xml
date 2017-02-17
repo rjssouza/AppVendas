@@ -30,6 +30,22 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
+                android:id="@+id/tipoPedidoWrapper"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center">
+
+                <AutoCompleteTextView
+                    android:id="@+id/auto_txt_tipo_pedido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:completionThreshold="1"
+                    android:gravity="center"
+                    android:hint="@string/tipo_pedido" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
                 android:id="@+id/formaPagamentoWrapper"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,4 +71,5 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/selecionar_produto"></Button>
+
 </LinearLayout>

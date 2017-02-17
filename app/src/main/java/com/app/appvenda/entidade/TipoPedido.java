@@ -9,7 +9,7 @@ import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 @NomeTabela(nomeTabela = "tb_tipo_pedido")
-public class TipoPedido extends Entidade<Integer> {
+public class TipoPedido extends Entidade<Integer> implements IDescricaoEntidade {
 
     public final static String COD_TIPO_PEDIDO = "cod_tipo_pedido";
     public final static String DESCR_TIPO_PEDIDO = "descr_tipo_pedido";
@@ -25,9 +25,9 @@ public class TipoPedido extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private int id_tipo_pedido;
+    private Integer id_tipo_pedido;
     @ColunaTabela
-    private int cod_tipo_pedido;
+    private Integer cod_tipo_pedido;
     @ColunaTabela
     private String descr_tipo_pedido;
 
@@ -53,6 +53,21 @@ public class TipoPedido extends Entidade<Integer> {
 
     public void setDescr_tipo_pedido(String descr_tipo_pedido) {
         this.descr_tipo_pedido = descr_tipo_pedido;
+    }
+
+    @Override
+    public int getIdentificador() {
+        return id_tipo_pedido;
+    }
+
+    @Override
+    public String getDescricao() {
+        return descr_tipo_pedido;
+    }
+
+    @Override
+    public String getCodigo() {
+        return cod_tipo_pedido.toString();
     }
 
 }

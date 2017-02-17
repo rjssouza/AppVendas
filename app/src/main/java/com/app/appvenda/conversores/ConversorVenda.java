@@ -48,16 +48,13 @@ public class ConversorVenda extends Conversor<MVenda, Venda> {
 
     @Override
     public MVenda converterParaDe(Venda venda) {
-        MVenda mVenda = new MVenda();
+        MVenda mVenda = new MVenda(ConversorHelper.converterParaDe(venda.getVendedor(), MVendedor.class));
 
         mVenda.setIdVenda(venda.getId_venda());
         mVenda.setSincronizado(venda.isSincronizado());
 
         mVenda.setmCliente(ConversorHelper.converterParaDe(venda.getCliente(), MCliente.class));
         mVenda.setmPedido(ConversorHelper.converterParaDe(venda.getPedido(), MPedido.class));
-        mVenda.setmVendedor(ConversorHelper.converterParaDe(venda.getVendedor(), MVendedor.class));
-
-        mVenda.setEnumStatusVenda(ConversorHelper.converterParaDe(venda.getStatusVenda(), EnumStatusVenda.class));
 
         return mVenda;
     }

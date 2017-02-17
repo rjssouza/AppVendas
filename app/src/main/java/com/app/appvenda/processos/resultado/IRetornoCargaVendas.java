@@ -11,5 +11,6 @@ import java.util.List;
 public interface IRetornoCargaVendas {
 
     List<MItemSeletor> getListaClientes();
-
+    List<MItemSeletor> getListaTipoPedido();
+    List<MItemSeletor> getListaFormaPagamento();
 }

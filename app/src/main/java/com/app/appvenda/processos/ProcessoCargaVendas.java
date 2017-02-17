@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.app.appvenda.dao.ClienteDAO;
+import com.app.appvenda.dao.FormaPagamentoDAO;
+import com.app.appvenda.dao.TipoPedidoDAO;
 import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
 import com.app.appvenda.utils.ProcessoTratamento;
@@ -23,16 +25,20 @@ import java.util.concurrent.Executors;
 public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
     private Activity activity;
-    private int qtdProcessos = 1;
+    private int qtdProcessos = 3;
     private ExecutorService executor;
 
     private ClienteDAO clienteDAO;
+    private FormaPagamentoDAO formaPagamentoDAO;
+    private TipoPedidoDAO tipoPedidoDAO;
 
     private EventoVoid preCarga;
     private EventoVoid<RegraNegocioMensagem> erroProcessamento;
     private EventoVoid<IRetornoCargaVendas> posCarga;
 
     private List<MItemSeletor> listaClientes;
+    private List<MItemSeletor> listaTipoPedido;
+    private List<MItemSeletor> listaFormaPagamento;
 
     public ProcessoCargaVendas(Activity activity) {
         this.activity = activity;
@@ -54,9 +60,6 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
         this.posCarga = posCarga;
     }
 
-    private void configurarDAOs(Context context) {
-        clienteDAO = new ClienteDAO(context);
-    }
 
     public void efetuarCargaVendas() {
         try {
@@ -65,6 +68,8 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
                 @Override
                 protected void executar() throws Exception {
                     carregarCliente();
+                    carregarTipoPedido();
+                    carregarFormaPagto();
                 }
             });
         } catch (Exception e) {
@@ -80,6 +85,16 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
     }
 
     @Override
+    public List<MItemSeletor> getListaTipoPedido() {
+        return listaTipoPedido;
+    }
+
+    @Override
+    public List<MItemSeletor> getListaFormaPagamento() {
+        return listaFormaPagamento;
+    }
+
+    @Override
     public void onPrimeiroAcesso() {
 
     }
@@ -92,6 +107,16 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
     private void carregarCliente() throws Exception {
         listaClientes = clienteDAO.obterTodosClientes();
+        chamarProcesso();
+    }
+
+    private void carregarFormaPagto() throws Exception {
+        listaFormaPagamento = formaPagamentoDAO.obterFormasPagamento();
+        chamarProcesso();
+    }
+
+    private void carregarTipoPedido() throws Exception {
+        listaTipoPedido = tipoPedidoDAO.obterTodosTiposPedidos();
         chamarProcesso();
     }
 
@@ -118,6 +143,10 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
             });
 
         }
+    }
+
+    private void configurarDAOs(Context context) {
+        clienteDAO = new ClienteDAO(context);
     }
 
 }

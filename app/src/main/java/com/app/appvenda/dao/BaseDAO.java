@@ -1,8 +1,11 @@
 package com.app.appvenda.dao;
 
 import android.content.Context;
+import android.database.Cursor;
 
+import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.baseEntidade.Entidade;
+import com.app.bdframework.baseEntidade.ParCampoValor;
 import com.app.bdframework.baseEntidade.Repositorio;
 import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
@@ -10,6 +13,7 @@ import com.app.bdframework.excecoes.RegraNegocioException;
 import com.app.bdframework.excecoes.TratamentoExcecao;
 import com.app.bdframework.negocio.RegraNegocio;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -109,6 +113,24 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
 
     protected TEntidade getUnico(String queryString, String... queryArg) {
         return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, false, queryArg);
+    }
+
+    public TEntidade obterPorID(Integer id, Boolean complementaEntidade) {
+        try {
+            TEntidade _entidade = pEntidade.getConstructor(Cursor.class).newInstance(null);
+            ParCampoValor chavePrimaria = _entidade.getChavePrimaria();
+            _entidade = getUnico(chavePrimaria.getNomeCampo() + " = ?", new String[]{id == null ? "" : id.toString()});
+            return _entidade;
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public int getScalar(String queryString, String... queryArg) {

@@ -9,7 +9,7 @@ import com.app.bdframework.auxiliar.NomeTabela;
 import com.app.bdframework.baseEntidade.Entidade;
 
 @NomeTabela(nomeTabela = "tb_forma_pagto")
-public class FormaPagto extends Entidade<Integer> {
+public class FormaPagto extends Entidade<Integer>  implements IDescricaoEntidade {
 
     public final static String COD_FORMA_PAGTO = "cod_forma_pagto";
     public final static String DESCR_FORMA_PAGTO = "descr_forma_pagto";
@@ -28,9 +28,9 @@ public class FormaPagto extends Entidade<Integer> {
     @ColunaTabela
     private Double val_perc;
     @ChavePrimaria
-    private int id_forma_pagto;
+    private Integer id_forma_pagto;
     @ColunaTabela
-    private int cod_forma_pagto;
+    private Integer cod_forma_pagto;
     @ColunaTabela
     private String descr_forma_pagto;
 
@@ -66,4 +66,18 @@ public class FormaPagto extends Entidade<Integer> {
         this.val_perc = val_perc;
     }
 
+    @Override
+    public int getIdentificador() {
+        return id_forma_pagto;
+    }
+
+    @Override
+    public String getDescricao() {
+        return descr_forma_pagto;
+    }
+
+    @Override
+    public String getCodigo() {
+        return cod_forma_pagto.toString();
+    }
 }

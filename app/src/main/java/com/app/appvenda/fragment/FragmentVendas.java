@@ -14,8 +14,10 @@ import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.modelos.MVenda;
 import com.app.appvenda.processos.ProcessoCargaVendas;
 import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
+import com.app.appvenda.utils.InformacoesVendedor;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
+import com.app.bdframework.excecoes.TratamentoExcecao;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
@@ -32,17 +34,19 @@ public class FragmentVendas extends BaseFragment {
     @ViewById
     AutoCompleteTextView auto_txt_cliente;
     @ViewById
+    AutoCompleteTextView auto_txt_tipo_pedido;
+    @ViewById
+    AutoCompleteTextView auto_txt_forma_pagto;
+    @ViewById
     Button btnEscolherProduto;
 
     private MVenda mVenda;
     private VendaDAO vendaDAO;
     private ProcessoCargaVendas processoCargaVendas;
 
-    private ArrayAdapter<MItemSeletor> valoresAutoTxtCliente;
-
     @Override
     protected void afterViews() {
-        this.mVenda = new MVenda();
+        this.mVenda = new MVenda(InformacoesVendedor.getmVendedor(getContext()));
         this.vendaDAO = new VendaDAO(getContext());
         configurarCargaVendas();
 
@@ -67,6 +71,8 @@ public class FragmentVendas extends BaseFragment {
             public void executarEvento(IRetornoCargaVendas item) throws Exception {
                 esconderProgress();
                 configurarAutoTxtCliente(item.getListaClientes());
+                configurarAutoTxtFormaPagto(item.getListaFormaPagamento());
+                configurarAutoTxtTipoPedido(item.getListaTipoPedido());
             }
         });
         this.processoCargaVendas.setErroProcessamento(new EventoVoid<RegraNegocioMensagem>() {
@@ -78,9 +84,36 @@ public class FragmentVendas extends BaseFragment {
     }
 
     private void configurarAutoTxtCliente(List<MItemSeletor> mItemSeletorList) {
-        valoresAutoTxtCliente = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletorList);
+        configurarAutoTxt(auto_txt_cliente, mItemSeletorList, new EventoVoid<MItemSeletor>() {
+            @Override
+            public void executarEvento(MItemSeletor item) throws Exception {
 
-        auto_txt_cliente.setAdapter(valoresAutoTxtCliente);
+            }
+        });
+    }
+
+    private void configurarAutoTxtTipoPedido(List<MItemSeletor> mItemSeletorList) {
+        configurarAutoTxt(auto_txt_tipo_pedido, mItemSeletorList, new EventoVoid<MItemSeletor>() {
+            @Override
+            public void executarEvento(MItemSeletor item) throws Exception {
+
+            }
+        });
+    }
+
+    private void configurarAutoTxtFormaPagto(List<MItemSeletor> mItemSeletorList) {
+        configurarAutoTxt(auto_txt_forma_pagto, mItemSeletorList, new EventoVoid<MItemSeletor>() {
+            @Override
+            public void executarEvento(MItemSeletor item) throws Exception {
+
+            }
+        });
+    }
+
+    private void configurarAutoTxt(AutoCompleteTextView auto_txt, List<MItemSeletor> mItemSeletorList, final EventoVoid<MItemSeletor> onItemSelected) {
+        ArrayAdapter<MItemSeletor> valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletorList);
+
+        auto_txt_cliente.setAdapter(valoresAutoTxt);
         auto_txt_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,9 +124,15 @@ public class FragmentVendas extends BaseFragment {
         auto_txt_cliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                MItemSeletor mItemSeletor = (MItemSeletor) parent.getItemAtPosition(position);
+                try {
+                    onItemSelected.executarEvento(mItemSeletor);
+                } catch (Exception e) {
+                    TratamentoExcecao.registrarExcecao(e);
+                } finally {
+                    TratamentoExcecao.invocarEvento();
+                }
             }
         });
     }
-
 }
