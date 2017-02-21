@@ -3,7 +3,6 @@ package com.app.appvenda.dao;
 import android.content.Context;
 import android.database.Cursor;
 
-import com.app.bdframework.auxiliar.ChavePrimaria;
 import com.app.bdframework.baseEntidade.Entidade;
 import com.app.bdframework.baseEntidade.ParCampoValor;
 import com.app.bdframework.baseEntidade.Repositorio;
@@ -30,11 +29,13 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
     private ExecutorService executor;
     private EventoVoid<Boolean> eventoPosExecucao;
     private Class<TEntidade> pEntidade;
+    private Class<TModelo> pModelo;
     private boolean sucesso = true;
 
-    BaseDAO(Context context, Class<TEntidade> pEntidade) {
+    BaseDAO(Context context, Class<TEntidade> pEntidade, Class<TModelo> pModelo) {
         this.context = context;
         this.pEntidade = pEntidade;
+        this.pModelo = pModelo;
         this.repositorio = obterRepositorio(context);
         this.executor = Executors.newFixedThreadPool(5);
     }
@@ -115,12 +116,13 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, false, queryArg);
     }
 
-    public TEntidade obterPorID(Integer id, Boolean complementaEntidade) {
+    public TModelo obterPorID(Integer id, Boolean complementaEntidade) {
         try {
             TEntidade _entidade = pEntidade.getConstructor(Cursor.class).newInstance(null);
             ParCampoValor chavePrimaria = _entidade.getChavePrimaria();
             _entidade = getUnico(chavePrimaria.getNomeCampo() + " = ?", new String[]{id == null ? "" : id.toString()});
-            return _entidade;
+            TModelo tModelo = ConversorHelper.converterParaDe(_entidade, pModelo);
+            return tModelo;
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

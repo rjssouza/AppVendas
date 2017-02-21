@@ -18,7 +18,7 @@ public class ProdutoDAO extends BaseDAO<MProduto, Produto> {
     private RPEstoque rpEstoque;
 
     public ProdutoDAO(Context context) {
-        super(context, Produto.class);
+        super(context, Produto.class, MProduto.class);
         this.rpEstoque = new RPEstoque(context);
     }
 

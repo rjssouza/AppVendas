@@ -17,7 +17,7 @@ import java.util.List;
 public class PedidoProdutoDAO extends BaseDAO<MPedidoProduto, PedidoProduto> {
 
     public PedidoProdutoDAO(Context context) {
-        super(context, PedidoProduto.class);
+        super(context, PedidoProduto.class, MPedidoProduto.class);
     }
 
     @Override

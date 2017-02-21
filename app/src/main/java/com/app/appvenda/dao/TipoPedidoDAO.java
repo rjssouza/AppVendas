@@ -19,8 +19,8 @@ import java.util.List;
 
 public class TipoPedidoDAO extends BaseDAO<EnumTipoPedido, TipoPedido> {
 
-    public TipoPedidoDAO(Context context, Class<TipoPedido> pEntidade) {
-        super(context, pEntidade);
+    public TipoPedidoDAO(Context context) {
+        super(context, TipoPedido.class, EnumTipoPedido.class);
     }
 
     @Override

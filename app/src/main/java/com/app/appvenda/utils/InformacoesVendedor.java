@@ -18,7 +18,7 @@ public class InformacoesVendedor {
     private static InformacoesVendedor informacoesVendedor;
 
     public static InformacoesVendedor getInstance(Context context) {
-        if (informacoesVendedor == null) {
+        if (informacoesVendedor == null || informacoesVendedor.mVendedor == null) {
             informacoesVendedor = new InformacoesVendedor(context);
         }
         return informacoesVendedor;
@@ -34,4 +34,11 @@ public class InformacoesVendedor {
         return informacoesVendedor.mVendedor;
     }
 
+    public static String getNomeVendedor(Context context){
+        MVendedor mVendedor = InformacoesVendedor.getmVendedor(context);
+        if(mVendedor != null) {
+            return mVendedor.getNome();
+        }
+        return "";
+    }
 }

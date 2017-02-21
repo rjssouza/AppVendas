@@ -17,7 +17,7 @@ import com.app.bdframework.conversor.ConversorHelper;
 public class ConfiguracaoDAO extends BaseDAO<MConfiguracao, Configuracao> {
 
     public ConfiguracaoDAO(Context context) {
-        super(context, Configuracao.class);
+        super(context, Configuracao.class, MConfiguracao.class);
     }
 
     @Override

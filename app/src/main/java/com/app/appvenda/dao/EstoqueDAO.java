@@ -14,7 +14,7 @@ import com.app.bdframework.baseEntidade.Repositorio;
 public class EstoqueDAO extends BaseDAO<MEstoque, Estoque> {
 
     EstoqueDAO(Context context) {
-        super(context, Estoque.class);
+        super(context, Estoque.class, MEstoque.class);
     }
 
     @Override

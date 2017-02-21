@@ -147,6 +147,8 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
     private void configurarDAOs(Context context) {
         clienteDAO = new ClienteDAO(context);
+        formaPagamentoDAO = new FormaPagamentoDAO(context);
+        tipoPedidoDAO = new TipoPedidoDAO(context);
     }
 
 }

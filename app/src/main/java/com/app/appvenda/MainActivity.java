@@ -11,11 +11,14 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
 import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.exportadorVenda.ExportadorVendas;
 import com.app.appvenda.fragment.FragmentConfigurar_;
 import com.app.appvenda.fragment.FragmentVendas_;
+import com.app.appvenda.utils.InformacoesVendedor;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.eventos.EventosCaixaDialogo;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
@@ -23,6 +26,8 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
+
+import static com.app.appvenda.R.id.txt_vendedor;
 
 
 @SuppressLint("Registered")
@@ -39,6 +44,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @ViewById
     NavigationView nvView;
 
+
     ActionBarDrawerToggle mDrawerToggle;
     ExportadorVendas exportadorVendas;
 
@@ -47,6 +53,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         configurarDrawerLayout();
         configurarFragmentPrincipal();
         this.exportadorVendas = new ExportadorVendas(this);
+
+        configuraNomeVendedor();
     }
 
     private void configurarDrawerLayout() {
@@ -138,5 +146,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
             }
         });
+    }
+
+    private void configuraNomeVendedor() {
+        View hView = nvView.getHeaderView(0);
+        TextView txtVendedor = (TextView) hView.findViewById(txt_vendedor);
+        txtVendedor.setText(InformacoesVendedor.getNomeVendedor(this));
     }
 }

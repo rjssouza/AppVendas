@@ -20,7 +20,7 @@ public class ClienteDAO extends BaseDAO<MCliente, Cliente> {
     private RPTelefone rpTelefone;
 
     public ClienteDAO(Context context) {
-        super(context, Cliente.class);
+        super(context, Cliente.class, MCliente.class);
         this.rpTelefone = new RPTelefone(context);
     }
 

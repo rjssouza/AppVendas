@@ -21,7 +21,7 @@ import java.util.List;
 public class FormaPagamentoDAO extends BaseDAO<MFormaPagamento, FormaPagto> {
 
     public FormaPagamentoDAO(Context context) {
-        super(context, FormaPagto.class);
+        super(context, FormaPagto.class, MFormaPagamento.class);
     }
 
     @Override

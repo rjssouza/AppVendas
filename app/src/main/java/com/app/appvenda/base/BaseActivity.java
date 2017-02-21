@@ -160,10 +160,9 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @org.androidannotations.annotations.UiThread
     public void executarEvento(RegraNegocioMensagem item) {
         esconderProgress();
-        RegraNegocioException exception = item.getRegraNegocioException();
-        if (exception.getTipoMensagem().equals(EnumTipoMensagem.PERGUNTA)) {
+        if (item.getTipoMensagem().equals(EnumTipoMensagem.PERGUNTA)) {
             this.executarPergunta(item);
-        } else if (exception.getTipoMensagem().equals(EnumTipoMensagem.ALERTA)) {
+        } else if (item.getTipoMensagem().equals(EnumTipoMensagem.ALERTA)) {
             this.executarAlerta(item);
         } else {
             AppLog.criarLog(item);

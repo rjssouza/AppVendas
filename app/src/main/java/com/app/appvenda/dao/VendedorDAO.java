@@ -20,7 +20,7 @@ import java.util.List;
 public class VendedorDAO extends BaseDAO<MVendedor, Vendedor> {
 
     public VendedorDAO(Context context) {
-        super(context, Vendedor.class);
+        super(context, Vendedor.class, MVendedor.class);
     }
 
     @Override

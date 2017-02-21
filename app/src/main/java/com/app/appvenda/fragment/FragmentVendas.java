@@ -8,13 +8,17 @@ import android.widget.Button;
 
 import com.app.appvenda.R;
 import com.app.appvenda.base.BaseActivity;
+import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.dao.VendaDAO;
+import com.app.appvenda.entidade.Cliente;
 import com.app.appvenda.fragment.base.BaseFragment;
+import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.modelos.MVenda;
 import com.app.appvenda.processos.ProcessoCargaVendas;
 import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
 import com.app.appvenda.utils.InformacoesVendedor;
+import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
@@ -43,13 +47,15 @@ public class FragmentVendas extends BaseFragment {
     private MVenda mVenda;
     private VendaDAO vendaDAO;
     private ProcessoCargaVendas processoCargaVendas;
+    private ClienteDAO clienteDAO;
 
     @Override
     protected void afterViews() {
         this.mVenda = new MVenda(InformacoesVendedor.getmVendedor(getContext()));
         this.vendaDAO = new VendaDAO(getContext());
-        configurarCargaVendas();
+        this.clienteDAO = new ClienteDAO(getContext());
 
+        configurarCargaVendas();
         iniciar();
     }
 
@@ -83,11 +89,12 @@ public class FragmentVendas extends BaseFragment {
         });
     }
 
-    private void configurarAutoTxtCliente(List<MItemSeletor> mItemSeletorList) {
+    private void configurarAutoTxtCliente(final List<MItemSeletor> mItemSeletorList) {
         configurarAutoTxt(auto_txt_cliente, mItemSeletorList, new EventoVoid<MItemSeletor>() {
             @Override
             public void executarEvento(MItemSeletor item) throws Exception {
-
+                MCliente mCliente = clienteDAO.obterPorID(item.getId(), true);
+                mVenda.setmCliente(mCliente);
             }
         });
     }

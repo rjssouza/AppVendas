@@ -1,13 +1,7 @@
 package com.app.bdframework.excecoes;
 
-import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
-
-import com.app.bdframework.eventos.EventoVoid;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Classe controlado para tratamento de exceção dinamico, caso a exceção que ocorra não invoque este metodo, o mesmo ira para o tratamento de exceção global
@@ -35,8 +29,8 @@ public class TratamentoExcecao {
         new Handler(Looper.getMainLooper()).post(new Runnable() {
             @Override
             public void run() {
-                if (regraNegocioException != null) {
-                    if (eventoRegraNegocioException != null) {
+                if (eventoRegraNegocioException != null) {
+                    if (regraNegocioException != null) {
                         RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
                         try {
                             eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
@@ -47,14 +41,12 @@ public class TratamentoExcecao {
                     }
 
                     if (exception != null) {
-                        if (eventoRegraNegocioException != null) {
-                            RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(regraNegocioException);
-                            try {
-                                eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
-                                regraNegocioException = null;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                        RegraNegocioMensagem regraNegocioMensagem = new RegraNegocioMensagem(exception);
+                        try {
+                            eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
+                            exception = null;
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }

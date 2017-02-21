@@ -17,7 +17,7 @@ public class VendaDAO extends BaseDAO<MVenda, Venda> {
     private PedidoDAO pedidoDAO;
 
     public VendaDAO(Context context) {
-        super(context, Venda.class);
+        super(context, Venda.class, MVenda.class);
         this.pedidoDAO = new PedidoDAO(context);
     }
 

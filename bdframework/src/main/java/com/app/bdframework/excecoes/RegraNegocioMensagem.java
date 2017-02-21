@@ -1,8 +1,7 @@
 package com.app.bdframework.excecoes;
 
+import com.app.bdframework.enums.EnumTipoMensagem;
 import com.app.bdframework.utils.TradutorMensagemException;
-
-import java.util.List;
 
 /**
  * Tradutor mensages regra de negocio
@@ -13,18 +12,24 @@ public class RegraNegocioMensagem {
     private RegraNegocioException regraNegocioException;
     private Exception exception;
 
+    private EnumTipoMensagem tipoMensagem;
+
     public RegraNegocioMensagem(RegraNegocioException regraNegocioExceptions) {
         this.regraNegocioException = regraNegocioExceptions;
 
         mensagem += TradutorMensagemException.obterMensagem(regraNegocioExceptions, false);
         mensagem += "\n";
+
+        tipoMensagem = regraNegocioExceptions.getTipoMensagem();
     }
 
-    RegraNegocioMensagem(Exception exception, @SuppressWarnings("SameParameterValue") boolean somenteException) {
+    public RegraNegocioMensagem(Exception exception) {
         this.exception = exception;
 
-        mensagem +=  TradutorMensagemException.obterMensagem(exception, false);
+        mensagem += TradutorMensagemException.obterMensagem(exception, false);
         mensagem += "\n";
+
+        tipoMensagem = EnumTipoMensagem.ERRO;
     }
 
     public String getMensagem() {
@@ -37,6 +42,10 @@ public class RegraNegocioMensagem {
 
     public Exception getException() {
         return exception;
+    }
+
+    public EnumTipoMensagem getTipoMensagem() {
+        return tipoMensagem;
     }
 
 }
