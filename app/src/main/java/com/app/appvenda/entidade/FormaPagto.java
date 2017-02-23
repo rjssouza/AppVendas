@@ -28,17 +28,17 @@ public class FormaPagto extends Entidade<Integer>  implements IDescricaoEntidade
     @ColunaTabela
     private Double val_perc;
     @ChavePrimaria
-    private Integer id_forma_pagto;
+    private Long id_forma_pagto;
     @ColunaTabela
     private Integer cod_forma_pagto;
     @ColunaTabela
     private String descr_forma_pagto;
 
-    public int getId_forma_pagto() {
+    public Long getId_forma_pagto() {
         return id_forma_pagto;
     }
 
-    public void setId_forma_pagto(int id_forma_pagto) {
+    public void setId_forma_pagto(Long id_forma_pagto) {
         this.id_forma_pagto = id_forma_pagto;
     }
 
@@ -67,7 +67,7 @@ public class FormaPagto extends Entidade<Integer>  implements IDescricaoEntidade
     }
 
     @Override
-    public int getIdentificador() {
+    public Long getIdentificador() {
         return id_forma_pagto;
     }
 

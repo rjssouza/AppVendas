@@ -6,7 +6,7 @@ package com.app.appvenda.modelos;
 
 public class MPedidoProduto  {
 
-    private Integer IDPedidoProduto;
+    private Long IDPedidoProduto;
     private Integer quantidade;
     private MPedido mPedido;
     private MProduto mProduto;
@@ -19,11 +19,11 @@ public class MPedidoProduto  {
         this.quantidade = quantidade;
     }
 
-    public int getIDPedidoProduto() {
+    public Long getIDPedidoProduto() {
         return IDPedidoProduto;
     }
 
-    public void setIDPedidoProduto(int IDPedidoProduto) {
+    public void setIDPedidoProduto(Long IDPedidoProduto) {
         this.IDPedidoProduto = IDPedidoProduto;
     }
 

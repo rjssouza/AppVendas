@@ -13,7 +13,7 @@ public class ConversorStatusVenda extends Conversor<EnumStatusVenda, StatusVenda
     @Override
     public StatusVenda converterDePara(EnumStatusVenda enumStatusVenda) {
         StatusVenda statusVenda = new StatusVenda(null);
-        statusVenda.setId_status_venda(enumStatusVenda.getNumVal());
+        statusVenda.setId_status_venda(Long.parseLong(enumStatusVenda.getNumVal().toString()));
         statusVenda.setCod_status(enumStatusVenda.getNumVal());
         statusVenda.setDescr_status(enumStatusVenda.toString());
         return statusVenda;

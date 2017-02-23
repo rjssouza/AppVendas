@@ -5,7 +5,7 @@ public class MCliente {
     public MCliente(){
     }
 
-    private  int id;
+    private  Long id;
     private String nome;
     private String nomeFantasia;
     private long cnpj;
@@ -33,11 +33,11 @@ public class MCliente {
         this.ativo = ativo;
     }
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

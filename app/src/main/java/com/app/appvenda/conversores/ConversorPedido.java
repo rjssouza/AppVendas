@@ -30,7 +30,7 @@ public class ConversorPedido extends Conversor<MPedido, Pedido> {
         pedido.setCoord_x(mEndereco.getCoordX());
         pedido.setEndereco(mEndereco.getEndereco());
         pedido.setValor_total(mPedido.getValorTotal());
-        pedido.setId_tipo_pedido(mPedido.getEnumTipoPedido().getNumVal());
+        pedido.setId_tipo_pedido(Long.parseLong(mPedido.getEnumTipoPedido().getNumVal().toString()));
 
         if (mPedido.getmFormaPagamento() != null) {
             pedido.setId_forma_pagto(mPedido.getmFormaPagamento().getIdFormaPagto());

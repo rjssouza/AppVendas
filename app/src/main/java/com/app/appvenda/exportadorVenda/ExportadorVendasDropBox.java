@@ -53,7 +53,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
             @Override
             public MCliente executarEvento(String[] strings) {
                 MCliente mCliente = new MCliente();
-                mCliente.setId(Integer.parseInt(strings[8]));
+                mCliente.setId(Long.parseLong(strings[8]));
                 mCliente.setNome(strings[13]);
                 mCliente.setNomeFantasia(strings[14]);
                 mCliente.setCnpj(Long.parseLong(strings[7]));
@@ -74,8 +74,8 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
             @Override
             public MEstoque executarEvento(String[] strings) {
                 MEstoque mEstoque = new MEstoque();
-                mEstoque.setIdEstoque(Integer.parseInt(strings[0]));
-                mEstoque.setIdProduto(Integer.parseInt(strings[4]));
+                mEstoque.setIdEstoque(Long.parseLong(strings[0]));
+                mEstoque.setIdProduto(Long.parseLong(strings[4]));
                 mEstoque.setQuantidade(Integer.parseInt(strings[2]));
                 mEstoque.setValorFinal(ConversorUtils.stringDouble(strings[6]));
                 mEstoque.setValorProduto(ConversorUtils.stringDouble(strings[3]));
@@ -96,7 +96,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                     @Override
                     public MProduto executarEvento(String[] strings) {
                         MProduto mProduto = new MProduto();
-                        mProduto.setIdProduto(Integer.parseInt(strings[1]));
+                        mProduto.setIdProduto(Long.parseLong(strings[1]));
                         mProduto.setNome(strings[4]);
                         mProduto.setCodProduto(Integer.parseInt(strings[2]));
                         mProduto.setAtivo(Boolean.parseBoolean(strings[0]));
@@ -124,7 +124,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
             @Override
             public MVendedor executarEvento(String[] strings) {
                 MVendedor mVendedor = new MVendedor();
-                mVendedor.setIdVendedor(Integer.parseInt(strings[3]));
+                mVendedor.setIdVendedor(Long.parseLong(strings[3]));
                 mVendedor.setNome(strings[11]);
                 mVendedor.setPercVenda(ConversorUtils.stringDouble(strings[15]));
                 return mVendedor;
@@ -141,7 +141,7 @@ public class ExportadorVendasDropBox implements IExportadorVendas {
                 MFormaPagamento mFormaPagamento = new MFormaPagamento();
                 mFormaPagamento.setCodFormaPagto(Integer.parseInt(strings[0]));
                 mFormaPagamento.setDescrFormaPagto(strings[1]);
-                mFormaPagamento.setIdFormaPagto(Integer.parseInt(strings[0]));
+                mFormaPagamento.setIdFormaPagto(Long.parseLong(strings[0]));
                 mFormaPagamento.setValPerc(ConversorUtils.stringDouble(strings[2]));
                 return mFormaPagamento;
             }

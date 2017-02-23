@@ -35,11 +35,11 @@ public class PedidoProduto extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_pedido_produto;
+    private Long id_pedido_produto;
     @ColunaTabela
-    private Integer id_pedido;
+    private Long id_pedido;
     @ColunaTabela
-    private Integer id_produto;
+    private Long id_produto;
     @ColunaTabela
     private int quantidade;
 
@@ -62,27 +62,27 @@ public class PedidoProduto extends Entidade<Integer> {
         this.pedido = pedido;
     }
 
-    public int getId_pedido_produto() {
+    public Long getId_pedido_produto() {
         return id_pedido_produto;
     }
 
-    public void setId_pedido_produto(int id_pedido_produto) {
+    public void setId_pedido_produto(Long id_pedido_produto) {
         this.id_pedido_produto = id_pedido_produto;
     }
 
-    public int getId_pedido() {
+    public Long getId_pedido() {
         return id_pedido;
     }
 
-    public void setId_pedido(int id_pedido) {
+    public void setId_pedido(Long id_pedido) {
         this.id_pedido = id_pedido;
     }
 
-    public int getId_produto() {
+    public Long getId_produto() {
         return id_produto;
     }
 
-    public void setId_produto(int id_produto) {
+    public void setId_produto(Long id_produto) {
         this.id_produto = id_produto;
     }
 

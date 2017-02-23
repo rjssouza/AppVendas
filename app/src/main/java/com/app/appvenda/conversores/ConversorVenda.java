@@ -38,7 +38,7 @@ public class ConversorVenda extends Conversor<MVenda, Venda> {
             venda.setPedido(ConversorHelper.converterDePara(mVenda.getmPedido(), Pedido.class));
         }
         if (mVenda.getEnumStatusVenda() != null) {
-            venda.setId_status_venda(mVenda.getEnumStatusVenda().getNumVal());
+            venda.setId_status_venda(Long.parseLong(mVenda.getEnumStatusVenda().getNumVal().toString()));
             venda.setStatusVenda(ConversorHelper.converterDePara(mVenda.getEnumStatusVenda(), StatusVenda.class));
         }
         venda.setStatusVenda(ConversorHelper.converterDePara(mVenda.getEnumStatusVenda(), StatusVenda.class));

@@ -24,15 +24,15 @@ public class TipoTelefone extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private int id_tipo_telefone;
+    private Long id_tipo_telefone;
     @ColunaTabela
     private String descr_tipo_telefone;
 
-    public int getId_tipo_telefone() {
+    public Long getId_tipo_telefone() {
         return id_tipo_telefone;
     }
 
-    public void setId_tipo_telefone(int id_tipo_telefone) {
+    public void setId_tipo_telefone(Long id_tipo_telefone) {
         this.id_tipo_telefone = id_tipo_telefone;
     }
 

@@ -116,7 +116,7 @@ abstract class BaseDAO<TModelo, TEntidade extends Entidade> {
         return this.repositorio.executarUnico(TEntidade.getTodasColunas(pEntidade), queryString, false, queryArg);
     }
 
-    public TModelo obterPorID(Integer id, Boolean complementaEntidade) {
+    public TModelo obterPorID(Long id, Boolean complementaEntidade) {
         try {
             TEntidade _entidade = pEntidade.getConstructor(Cursor.class).newInstance(null);
             ParCampoValor chavePrimaria = _entidade.getChavePrimaria();

@@ -12,7 +12,7 @@ public class ConversorTipoPedido extends Conversor<EnumTipoPedido, TipoPedido> {
     @Override
     public TipoPedido converterDePara(EnumTipoPedido enumTipoPedido) {
         TipoPedido tipoPedido = new TipoPedido(null);
-        tipoPedido.setId_tipo_pedido(enumTipoPedido.getNumVal());
+        tipoPedido.setId_tipo_pedido(Long.parseLong(enumTipoPedido.getNumVal().toString()));
         tipoPedido.setCod_tipo_pedido(enumTipoPedido.getNumVal());
         tipoPedido.setDescr_tipo_pedido(enumTipoPedido.toString());
         return tipoPedido;

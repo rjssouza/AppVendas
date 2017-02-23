@@ -26,7 +26,7 @@ public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
     }
 
     @ChavePrimaria
-    private Integer id_vendedor;
+    private Long id_vendedor;
     @ColunaTabela
     private String nome;
     @ColunaTabela
@@ -50,11 +50,11 @@ public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
         this.perc_venda = perc_venda;
     }
 
-    public Integer getId_vendedor() {
+    public Long getId_vendedor() {
         return id_vendedor;
     }
 
-    public void setId_vendedor(int id_vendedor) {
+    public void setId_vendedor(Long id_vendedor) {
         this.id_vendedor = id_vendedor;
     }
 
@@ -67,7 +67,7 @@ public class Vendedor extends Entidade<Integer> implements IDescricaoEntidade {
     }
 
     @Override
-    public int getIdentificador() {
+    public Long getIdentificador() {
         return id_vendedor;
     }
 

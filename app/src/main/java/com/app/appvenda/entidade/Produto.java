@@ -24,7 +24,7 @@ public class Produto extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_produto;
+    private Long id_produto;
     @ColunaTabela
     private String nome;
     @ColunaTabela
@@ -52,11 +52,11 @@ public class Produto extends Entidade<Integer> {
         this.estoque = estoque;
     }
 
-    public int getId_produto() {
+    public Long getId_produto() {
         return id_produto;
     }
 
-    public void setId_produto(int id_produto) {
+    public void setId_produto(Long id_produto) {
         this.id_produto = id_produto;
     }
 

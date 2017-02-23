@@ -38,7 +38,7 @@ public class Configuracao extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_configuracao;
+    private Long id_configuracao;
     @ColunaTabela
     private String endereco_servico;
     @ColunaTabela
@@ -76,11 +76,11 @@ public class Configuracao extends Entidade<Integer> {
         this.principal = principal;
     }
 
-    public Integer getId_configuracao() {
+    public Long getId_configuracao() {
         return id_configuracao;
     }
 
-    public void setId_configuracao(Integer id_configuracao) {
+    public void setId_configuracao(Long id_configuracao) {
         this.id_configuracao = id_configuracao;
     }
 

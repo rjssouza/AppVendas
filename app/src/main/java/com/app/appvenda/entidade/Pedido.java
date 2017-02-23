@@ -32,7 +32,7 @@ public class Pedido extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_pedido;
+    private Long id_pedido;
     @ColunaTabela
     private Double valor_total;
     @ColunaTabela
@@ -42,11 +42,11 @@ public class Pedido extends Entidade<Integer> {
     @ColunaTabela
     private Long coord_y;
     @ColunaTabela
-    private Integer id_forma_pagto;
+    private Long id_forma_pagto;
     @ColunaTabela
-    private Integer id_venda;
+    private Long id_venda;
     @ColunaTabela
-    private Integer id_tipo_pedido;
+    private Long id_tipo_pedido;
 
     private FormaPagto formaPagto;
     private List<PedidoProduto> pedidoProdutos;
@@ -63,11 +63,11 @@ public class Pedido extends Entidade<Integer> {
         tipoPedido = tipoPedidoIExecutorQuery.executarUnico(TipoPedido.getTodasColunas(TipoPedido.class), TipoPedido.ID_TIPO_PEDIDO + "=?", false,  id_tipo_pedido.toString());
     }
 
-    public Integer getId_venda() {
+    public Long getId_venda() {
         return id_venda;
     }
 
-    public void setId_venda(Integer id_venda) {
+    public void setId_venda(Long id_venda) {
         this.id_venda = id_venda;
     }
 
@@ -87,11 +87,11 @@ public class Pedido extends Entidade<Integer> {
         this.pedidoProdutos = pedidoProdutos;
     }
 
-    public Integer getId_pedido() {
+    public Long getId_pedido() {
         return id_pedido;
     }
 
-    public void setId_pedido(Integer id_pedido) {
+    public void setId_pedido(Long id_pedido) {
         this.id_pedido = id_pedido;
     }
 
@@ -127,19 +127,19 @@ public class Pedido extends Entidade<Integer> {
         this.coord_y = coord_y;
     }
 
-    public Integer getId_forma_pagto() {
+    public Long getId_forma_pagto() {
         return id_forma_pagto;
     }
 
-    public void setId_forma_pagto(Integer id_forma_pagto) {
+    public void setId_forma_pagto(Long id_forma_pagto) {
         this.id_forma_pagto = id_forma_pagto;
     }
 
-    public Integer getId_tipo_pedido() {
+    public Long getId_tipo_pedido() {
         return id_tipo_pedido;
     }
 
-    public void setId_tipo_pedido(int id_tipo_pedido) {
+    public void setId_tipo_pedido(Long id_tipo_pedido) {
         this.id_tipo_pedido = id_tipo_pedido;
     }
 

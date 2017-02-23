@@ -76,13 +76,13 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
 
     public synchronized SQLiteDatabase getDatabase() {
         if (database == null)
-            database = SQLiteDatabase.openDatabase(_dataBasePath, null, 0);
+            database = getWritableDatabase();
         return database;
     }
 
     public synchronized int executarScalar(String whereClause, String[] argumentos, Class<TEntidade> tEntidadeClass) {
         try {
-            Cursor mCount = this.getReadableDatabase().rawQuery("select count(*) from " + getNomeTabela(tEntidadeClass) +
+            Cursor mCount = getDatabase().rawQuery("select count(*) from " + getNomeTabela(tEntidadeClass) +
                     " where " + whereClause, argumentos);
             int count = -1;
             if (mCount.moveToFirst()) {

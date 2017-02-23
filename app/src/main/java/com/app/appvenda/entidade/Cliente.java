@@ -38,7 +38,7 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
     }
 
     @ChavePrimaria
-    private Integer id_cliente;
+    private Long id_cliente;
     @ColunaTabela()
     private Integer cod_cliente;
     @ColunaTabela
@@ -95,11 +95,11 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
         this.ativo = ativo;
     }
 
-    public Integer getId_cliente() {
+    public Long getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
+    public void setId_cliente(Long id_cliente) {
         this.id_cliente = id_cliente;
     }
 
@@ -168,8 +168,8 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
     }
 
     @Override
-    public int getIdentificador() {
-        return 0;
+    public Long getIdentificador() {
+        return Long.MIN_VALUE;
     }
 
     @Override

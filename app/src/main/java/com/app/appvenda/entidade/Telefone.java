@@ -28,15 +28,15 @@ public class Telefone extends Entidade<Long> {
     @ColunaTabela
     private long telefone;
     @ColunaTabela
-    private int id_cliente;
+    private Long id_cliente;
     @ColunaTabela
     private int id_tipo_telefone;
 
-    public int getId_cliente() {
+    public Long getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
+    public void setId_cliente(Long id_cliente) {
         this.id_cliente = id_cliente;
     }
 

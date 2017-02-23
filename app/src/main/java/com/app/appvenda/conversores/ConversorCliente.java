@@ -21,7 +21,7 @@ public class ConversorCliente extends Conversor<MCliente, Cliente> {
         celular.setTelefone(mCliente.getCelular());
         celular.setId_cliente(mCliente.getId());
 
-        cliente.setCod_cliente(mCliente.getId());
+        cliente.setCod_cliente(0);
         cliente.setId_cliente(mCliente.getId());
         cliente.setCnpj(mCliente.getCnpj());
         cliente.setCpf(mCliente.getCpf());

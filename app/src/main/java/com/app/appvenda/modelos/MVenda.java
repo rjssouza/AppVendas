@@ -9,7 +9,7 @@ import com.app.appvenda.utils.InformacoesVendedor;
 
 public class MVenda {
 
-    private int idVenda;
+    private Long idVenda;
     private boolean sincronizado;
 
     private MCliente mCliente;
@@ -49,11 +49,11 @@ public class MVenda {
         return enumStatusVenda;
     }
 
-    public int getIdVenda() {
+    public Long getIdVenda() {
         return idVenda;
     }
 
-    public void setIdVenda(int idVenda) {
+    public void setIdVenda(Long idVenda) {
         this.idVenda = idVenda;
     }
 

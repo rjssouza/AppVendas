@@ -25,17 +25,17 @@ public class TipoPedido extends Entidade<Integer> implements IDescricaoEntidade 
     }
 
     @ChavePrimaria
-    private Integer id_tipo_pedido;
+    private Long id_tipo_pedido;
     @ColunaTabela
     private Integer cod_tipo_pedido;
     @ColunaTabela
     private String descr_tipo_pedido;
 
-    public int getId_tipo_pedido() {
+    public Long getId_tipo_pedido() {
         return id_tipo_pedido;
     }
 
-    public void setId_tipo_pedido(int id_tipo_pedido) {
+    public void setId_tipo_pedido(Long id_tipo_pedido) {
         this.id_tipo_pedido = id_tipo_pedido;
     }
 
@@ -56,7 +56,7 @@ public class TipoPedido extends Entidade<Integer> implements IDescricaoEntidade 
     }
 
     @Override
-    public int getIdentificador() {
+    public Long getIdentificador() {
         return id_tipo_pedido;
     }
 

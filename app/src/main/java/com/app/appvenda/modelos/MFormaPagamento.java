@@ -7,7 +7,7 @@ package com.app.appvenda.modelos;
 public class MFormaPagamento {
 
     private Double valPerc;
-    private int idFormaPagto;
+    private Long idFormaPagto;
     private int codFormaPagto;
     private String descrFormaPagto;
 
@@ -19,11 +19,11 @@ public class MFormaPagamento {
         this.valPerc = valPerc;
     }
 
-    public int getIdFormaPagto() {
+    public Long getIdFormaPagto() {
         return idFormaPagto;
     }
 
-    public void setIdFormaPagto(int idFormaPagto) {
+    public void setIdFormaPagto(Long idFormaPagto) {
         this.idFormaPagto = idFormaPagto;
     }
 

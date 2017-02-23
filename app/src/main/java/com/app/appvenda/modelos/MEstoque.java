@@ -6,8 +6,8 @@ package com.app.appvenda.modelos;
 
 public class MEstoque {
 
-    private int idEstoque;
-    private int idProduto;
+    private Long idEstoque;
+    private Long idProduto;
     private int quantidade;
     private Double valorProduto;
     private Double valorFinal;
@@ -37,19 +37,19 @@ public class MEstoque {
         this.valorFinal = valorFinal;
     }
 
-    public int getIdEstoque() {
+    public Long getIdEstoque() {
         return idEstoque;
     }
 
-    public void setIdEstoque(int idEstoque) {
+    public void setIdEstoque(Long idEstoque) {
         this.idEstoque = idEstoque;
     }
 
-    public int getIdProduto() {
+    public Long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(int idProduto) {
+    public void setIdProduto(Long idProduto) {
         this.idProduto = idProduto;
     }
 

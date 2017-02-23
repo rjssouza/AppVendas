@@ -11,7 +11,7 @@ import java.util.List;
 
 public class MPedido {
 
-    private Integer idPedido;
+    private Long idPedido;
     private Double valorTotal;
     private MEndereco mEndereco;
     private EnumTipoPedido enumTipoPedido;
@@ -30,11 +30,11 @@ public class MPedido {
         this.mEndereco = mEndereco;
     }
 
-    public Integer getIdPedido() {
+    public Long getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(int idPedido) {
+    public void setIdPedido(Long idPedido) {
         this.idPedido = idPedido;
     }
 

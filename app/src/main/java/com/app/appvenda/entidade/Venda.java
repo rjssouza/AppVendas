@@ -41,15 +41,15 @@ public class Venda extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_venda;
+    private Long id_venda;
     @ColunaTabela
-    private Integer id_cliente;
+    private Long id_cliente;
     @ColunaTabela
-    private Integer id_vendedor;
+    private Long id_vendedor;
     @ColunaTabela
-    private Integer id_pedido;
+    private Long id_pedido;
     @ColunaTabela
-    private Integer id_status_venda;
+    private Long id_status_venda;
     @ColunaTabela
     private boolean sincronizado;
 
@@ -90,43 +90,43 @@ public class Venda extends Entidade<Integer> {
         this.vendedor = vendedor;
     }
 
-    public Integer getId_venda() {
+    public Long getId_venda() {
         return id_venda;
     }
 
-    public void setId_venda(Integer id_venda) {
+    public void setId_venda(Long id_venda) {
         this.id_venda = id_venda;
     }
 
-    public Integer getId_cliente() {
+    public Long getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(Integer id_cliente) {
+    public void setId_cliente(Long id_cliente) {
         this.id_cliente = id_cliente;
     }
 
-    public Integer getId_vendedor() {
+    public Long getId_vendedor() {
         return id_vendedor;
     }
 
-    public void setId_vendedor(Integer id_vendedor) {
+    public void setId_vendedor(Long id_vendedor) {
         this.id_vendedor = id_vendedor;
     }
 
-    public Integer getId_pedido() {
+    public Long getId_pedido() {
         return id_pedido;
     }
 
-    public void setId_pedido(Integer id_pedido) {
+    public void setId_pedido(Long id_pedido) {
         this.id_pedido = id_pedido;
     }
 
-    public Integer getId_status_venda() {
+    public Long getId_status_venda() {
         return id_status_venda;
     }
 
-    public void setId_status_venda(int id_status_venda) {
+    public void setId_status_venda(Long id_status_venda) {
         this.id_status_venda = id_status_venda;
     }
 

@@ -8,7 +8,7 @@ import com.app.appvenda.enums.EnumTipoPedido;
 
 public class MProduto {
 
-    private int idProduto;
+    private Long idProduto;
     private String nome;
     private Boolean ativo;
     private int qtdLimite;
@@ -42,11 +42,11 @@ public class MProduto {
         this.mEstoque = mEstoque;
     }
 
-    public Integer getIdProduto() {
+    public Long getIdProduto() {
         return idProduto;
     }
 
-    public void setIdProduto(int idProduto) {
+    public void setIdProduto(Long idProduto) {
         this.idProduto = idProduto;
     }
 

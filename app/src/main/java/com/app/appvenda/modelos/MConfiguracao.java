@@ -11,7 +11,7 @@ import java.net.URISyntaxException;
 
 public class MConfiguracao {
 
-    private Integer idConfiguracao;
+    private Long idConfiguracao;
     private EnumTipoConfiguracao tipoConfig;
     private String enderecoServico;
     private String pastaFotos;
@@ -43,11 +43,11 @@ public class MConfiguracao {
         this.principal = principal;
     }
 
-    public Integer getIdConfiguracao() {
+    public Long getIdConfiguracao() {
         return idConfiguracao;
     }
 
-    public void setIdConfiguracao(Integer idConfiguracao) {
+    public void setIdConfiguracao(Long idConfiguracao) {
         this.idConfiguracao = idConfiguracao;
     }
 

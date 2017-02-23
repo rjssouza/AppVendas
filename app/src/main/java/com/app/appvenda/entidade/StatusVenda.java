@@ -25,17 +25,17 @@ public class StatusVenda extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private Integer id_status_venda;
+    private Long id_status_venda;
     @ColunaTabela
     private Integer cod_status;
     @ColunaTabela
     private String descr_status;
 
-    public Integer getId_status_venda() {
+    public Long getId_status_venda() {
         return id_status_venda;
     }
 
-    public void setId_status_venda(Integer id_status_venda) {
+    public void setId_status_venda(Long id_status_venda) {
         this.id_status_venda = id_status_venda;
     }
 

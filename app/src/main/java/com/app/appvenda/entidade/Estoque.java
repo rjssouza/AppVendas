@@ -28,9 +28,9 @@ public class Estoque extends Entidade<Integer> {
     }
 
     @ChavePrimaria
-    private int id_estoque;
+    private Long id_estoque;
     @ColunaTabela
-    private int id_produto;
+    private Long id_produto;
     @ColunaTabela
     private int quantidade;
     @ColunaTabela
@@ -64,11 +64,11 @@ public class Estoque extends Entidade<Integer> {
         this.alerta_falta = alerta_falta;
     }
 
-    public int getId_estoque() {
+    public Long getId_estoque() {
         return id_estoque;
     }
 
-    public void setId_estoque(int id_estoque) {
+    public void setId_estoque(Long id_estoque) {
         this.id_estoque = id_estoque;
     }
 
@@ -80,11 +80,11 @@ public class Estoque extends Entidade<Integer> {
         this.quantidade = quantidade;
     }
 
-    public int getId_produto() {
+    public Long getId_produto() {
         return id_produto;
     }
 
-    public void setId_produto(int id_produto) {
+    public void setId_produto(Long id_produto) {
         this.id_produto = id_produto;
     }
 

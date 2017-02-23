@@ -5,7 +5,7 @@ package com.app.appvenda.entidade;
  */
 
 public interface IDescricaoEntidade {
-    int getIdentificador();
+    Long getIdentificador();
 
     String getDescricao();
 

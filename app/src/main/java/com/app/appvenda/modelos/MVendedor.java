@@ -6,7 +6,7 @@ package com.app.appvenda.modelos;
 
 public class MVendedor {
 
-    private int idVendedor;
+    private Long idVendedor;
     private String nome;
     private Double percVenda;
 
@@ -18,11 +18,11 @@ public class MVendedor {
         this.percVenda = percVenda;
     }
 
-    public int getIdVendedor() {
+    public Long getIdVendedor() {
         return idVendedor;
     }
 
-    public void setIdVendedor(int idVendedor) {
+    public void setIdVendedor(Long idVendedor) {
         this.idVendedor = idVendedor;
     }
 
