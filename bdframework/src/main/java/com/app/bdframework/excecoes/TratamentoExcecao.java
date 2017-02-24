@@ -35,6 +35,7 @@ public class TratamentoExcecao {
                         try {
                             eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
                             regraNegocioException = null;
+                            eventoRegraNegocioException.esconderProgress();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -45,6 +46,7 @@ public class TratamentoExcecao {
                         try {
                             eventoRegraNegocioException.executarEvento(regraNegocioMensagem);
                             exception = null;
+                            eventoRegraNegocioException.esconderProgress();
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

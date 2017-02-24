@@ -154,7 +154,7 @@ public class ExportadorVendas {
         });
     }
 
-    private EventoVoid<Boolean> eventoPosProcessamento() {
+    private synchronized EventoVoid<Boolean> eventoPosProcessamento() {
         return new EventoVoid<Boolean>() {
             @Override
             public synchronized void executarEvento(Boolean item) throws Exception {

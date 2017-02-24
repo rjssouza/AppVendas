@@ -1,8 +1,8 @@
 package com.app.appvenda.processos;
 
-import android.app.Activity;
 import android.content.Context;
 
+import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.dao.FormaPagamentoDAO;
 import com.app.appvenda.dao.TipoPedidoDAO;
@@ -24,7 +24,7 @@ import java.util.concurrent.Executors;
 
 public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
 
-    private Activity activity;
+    private BaseActivity activity;
     private int qtdProcessos = 3;
     private ExecutorService executor;
 
@@ -40,7 +40,7 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
     private List<MItemSeletor> listaTipoPedido;
     private List<MItemSeletor> listaFormaPagamento;
 
-    public ProcessoCargaVendas(Activity activity) {
+    public ProcessoCargaVendas(BaseActivity activity) {
         this.activity = activity;
         this.executor = Executors.newFixedThreadPool(5);
 
@@ -97,6 +97,11 @@ public class ProcessoCargaVendas implements IRetornoCargaVendas, IRegraNegocio {
     @Override
     public void onPrimeiroAcesso() {
 
+    }
+
+    @Override
+    public void esconderProgress() {
+        activity.esconderProgress();
     }
 
     @Override

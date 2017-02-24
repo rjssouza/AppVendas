@@ -10,7 +10,6 @@ import com.app.appvenda.R;
 import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.dao.ClienteDAO;
 import com.app.appvenda.dao.VendaDAO;
-import com.app.appvenda.entidade.Cliente;
 import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MCliente;
 import com.app.appvenda.modelos.MItemSeletor;
@@ -18,7 +17,6 @@ import com.app.appvenda.modelos.MVenda;
 import com.app.appvenda.processos.ProcessoCargaVendas;
 import com.app.appvenda.processos.resultado.IRetornoCargaVendas;
 import com.app.appvenda.utils.InformacoesVendedor;
-import com.app.bdframework.conversor.ConversorHelper;
 import com.app.bdframework.eventos.EventoVoid;
 import com.app.bdframework.excecoes.RegraNegocioMensagem;
 import com.app.bdframework.excecoes.TratamentoExcecao;
@@ -65,7 +63,7 @@ public class FragmentVendas extends BaseFragment {
     }
 
     private void configurarCargaVendas() {
-        this.processoCargaVendas = new ProcessoCargaVendas(getActivity());
+        this.processoCargaVendas = new ProcessoCargaVendas((BaseActivity) getActivity());
         this.processoCargaVendas.setPreCarga(new EventoVoid() {
             @Override
             public void executarEvento(Object item) throws Exception {
@@ -117,18 +115,18 @@ public class FragmentVendas extends BaseFragment {
         });
     }
 
-    private void configurarAutoTxt(AutoCompleteTextView auto_txt, List<MItemSeletor> mItemSeletorList, final EventoVoid<MItemSeletor> onItemSelected) {
+    private void configurarAutoTxt(final AutoCompleteTextView auto_txt, List<MItemSeletor> mItemSeletorList, final EventoVoid<MItemSeletor> onItemSelected) {
         ArrayAdapter<MItemSeletor> valoresAutoTxt = new ArrayAdapter<MItemSeletor>(getContext(), android.R.layout.simple_dropdown_item_1line, mItemSeletorList);
 
-        auto_txt_cliente.setAdapter(valoresAutoTxt);
-        auto_txt_cliente.setOnClickListener(new View.OnClickListener() {
+        auto_txt.setAdapter(valoresAutoTxt);
+        auto_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                auto_txt_cliente.showDropDown();
+                auto_txt.showDropDown();
             }
         });
 
-        auto_txt_cliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        auto_txt.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MItemSeletor mItemSeletor = (MItemSeletor) parent.getItemAtPosition(position);

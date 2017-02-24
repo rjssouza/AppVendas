@@ -74,10 +74,8 @@ public class BDHelper<TEntidade extends Entidade> extends SQLiteOpenHelper {
         ArquivosUtils.copiarArquivo(_dataBasePath, DATABASE_NAME + ".db", ArquivosUtils.getPastaExternaAplicacao());
     }
 
-    public synchronized SQLiteDatabase getDatabase() {
-        if (database == null)
-            database = getWritableDatabase();
-        return database;
+    public SQLiteDatabase getDatabase() {
+            return getWritableDatabase();// SQLiteDatabase.openDatabase(_dataBasePath, null, SQLiteDatabase.OPEN_READWRITE);
     }
 
     public synchronized int executarScalar(String whereClause, String[] argumentos, Class<TEntidade> tEntidadeClass) {

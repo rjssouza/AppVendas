@@ -10,5 +10,8 @@ import com.app.bdframework.excecoes.RegraNegocioMensagem;
  */
 
 public interface IRegraNegocio extends EventoVoid<RegraNegocioMensagem> {
+
     void onPrimeiroAcesso();
+
+    void esconderProgress();
 }

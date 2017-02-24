@@ -124,10 +124,15 @@ public class ActivityConfigurar extends BaseActivity {
                 esconderProgress();
                 chamarFragmentVendedor();
                 if (item) {
-                    exibirMensagemToast(R.string.sucesso_sinc);
+                    exibirSucesso();
                 }
             }
         });
+    }
+
+    @UiThread
+    void exibirSucesso() {
+        exibirMensagemToast(R.string.sucesso_sinc);
     }
 
     @UiThread

@@ -83,4 +83,9 @@ public class AppVendaApp extends Application implements IRegraNegocio {
         Intent intent = new Intent(this, ActivityConfigurar_.class);
         startActivity(intent);
     }
+
+    @Override
+    public void esconderProgress() {
+
+    }
 }

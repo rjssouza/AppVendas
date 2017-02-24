@@ -50,10 +50,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     protected void afterViews() {
-        configurarDrawerLayout();
-        configurarFragmentPrincipal();
         this.exportadorVendas = new ExportadorVendas(this);
 
+        configurarDrawerLayout();
+        configurarFragmentPrincipal();
         configuraNomeVendedor();
     }
 
