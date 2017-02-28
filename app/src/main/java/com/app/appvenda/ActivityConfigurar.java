@@ -73,8 +73,10 @@ public class ActivityConfigurar extends BaseActivity {
                     public void executarEvento(MVendedor item) throws Exception {
                         esconderProgress();
                         InformacoesVendedor.getInstance(getBaseContext());
+                        configuracaoDAO.salvarBD();
                         Intent intent = new Intent(context, MainActivity_.class);
                         startActivity(intent);
+                        finish();
                     }
                 });
             }

@@ -196,6 +196,7 @@ public abstract class BaseActivity extends AppCompatActivity implements IBaseVie
     @Override
     public void onPrimeiroAcesso() {
         Intent intent = new Intent(this, ActivityConfigurar_.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
     }
 

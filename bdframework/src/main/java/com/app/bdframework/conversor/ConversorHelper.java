@@ -1,5 +1,7 @@
 package com.app.bdframework.conversor;
 
+import com.app.bdframework.excecoes.TratamentoExcecao;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,9 @@ public class ConversorHelper {
                 }
                 return null;
             } catch (ClassCastException e) {
-                //e.printStackTrace();
+                //TratamentoExcecao.registrarExcecao(e);
+            } finally {
+               // TratamentoExcecao.invocarEvento();
             }
         }
         return null;

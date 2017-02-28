@@ -3,6 +3,7 @@ package com.app.appvenda.entidade;
 import android.content.Context;
 import android.database.Cursor;
 
+import com.app.appvenda.enums.EnumTipoTelefone;
 import com.app.appvenda.repositorio.RPTelefone;
 import com.app.bdframework.IExecutorQuery;
 import com.app.bdframework.auxiliar.ChavePrimaria;
@@ -25,16 +26,26 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
     public final static String RAZAO_SOCIAL = "razao_social";
     public final static String EMAIL = "email";
 
+    IExecutorQuery<Telefone> telefoneIExecutorQuery;
+
     public Cliente(Cursor cursor) {
         super(cursor);
     }
 
     @Override
     public void complementarEntidade(Context context) {
-        IExecutorQuery<Telefone> telefoneIExecutorQuery = new RPTelefone(context);
+        telefoneIExecutorQuery = new RPTelefone(context);
 
-        fixo = telefoneIExecutorQuery.executarUnico(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + "=? AND " + Telefone.ID_TIPO_TELEFONE + "=?", id_cliente.toString(), "1");
-        celular = telefoneIExecutorQuery.executarUnico(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + "=? AND " + Telefone.ID_TIPO_TELEFONE + "=?", id_cliente.toString(), "2");
+        fixo = obterTelefone(EnumTipoTelefone.FIXO);
+        celular = obterTelefone(EnumTipoTelefone.CELULAR);
+    }
+
+    private Telefone obterTelefone(EnumTipoTelefone tipoTelefone) {
+        Telefone telefone = telefoneIExecutorQuery.executarUnico(Telefone.getTodasColunas(Telefone.class), Telefone.ID_CLIENTE + "=? AND " + Telefone.ID_TIPO_TELEFONE + "=?", id_cliente.toString(), tipoTelefone.getNumVal().toString());
+        if (telefone == null) {
+            telefone = new Telefone(null);
+        }
+        return telefone;
     }
 
     @ChavePrimaria
@@ -169,7 +180,7 @@ public class Cliente extends Entidade<Integer> implements IDescricaoEntidade {
 
     @Override
     public Long getIdentificador() {
-        return Long.MIN_VALUE;
+        return id_cliente;
     }
 
     @Override

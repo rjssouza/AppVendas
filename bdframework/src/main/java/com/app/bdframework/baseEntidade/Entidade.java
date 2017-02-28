@@ -66,6 +66,20 @@ public abstract class Entidade<TChavePrimaria> {
         }
     }
 
+    public static ParCampoValor getChavePrimaria(Class clsEntidade) {
+        for (Field field : clsEntidade.getDeclaredFields()) {
+            if (field.isAnnotationPresent(ChavePrimaria.class)) {
+                field.setAccessible(true);
+                ChavePrimaria chavePrimaria = field.getAnnotation(ChavePrimaria.class);
+
+                if (chavePrimaria != null) {
+                    return new ParCampoValor<>(null, field.getName());
+                }
+            }
+        }
+        return null;
+    }
+
     public ParCampoValor<TChavePrimaria> getChavePrimaria() {
         for (Field field : this.getClass().getDeclaredFields()) {
             if (field.isAnnotationPresent(ChavePrimaria.class)) {
