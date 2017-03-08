@@ -5,7 +5,7 @@ def AAVersion = '4.1.0'
 //noinspection GroovyMissingReturnStatement
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.3"
+    buildToolsVersion '25.0.0'
     defaultConfig {
         applicationId "com.app.appvenda"
         minSdkVersion 14

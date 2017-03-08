@@ -9,9 +9,12 @@ import android.widget.Button;
 import com.app.appvenda.R;
 import com.app.appvenda.base.BaseActivity;
 import com.app.appvenda.dao.ClienteDAO;
+import com.app.appvenda.dao.FormaPagamentoDAO;
 import com.app.appvenda.dao.VendaDAO;
+import com.app.appvenda.enums.EnumTipoPedido;
 import com.app.appvenda.fragment.base.BaseFragment;
 import com.app.appvenda.modelos.MCliente;
+import com.app.appvenda.modelos.MFormaPagamento;
 import com.app.appvenda.modelos.MItemSeletor;
 import com.app.appvenda.modelos.MVenda;
 import com.app.appvenda.processos.ProcessoCargaVendas;
@@ -33,6 +36,10 @@ import java.util.List;
 @EFragment(R.layout.fragment_venda)
 public class FragmentVendas extends BaseFragment {
 
+    private static final String TROCA = "1";
+    private static final String DEVOLUCAO = "2";
+    private static final String VENDA = "0";
+
     @ViewById
     AutoCompleteTextView auto_txt_cliente;
     @ViewById
@@ -43,15 +50,18 @@ public class FragmentVendas extends BaseFragment {
     Button btnEscolherProduto;
 
     private MVenda mVenda;
-    private VendaDAO vendaDAO;
     private ProcessoCargaVendas processoCargaVendas;
+
+    private VendaDAO vendaDAO;
     private ClienteDAO clienteDAO;
+    private FormaPagamentoDAO formaPagamentoDAO;
 
     @Override
     protected void afterViews() {
         this.mVenda = new MVenda(InformacoesVendedor.getmVendedor(getContext()));
         this.vendaDAO = new VendaDAO(getContext());
         this.clienteDAO = new ClienteDAO(getContext());
+        this.formaPagamentoDAO = new FormaPagamentoDAO(getContext());
 
         configurarCargaVendas();
         iniciar();
@@ -101,7 +111,17 @@ public class FragmentVendas extends BaseFragment {
         configurarAutoTxt(auto_txt_tipo_pedido, mItemSeletorList, new EventoVoid<MItemSeletor>() {
             @Override
             public void executarEvento(MItemSeletor item) throws Exception {
-
+                switch (item.getId().toString()) {
+                    case TROCA:
+                        mVenda.getmPedido().setEnumTipoPedido(EnumTipoPedido.TROCA);
+                        break;
+                    case DEVOLUCAO:
+                        mVenda.getmPedido().setEnumTipoPedido(EnumTipoPedido.DEVOLUCAO);
+                        break;
+                    default:
+                        mVenda.getmPedido().setEnumTipoPedido(EnumTipoPedido.VENDA);
+                        break;
+                }
             }
         });
     }
@@ -110,7 +130,8 @@ public class FragmentVendas extends BaseFragment {
         configurarAutoTxt(auto_txt_forma_pagto, mItemSeletorList, new EventoVoid<MItemSeletor>() {
             @Override
             public void executarEvento(MItemSeletor item) throws Exception {
-
+                MFormaPagamento mFormaPagamento = formaPagamentoDAO.obterPorID(item.getId(), false);
+                mVenda.getmPedido().setmFormaPagamento(mFormaPagamento);
             }
         });
     }

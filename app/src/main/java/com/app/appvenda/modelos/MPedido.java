@@ -70,4 +70,15 @@ public class MPedido {
         this.enumTipoPedido = enumTipoPedido;
     }
 
+    public void addPedidoProduto(MPedidoProduto mPedidoProduto) {
+        this.mPedidoProdutos.add(mPedidoProduto);
+        calcularValorTotal();
+    }
+
+    private void calcularValorTotal() {
+        for (MPedidoProduto mPedidoProduto : mPedidoProdutos) {
+            valorTotal += mPedidoProduto.getValorProduto(mFormaPagamento);
+        }
+    }
+
 }

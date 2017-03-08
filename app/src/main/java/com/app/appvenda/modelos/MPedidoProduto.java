@@ -4,7 +4,7 @@ package com.app.appvenda.modelos;
  * Created by Robson on 01/02/2017.
  */
 
-public class MPedidoProduto  {
+public class MPedidoProduto {
 
     private Long IDPedidoProduto;
     private Integer quantidade;
@@ -41,6 +41,23 @@ public class MPedidoProduto  {
 
     public void setmProduto(MProduto mProduto) {
         this.mProduto = mProduto;
+    }
+
+    public Double getValorProduto() {
+        return getValorProduto(null);
+    }
+
+    public Double getValorProduto(MFormaPagamento mFormaPagamento) {
+        Double valorProduto = calcularValor(mFormaPagamento);
+        Double valorReal = (valorProduto * quantidade);
+        return valorReal;
+    }
+
+    private Double calcularValor(MFormaPagamento mFormaPagamento) {
+        Double valorProduto = mProduto.getmEstoque().getValorFinal();
+        if (mFormaPagamento != null)
+            valorProduto = valorProduto - (valorProduto * (mFormaPagamento.getValPerc() / 100));
+        return valorProduto;
     }
 
 }
